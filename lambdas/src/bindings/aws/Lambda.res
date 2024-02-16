@@ -1,11 +1,11 @@
-type event
+type event = JSON.t
 
 module Context = {
   type t = {
     functionName: string,
     functionVersion: string,
     invokedFunctionArn: string,
-    memoryLimitInMB: float,
+    memoryLimitInMB: string,
     awsRequestId: string,
     logGroupName: string,
     logStreamName: string,
@@ -17,6 +17,14 @@ module Context = {
   external callbackWaitsForEmptyEventLoop: (t, bool) => unit = "callbackWaitsForEmptyEventLoop"
 }
 
-type callback
+type callback = unit => unit
 
-type handler = (~event: event, ~context: Context.t, ~callback: callback) => promise<unit>
+type result = {
+  statusCode: int,
+  headers?: Dict.t<string>,
+  isBase64Encoded?: bool,
+  multiValueHeaders?: Dict.t<array<string>>,
+  body: string,
+}
+
+type handler = (~event: event, ~context: Context.t, ~callback: callback) => promise<result>

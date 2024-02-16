@@ -3,10 +3,12 @@
   "packageManager": "yarn@4.1.0",
   "scripts": {
     "res:build": "rescript",
-    "res:dev": "rescript -w"
+    "res:dev": "rescript clean && rescript -w",
+    "deploy": "serverless deploy"
   },
   "devDependencies": {
     "@rescript/core": "^1.0.0",
-    "rescript": "^11.0.1"
+    "rescript": "^11.0.1",
+    "serverless": "^3.38.0"
   }
 }

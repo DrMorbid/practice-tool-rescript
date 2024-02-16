@@ -8,7 +8,7 @@ rule deps
   restat = 1
 o src/HelloWorld.d : deps src/HelloWorld.ast
 rule mij
-  command = /home/filip/development/practice-tool-rescript/lambdas/node_modules/rescript/linux/bsc.exe -I src/bindings/aws -I src/bindings -I src -I /home/filip/development/practice-tool-rescript/lambdas/node_modules/@rescript/core/lib/ocaml -open RescriptCore  -uncurried -bs-package-name your-project-name -bs-package-output es6:$in_d:.res.js -bs-v $g_finger $i
+  command = /home/filip/development/practice-tool-rescript/lambdas/node_modules/rescript/linux/bsc.exe -I src/bindings/aws -I src/bindings -I src -I /home/filip/development/practice-tool-rescript/lambdas/node_modules/@rescript/core/lib/ocaml -open RescriptCore  -uncurried -bs-package-name your-project-name -bs-package-output commonjs:$in_d:.res.js -bs-v $g_finger $i
   dyndep = 1
   restat = 1
 o src/HelloWorld.cmj src/HelloWorld.cmi ../../src/HelloWorld.res.js : mij src/HelloWorld.ast

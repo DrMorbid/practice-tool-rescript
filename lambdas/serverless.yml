@@ -1,0 +1,17 @@
+org: morbo
+app: practice-tool-rescript
+service: practice-tool-rescript
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: eu-central-1
+
+functions:
+  api:
+    handler: src/HelloWorld.res.handler
+    events:
+      - httpApi:
+          path: /
+          method: get
