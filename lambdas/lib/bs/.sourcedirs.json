@@ -1,0 +1,1 @@
+{ "dirs" : [ "src" , "src/bindings" , "src/bindings/aws" ] , "pkgs" : [ [ "@rescript/core" , "/home/filip/development/practice-tool-rescript/lambdas/node_modules/@rescript/core" ] ] , "generated" : [] }

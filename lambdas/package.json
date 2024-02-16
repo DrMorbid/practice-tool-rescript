@@ -1,0 +1,12 @@
+{
+  "name": "practice-tool-rescript",
+  "packageManager": "yarn@4.1.0",
+  "scripts": {
+    "res:build": "rescript",
+    "res:dev": "rescript -w"
+  },
+  "devDependencies": {
+    "@rescript/core": "^1.0.0",
+    "rescript": "^11.0.1"
+  }
+}
