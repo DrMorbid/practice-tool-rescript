@@ -123,11 +123,16 @@ dist
 .vscode-test
 
 # yarn v2
-.yarn/cache
-.yarn/unplugged
-.yarn/build-state.yml
-.yarn/install-state.gz
-.pnp.*
+lambdas/.yarn/cache
+lambdas/.yarn/unplugged
+lambdas/.yarn/build-state.yml
+lambdas/.yarn/install-state.gz
+lambdas/.pnp.*
+frontend/.yarn/cache
+frontend/.yarn/unplugged
+frontend/.yarn/build-state.yml
+frontend/.yarn/install-state.gz
+frontend/.pnp.*
 
 # ReScript
 lambdas/lib
