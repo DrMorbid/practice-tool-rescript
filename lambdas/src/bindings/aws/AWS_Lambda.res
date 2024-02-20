@@ -1,4 +1,4 @@
-type event = JSON.t
+type event = {body: string}
 
 module Context = {
   type t = {
@@ -27,4 +27,8 @@ type result = {
   body: string,
 }
 
-type handler = (~event: event, ~context: Context.t, ~callback: callback) => promise<result>
+type handler = (
+  ~event: option<event>=?,
+  ~context: option<Context.t>=?,
+  ~callback: option<callback>=?,
+) => promise<result>

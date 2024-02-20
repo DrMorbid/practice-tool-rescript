@@ -1,83 +1,44 @@
 org: morbo
 app: practice-tool-rescript
-service: practice-tool-rescript`
+service: practice-tool-rescript
 frameworkVersion: '3'
 
 provider:
   name: aws
   runtime: nodejs20.x
   region: eu-central-1
-  environment:
-    user_pool_id: { Ref: UserPool }
-    client_id: { Ref: UserClient }
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - cognito-idp:AdminInitiateAuth
-        - cognito-idp:AdminCreateUser
-        - cognito-idp:AdminSetUserPassword
-      Resource: "*"
+  stage: ${self:custom.currentStage}
+  httpApi:
+    authorizers:
+      practiceToolAuthorizer:
+        type: jwt
+        identitySource: $request.header.Authorization
+        issuerUrl: https://cognito-idp.${self:provider.region}.amazonaws.com/${self:custom.userPoolId}
+        audience:
+          - ${self:custom.userPoolClientId}
+
+custom:
+  defaultStage: dev
+  currentStage: ${opt:stage, self:custom.defaultStage}
+  userPoolId: ${self:provider.region}_NWWCPvxRL
+  userPoolClientId: 5l72lsb5di0lrft25llng18vl0
+
 
 functions:
-  loginUser:
-    handler: src/auth/Auth_Login.res.handler
+  helloWorld:
+    handler: src/HelloWorld.res.handler
     events:
-      - http:
-          path: user/login
-          method: post
-          cors: true
-
-  signupUser:
-    handler: src/auth/Auth_Signup.res.handler
-    events:
-      - http:
-          path: user/signup
-          method: post
-          cors: true
-
-  privateAPI:
-    handler: src/auth/Auth_Private.res.handler
-    events:
-      - http:
-          path: user/private
-          method: post
-          cors: true
+      - httpApi:
+          path: /
+          method: get
           authorizer:
-            name: PrivateAuthorizer
-            type: COGNITO_USER_POOLS
-            arn:
-              Fn::GetAtt:
-                - UserPool
-                - Arn
-            claims:
-              - email
+            name: practiceToolAuthorizer
+            scopes:
+              - user.id
+              - user.email
 
 resources:
   Resources:
-    UserPool:
-      Type: AWS::Cognito::UserPool
-      Properties:
-        UserPoolName: practice-tool-auth-pool
-        Schema:
-          - Name: email
-            Required: true
-            Mutable: true
-        Policies:
-          PasswordPolicy:
-            MinimumLength: 6
-        AutoVerifiedAttributes: ["email"]
-
-    UserClient:
-      Type: AWS::Cognito::UserPoolClient
-      Properties:
-        ClientName: practice-tool-user-pool-ui
-        GenerateSecret: false
-        UserPoolId: { Ref: UserPool }
-        AccessTokenValidity: 5
-        IdTokenValidity: 5
-        ExplicitAuthFlows:
-          - "ADMIN_NO_SRP_AUTH"
-
     PracticeToolTable:
       Type: AWS::DynamoDB::Table
       Properties:

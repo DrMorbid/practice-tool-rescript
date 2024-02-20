@@ -4323,6 +4323,8 @@ __metadata:
     "@rescript/core": "npm:^1.0.0"
     aws-sdk: "npm:^2.1560.0"
     rescript: "npm:^11.0.1"
+    rescript-json-schema: "npm:^5.0.0"
+    rescript-schema: "npm:^6.4.0"
     serverless: "npm:^3.38.0"
   languageName: unknown
   linkType: soft
@@ -4495,6 +4497,25 @@ __metadata:
   version: 2.0.2
   resolution: "require-from-string@npm:2.0.2"
   checksum: 10c0/aaa267e0c5b022fc5fd4eef49d8285086b15f2a1c54b28240fdf03599cbd9c26049fee3eab894f2e1f6ca65e513b030a7c264201e3f005601e80c49fb2937ce2
+  languageName: node
+  linkType: hard
+
+"rescript-json-schema@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "rescript-json-schema@npm:5.0.0"
+  peerDependencies:
+    rescript: 11.0.x || ~11.0.0-rc
+    rescript-schema: 6.x
+  checksum: 10c0/31b0dcb62b2cc1b145bf42e56f35431219ede0ff5e6e20aacb6670f920eed1a5c889866ee43056dd304d965071cfe040bf37e510f2a2fd07f2360f3e94b27b5a
+  languageName: node
+  linkType: hard
+
+"rescript-schema@npm:^6.4.0":
+  version: 6.4.0
+  resolution: "rescript-schema@npm:6.4.0"
+  peerDependencies:
+    rescript: 11.x
+  checksum: 10c0/31dd66515a101048d3d1988464df06ade7389082b2f9b58be539a5538a9f74dc1d2a04f67dfc0183bc6ba394f84f309d8999415156149f5ad12ed7cebcda2f34
   languageName: node
   linkType: hard
 
