@@ -34,8 +34,8 @@ functions:
           authorizer:
             name: practiceToolAuthorizer
             scopes:
-              - user.id
-              - user.email
+              - openid
+              - email
 
 resources:
   Resources:

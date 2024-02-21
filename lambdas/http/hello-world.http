@@ -1,0 +1,4 @@
+### Hello World
+GET https://l6haugjoi5.execute-api.eu-central-1.amazonaws.com/
+Accept: application/json
+Authorization: Bearer {{$auth.token("cognito")}}
