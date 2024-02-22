@@ -1,4 +1,10 @@
-type event = {body: string}
+module Event = {
+  type claims = {username?: string}
+  type jwt = {claims?: claims}
+  type authorizer = {jwt?: jwt}
+  type requestContext = {authorizer?: authorizer}
+  type t = {requestContext?: requestContext}
+}
 
 module Context = {
   type t = {
@@ -27,8 +33,4 @@ type result = {
   body: string,
 }
 
-type handler = (
-  ~event: option<event>=?,
-  ~context: option<Context.t>=?,
-  ~callback: option<callback>=?,
-) => promise<result>
+type handler = (~event: Event.t=?, ~context: Context.t=?, ~callback: callback=?) => promise<result>

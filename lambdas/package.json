@@ -7,13 +7,13 @@
     "deploy": "serverless deploy"
   },
   "devDependencies": {
-    "@rescript/core": "^1.0.0",
     "rescript": "^11.0.1",
     "rescript-json-schema": "^5.0.0",
     "rescript-schema": "^6.4.0",
     "serverless": "^3.38.0"
   },
   "dependencies": {
+    "@rescript/core": "^1.0.0",
     "aws-sdk": "^2.1560.0"
   }
 }
