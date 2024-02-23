@@ -5,5 +5,19 @@ Authorization: Bearer {{$auth.token("cognito")}}
 Content-Type: application/json
 
 {
-  "john": "doe"
+  "id": "123",
+  "name": "My First Project",
+  "active": true,
+  "exercises": [
+    {
+      "id": "234",
+      "name": "My First Exercise",
+      "active": true,
+      "topPriority": false,
+      "slowTempo": "75%",
+      "fastTempo": "100%",
+      "lastPracticed": "2024-02-23T20:43:43Z",
+      "lastPracticedTempo": "SLOW"
+    }
+  ]
 }
