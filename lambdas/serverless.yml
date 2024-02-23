@@ -35,6 +35,7 @@ functions:
             name: practiceToolAuthorizer
             scopes:
               - openid
+              - profile
               - email
 
 resources:
