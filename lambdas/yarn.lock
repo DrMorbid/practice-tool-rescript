@@ -545,6 +545,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@greenlabs/ppx-spice@npm:0.2.1-rc.2":
+  version: 0.2.1-rc.2
+  resolution: "@greenlabs/ppx-spice@npm:0.2.1-rc.2"
+  checksum: 10c0/8fccb6c99bf41d566ad1eafb8222f65adb1dbd38dbff160c6263bd62a082a89489665ef480986fc209b83684fe2ae3521eb71706bb600c5b7b502201860ab535
+  languageName: node
+  linkType: hard
+
 "@isaacs/cliui@npm:^8.0.2":
   version: 8.0.2
   resolution: "@isaacs/cliui@npm:8.0.2"
@@ -4320,6 +4327,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "practice-tool-rescript@workspace:."
   dependencies:
+    "@greenlabs/ppx-spice": "npm:0.2.1-rc.2"
     "@rescript/core": "npm:^1.1.0"
     aws-sdk: "npm:^2.1565.0"
     rescript: "npm:^11.0.1"

@@ -14,9 +14,16 @@
   ],
   "suffix": ".res.js",
   "bs-dependencies": [
-    "@rescript/core"
+    "@rescript/core",
+    "@greenlabs/ppx-spice"
   ],
   "bsc-flags": [
     "-open RescriptCore"
+  ],
+  "ppx-flags": [
+    [
+      "@greenlabs/ppx-spice/ppx",
+      "-uncurried"
+    ]
   ]
 }
