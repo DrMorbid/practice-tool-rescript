@@ -26,11 +26,11 @@ custom:
 
 functions:
   helloWorld:
-    handler: src/HelloWorld.res.handler
+    handler: src/project/SaveProjectLambda.res.handler
     events:
       - httpApi:
-          path: /
-          method: get
+          path: /project/save
+          method: POST
           authorizer:
             name: practiceToolAuthorizer
             scopes:

@@ -631,12 +631,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rescript/core@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "@rescript/core@npm:1.0.0"
+"@rescript/core@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@rescript/core@npm:1.1.0"
   peerDependencies:
     rescript: ">=11.0.0 || ^11.1.0-rc.2"
-  checksum: 10c0/8ff2e8ac937e0b2700637a3d68ec0930667850fc2196a9a595fe8d6896abf143faafc5244bfc9a9abe48739fb43d3359ba7ec15edc241dee0be5e97b66cece2d
+  checksum: 10c0/439e4e1f35db2d5e39de1a29b98234d84f285307ed5dd5e6db682b5ede24dd8020b207620b6063d78d7818258d7ac4b29370fbcf38604b26453f9781155bf504
   languageName: node
   linkType: hard
 
@@ -1560,9 +1560,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1560.0":
-  version: 2.1560.0
-  resolution: "aws-sdk@npm:2.1560.0"
+"aws-sdk@npm:^2.1565.0":
+  version: 2.1565.0
+  resolution: "aws-sdk@npm:2.1565.0"
   dependencies:
     buffer: "npm:4.9.2"
     events: "npm:1.1.1"
@@ -1574,7 +1574,7 @@ __metadata:
     util: "npm:^0.12.4"
     uuid: "npm:8.0.0"
     xml2js: "npm:0.6.2"
-  checksum: 10c0/c9880feefeee9bc9ae642cec0ceca4f4e5d88200e6432481c2abbef64b49c57a4dbe9170eae40b979beb14b72571979a340e56b9e8ea144200dc64b640c27e1c
+  checksum: 10c0/38de5d30f909d2452170431b91c1808736f171db1f5002e63380d87700501133d3df5abc6929c29ba3fd0e162e4ba7b596adbfc4e2985a2432da7335864b3584
   languageName: node
   linkType: hard
 
@@ -4320,8 +4320,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "practice-tool-rescript@workspace:."
   dependencies:
-    "@rescript/core": "npm:^1.0.0"
-    aws-sdk: "npm:^2.1560.0"
+    "@rescript/core": "npm:^1.1.0"
+    aws-sdk: "npm:^2.1565.0"
     rescript: "npm:^11.0.1"
     serverless: "npm:^3.38.0"
   languageName: unknown

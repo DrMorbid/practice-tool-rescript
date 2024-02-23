@@ -3,7 +3,7 @@ module Event = {
   type jwt = {claims?: claims}
   type authorizer = {jwt?: jwt}
   type requestContext = {authorizer?: authorizer}
-  type t = {requestContext?: requestContext}
+  type t = {requestContext?: requestContext, body?: string}
 }
 
 module Context = {

@@ -11,7 +11,7 @@
     "serverless": "^3.38.0"
   },
   "dependencies": {
-    "@rescript/core": "^1.0.0",
-    "aws-sdk": "^2.1560.0"
+    "@rescript/core": "^1.1.0",
+    "aws-sdk": "^2.1565.0"
   }
 }
