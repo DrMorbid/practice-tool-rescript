@@ -57,36 +57,83 @@ let validateProject = project => {
   ) {
     Error({statusCode: 400, body: "Exercise name cannot be empty"})
   } else {
-    Ok("Project is valid")
+    Ok(project)
   }
 }
 
-let handler: handler = async (~event=?, ~context as _=?, ~callback as _=?) => {
-  Console.log2(
-    "Hello, user with ID %s",
-    event
-    ->Option.flatMap(({?requestContext}) => requestContext)
-    ->Option.flatMap(({?authorizer}) => authorizer)
-    ->Option.flatMap(({?jwt}) => jwt)
-    ->Option.flatMap(({?claims}) => claims)
-    ->Option.flatMap(({?username}) => username)
-    ->Option.getOr(""),
-  )
+module type UserRequest = {
+  type t
+}
 
+module MakeUserRequest = (Item: UserRequest) => {
+  type t = {
+    userId: string,
+    value: Item.t,
+  }
+}
+
+module SaveProjectRequest = {
+  type t = project
+}
+
+module Request = MakeUserRequest(SaveProjectRequest)
+
+let handler: handler = async (~event=?, ~context as _=?, ~callback as _=?) => {
   switch event
-  ->Option.flatMap(({?body}) => body)
-  ->Option.map(JSON.parseExn)
-  ->Option.map(project_decode)
-  ->Option.map(project => {
-    project->Result.mapError(error => {
-      Console.error2("Invalid request body: %o", error)
-      {statusCode: 400, body: "Invalid request body"}
+  ->Option.flatMap(({?requestContext}) => requestContext)
+  ->Option.flatMap(({?authorizer}) => authorizer)
+  ->Option.flatMap(({?jwt}) => jwt)
+  ->Option.flatMap(({?claims}) => claims)
+  ->Option.flatMap(({?username}) => username)
+  ->Option.map(username => Ok(username))
+  ->Option.getOr(Error({statusCode: 403, body: "No authenticated user"}))
+  ->Result.flatMap(userId =>
+    event
+    ->Option.flatMap(({?body}) => body)
+    ->Option.map(JSON.parseExn)
+    ->Option.map(project_decode)
+    ->Option.map(project => {
+      project->Result.mapError(
+        error => {
+          Console.error2("Invalid request body: %o", error)
+          {statusCode: 400, body: "Invalid request body"}
+        },
+      )
     })
+    ->Option.getOr(Error({statusCode: 400, body: "No request body"}))
+    ->Result.flatMap(validateProject)
+    ->Result.map((project): Request.t => {
+      userId,
+      value: project,
+    })
+  )
+  ->Result.map(request => {
+    let client = AWS.SDK.DynamoDB.makeDynamoDBClient({})
+    let docClient =
+      AWS.SDK.DynamoDB.dynamoDBDocumentClient->AWS.SDK.DynamoDB.DynamoDBDocumentClient.from(client)
+
+    let tableName = "practice-tool-rescript-projects-dev"
+
+    let put = AWS.SDK.DynamoDB.makePutCommand({
+      tableName,
+      item: {
+        userId: request.userId,
+        name: request.value.name->Option.getOr(""),
+      },
+    })
+
+    Console.log3("Putting %o in DynamoDB table %s", put, tableName)
+
+    docClient->AWS.SDK.DynamoDB.DynamoDBDocumentClient.sendPut(put)
   })
-  ->Option.getOr(Error({statusCode: 400, body: "No request body"}))
-  ->Result.flatMap(validateProject)
-  ->Result.map(body => {statusCode: 200, body}) {
-  | Ok(result) => result
+  ->Result.map(result =>
+    result->Promise.thenResolve(result => {
+      Console.log2("Put result is %o", result)
+
+      {statusCode: 200, body: "Saved successfully"}
+    })
+  ) {
+  | Ok(result) => await result
   | Error(result) => result
   }
 }

@@ -16,12 +16,21 @@ provider:
         issuerUrl: https://cognito-idp.${self:provider.region}.amazonaws.com/${self:custom.userPoolId}
         audience:
           - ${self:custom.userPoolClientId}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:PutItem
+          Resource: "arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:custom.tableNameProjects}"
 
 custom:
   defaultStage: dev
   currentStage: ${opt:stage, self:custom.defaultStage}
   userPoolId: ${self:provider.region}_NWWCPvxRL
   userPoolClientId: 5l72lsb5di0lrft25llng18vl0
+  tableNameProjects: ${self:service}-projects-${self:custom.currentStage}
+  tableNameHistory: ${self:service}-history-${self:custom.currentStage}
 
 
 functions:
@@ -43,7 +52,7 @@ resources:
     PracticeToolProjectsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:service}-projects-${self:custom.currentStage}
+        TableName: ${self:custom.tableNameProjects}
         BillingMode: PAY_PER_REQUEST
         KeySchema:
           - AttributeName: user-id
@@ -58,7 +67,7 @@ resources:
     PracticeToolHistoryTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:service}-history-${self:custom.currentStage}
+        TableName: ${self:custom.tableNameHistory}
         BillingMode: PAY_PER_REQUEST
         KeySchema:
           - AttributeName: user-id
