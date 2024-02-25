@@ -29,7 +29,6 @@ type tempoType = | @spice.as("SLOW") Slow | @spice.as("FAST") Fast
 
 @spice
 type exercise = {
-  id?: string,
   name?: string,
   active?: bool,
   topPriority?: bool,
@@ -40,20 +39,17 @@ type exercise = {
 }
 
 @spice
-type project = {id?: string, name?: string, active?: bool, exercises?: array<exercise>}
+type project = {name?: string, active?: bool, exercises?: array<exercise>}
+
+let validateProject = ({?name}) => {
+  name
+  ->Option.map(String.trim)
+  ->Option.filter(name => name->String.length > 0)
+  ->Option.map(_ => Ok("Project name is valid"))
+  ->Option.getOr(Error({statusCode: 400, body: "Project name cannot be empty"}))
+}
 
 let handler: handler = async (~event=?, ~context as _=?, ~callback as _=?) => {
-  event
-  ->Option.flatMap(({?body}) => body)
-  ->Option.map(JSON.parseExn)
-  ->Option.map(project_decode)
-  ->Option.forEach(project => {
-    switch project {
-    | Ok(project) => Console.log2("Lambda - Save Project - started: project=%o", project)
-    | Error(error) => Console.error2("Lambda - Save Project - invalid body: error=%o", error)
-    }
-  })
-
   Console.log2(
     "Hello, user with ID %s",
     event
@@ -65,11 +61,20 @@ let handler: handler = async (~event=?, ~context as _=?, ~callback as _=?) => {
     ->Option.getOr(""),
   )
 
-  {
-    statusCode: 200,
-    body: [("result", "Hello World!"->JSON.Encode.string)]
-    ->Dict.fromArray
-    ->JSON.Encode.object
-    ->JSON.stringify,
+  switch event
+  ->Option.flatMap(({?body}) => body)
+  ->Option.map(JSON.parseExn)
+  ->Option.map(project_decode)
+  ->Option.map(project => {
+    project->Result.mapError(error => {
+      Console.error2("Invalid request body: %o", error)
+      {statusCode: 400, body: "Invalid request body"}
+    })
+  })
+  ->Option.getOr(Error({statusCode: 400, body: "No request body"}))
+  ->Result.flatMap(validateProject)
+  ->Result.map(body => {statusCode: 200, body}) {
+  | Ok(result) => result
+  | Error(result) => result
   }
 }

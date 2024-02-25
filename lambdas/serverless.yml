@@ -25,7 +25,7 @@ custom:
 
 
 functions:
-  helloWorld:
+  saveProject:
     handler: src/project/SaveProjectLambda.res.handler
     events:
       - httpApi:
