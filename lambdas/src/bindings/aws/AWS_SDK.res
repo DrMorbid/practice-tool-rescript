@@ -38,9 +38,10 @@ module DynamoDB = {
   }
 
   module Command = {
-    type put
     type item = {@as("user-id") userId?: string, name?: string}
     type putCommandInput = {@as("TableName") tableName?: string, @as("Item") item?: item}
+    type put = {input?: putCommandInput}
+    type result
   }
 
   module DynamoDBDocumentClient = {
@@ -62,7 +63,7 @@ module DynamoDB = {
     }
 
     @send external from: (parent, client, ~translateConfig: translateConfig=?) => t = "from"
-    @send external sendPut: (t, Command.put) => promise<string> = "send"
+    @send external sendPut: (t, Command.put) => promise<Command.result> = "send"
   }
 
   @module("@aws-sdk/client-dynamodb") @new

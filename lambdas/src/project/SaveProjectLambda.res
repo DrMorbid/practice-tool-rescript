@@ -122,7 +122,7 @@ let handler: handler = async (~event=?, ~context as _=?, ~callback as _=?) => {
       },
     })
 
-    Console.log3("Putting %o in DynamoDB table %s", put, tableName)
+    Console.log3("Putting %o in DynamoDB table %s", put.input, tableName)
 
     docClient->AWS.SDK.DynamoDB.DynamoDBDocumentClient.sendPut(put)
   })
