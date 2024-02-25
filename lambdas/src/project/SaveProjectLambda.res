@@ -41,12 +41,24 @@ type exercise = {
 @spice
 type project = {name?: string, active?: bool, exercises?: array<exercise>}
 
-let validateProject = ({?name}) => {
-  name
+let isBlank = value =>
+  value
   ->Option.map(String.trim)
   ->Option.filter(name => name->String.length > 0)
-  ->Option.map(_ => Ok("Project name is valid"))
-  ->Option.getOr(Error({statusCode: 400, body: "Project name cannot be empty"}))
+  ->Option.isNone
+
+let validateProject = project => {
+  if project.name->isBlank {
+    Error({statusCode: 400, body: "Project name cannot be empty"})
+  } else if (
+    project.exercises
+    ->Option.flatMap(exercises => exercises->Array.find(exercise => exercise.name->isBlank))
+    ->Option.isSome
+  ) {
+    Error({statusCode: 400, body: "Exercise name cannot be empty"})
+  } else {
+    Ok("Project is valid")
+  }
 }
 
 let handler: handler = async (~event=?, ~context as _=?, ~callback as _=?) => {
