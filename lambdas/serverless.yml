@@ -8,6 +8,9 @@ provider:
   runtime: nodejs20.x
   region: eu-central-1
   stage: ${self:custom.currentStage}
+  environment:
+    TABLE_NAME_PROJECTS: ${self:custom.tableNameProjects}
+    TABLE_NAME_HISTORY: ${self:custom.tableNameHistory}
   httpApi:
     authorizers:
       practiceToolAuthorizer:
@@ -31,7 +34,6 @@ custom:
   userPoolClientId: 5l72lsb5di0lrft25llng18vl0
   tableNameProjects: ${self:service}-projects-${self:custom.currentStage}
   tableNameHistory: ${self:service}-history-${self:custom.currentStage}
-
 
 functions:
   saveProject:

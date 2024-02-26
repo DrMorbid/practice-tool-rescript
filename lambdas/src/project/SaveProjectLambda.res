@@ -112,17 +112,15 @@ let handler: handler = async (~event=?, ~context as _=?, ~callback as _=?) => {
     let docClient =
       AWS.SDK.DynamoDB.dynamoDBDocumentClient->AWS.SDK.DynamoDB.DynamoDBDocumentClient.from(client)
 
-    let tableName = "practice-tool-rescript-projects-dev"
-
     let put = AWS.SDK.DynamoDB.makePutCommand({
-      tableName,
+      tableName: EnvVar.tableNameProjects,
       item: {
         userId: request.userId,
         name: request.value.name->Option.getOr(""),
       },
     })
 
-    Console.log3("Putting %o in DynamoDB table %s", put.input, tableName)
+    Console.log3("Putting %o in DynamoDB table %s", put.input, EnvVar.tableNameProjects)
 
     docClient->AWS.SDK.DynamoDB.DynamoDBDocumentClient.sendPut(put)
   })
