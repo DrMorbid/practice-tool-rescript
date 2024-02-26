@@ -39,7 +39,12 @@ type exercise = {
 }
 
 @spice
-type project = {name?: string, active?: bool, exercises?: array<exercise>}
+type project = {
+  @as("user-id") userId?: string,
+  name?: string,
+  active?: bool,
+  exercises?: array<exercise>,
+}
 
 let isBlank = value =>
   value
@@ -60,23 +65,6 @@ let validateProject = project => {
     Ok(project)
   }
 }
-
-module type UserRequest = {
-  type t
-}
-
-module MakeUserRequest = (Item: UserRequest) => {
-  type t = {
-    userId: string,
-    value: Item.t,
-  }
-}
-
-module SaveProjectRequest = {
-  type t = project
-}
-
-module Request = MakeUserRequest(SaveProjectRequest)
 
 let handler: handler = async (~event=?, ~context as _=?, ~callback as _=?) => {
   switch event
@@ -102,22 +90,19 @@ let handler: handler = async (~event=?, ~context as _=?, ~callback as _=?) => {
     })
     ->Option.getOr(Error({statusCode: 400, body: "No request body"}))
     ->Result.flatMap(validateProject)
-    ->Result.map((project): Request.t => {
+    ->Result.map(project => {
+      ...project,
       userId,
-      value: project,
     })
   )
-  ->Result.map(request => {
+  ->Result.map(project => {
     let client = AWS.SDK.DynamoDB.makeDynamoDBClient({})
     let docClient =
       AWS.SDK.DynamoDB.dynamoDBDocumentClient->AWS.SDK.DynamoDB.DynamoDBDocumentClient.from(client)
 
     let put = AWS.SDK.DynamoDB.makePutCommand({
       tableName: EnvVar.tableNameProjects,
-      item: {
-        userId: request.userId,
-        name: request.value.name->Option.getOr(""),
-      },
+      item: project,
     })
 
     Console.log3("Putting %o in DynamoDB table %s", put.input, EnvVar.tableNameProjects)

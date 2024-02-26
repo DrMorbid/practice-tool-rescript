@@ -38,9 +38,8 @@ module DynamoDB = {
   }
 
   module Command = {
-    type item = {@as("user-id") userId?: string, name?: string}
-    type putCommandInput = {@as("TableName") tableName?: string, @as("Item") item?: item}
-    type put = {input?: putCommandInput}
+    type putCommandInput<'a> = {@as("TableName") tableName?: string, @as("Item") item?: 'a}
+    type put<'a> = {input?: putCommandInput<'a>}
     type result
   }
 
@@ -63,7 +62,7 @@ module DynamoDB = {
     }
 
     @send external from: (parent, client, ~translateConfig: translateConfig=?) => t = "from"
-    @send external sendPut: (t, Command.put) => promise<Command.result> = "send"
+    @send external sendPut: (t, Command.put<'a>) => promise<Command.result> = "send"
   }
 
   @module("@aws-sdk/client-dynamodb") @new
@@ -73,5 +72,5 @@ module DynamoDB = {
   external dynamoDBDocumentClient: DynamoDBDocumentClient.parent = "DynamoDBDocumentClient"
 
   @module("@aws-sdk/lib-dynamodb") @new
-  external makePutCommand: Command.putCommandInput => Command.put = "PutCommand"
+  external makePutCommand: Command.putCommandInput<'a> => Command.put<'a> = "PutCommand"
 }
