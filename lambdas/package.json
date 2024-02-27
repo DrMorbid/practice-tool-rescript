@@ -10,8 +10,8 @@
     "serverless": "^3.38.0"
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.521.0",
-    "@aws-sdk/lib-dynamodb": "^3.521.0",
+    "@aws-sdk/client-dynamodb": "^3.523.0",
+    "@aws-sdk/lib-dynamodb": "^3.523.0",
     "@greenlabs/ppx-spice": "0.2.1-rc.2",
     "@rescript/core": "^1.1.0",
     "rescript": "^11.0.1"

@@ -40,29 +40,66 @@ type exercise = {
 
 @spice
 type project = {
-  @as("user-id") userId?: string,
+  userId?: string,
   name?: string,
   active?: bool,
   exercises?: array<exercise>,
 }
 
-let isBlank = value =>
+type exerciseDbSaveItem = {
+  name: string,
+  active: bool,
+  topPriority: bool,
+  slowTempo: string,
+  fastTempo: string,
+  lastPracticed?: string,
+  lastPracticedTempo?: string,
+}
+
+type projectDbSaveItem = {
+  @as("user-id") userId: string,
+  name: string,
+  active: bool,
+  exercises: array<exerciseDbSaveItem>,
+}
+
+let toNotBlank = value =>
   value
   ->Option.map(String.trim)
   ->Option.filter(name => name->String.length > 0)
-  ->Option.isNone
 
-let validateProject = project => {
-  if project.name->isBlank {
-    Error({statusCode: 400, body: "Project name cannot be empty"})
-  } else if (
-    project.exercises
-    ->Option.flatMap(exercises => exercises->Array.find(exercise => exercise.name->isBlank))
-    ->Option.isSome
-  ) {
+let exerciseToDbSaveItem = (exercise: exercise) =>
+  exercise.name
+  ->toNotBlank
+  ->Option.map(name => {
+    name,
+    active: exercise.active->Option.getOr(false),
+    topPriority: exercise.topPriority->Option.getOr(false),
+    slowTempo: exercise.slowTempo->Option.getOr(Exercise.Constant.defaultSlowTempo),
+    fastTempo: exercise.fastTempo->Option.getOr(Exercise.Constant.defaultFastTempo),
+    lastPracticed: ?exercise.lastPracticed->Option.map(Date.toISOString),
+    lastPracticedTempo: ?(
+      exercise.lastPracticedTempo
+      ->Option.map(tempoType_encode)
+      ->Option.flatMap(JSON.Decode.string)
+    ),
+  })
+
+let toDbSaveItem = (~userId, {?name, ?active, exercises: ?inputExercises}: project) => {
+  let exercises = inputExercises->Option.getOr([])->Array.map(exerciseToDbSaveItem)->Array.keepSome
+
+  if exercises->Array.length < inputExercises->Option.getOr([])->Array.length {
     Error({statusCode: 400, body: "Exercise name cannot be empty"})
   } else {
-    Ok(project)
+    name
+    ->toNotBlank
+    ->Option.map(name => Ok({
+      userId,
+      name,
+      active: active->Option.getOr(false),
+      exercises,
+    }))
+    ->Option.getOr(Error({statusCode: 400, body: "Project name cannot be empty"}))
   }
 }
 
@@ -89,23 +126,22 @@ let handler: handler = async (~event=?, ~context as _=?, ~callback as _=?) => {
       )
     })
     ->Option.getOr(Error({statusCode: 400, body: "No request body"}))
-    ->Result.flatMap(validateProject)
-    ->Result.map(project => {
-      ...project,
-      userId,
-    })
+    ->Result.flatMap(project => project->toDbSaveItem(~userId))
   )
   ->Result.map(project => {
     let client = AWS.SDK.DynamoDB.makeDynamoDBClient({})
     let docClient =
-      AWS.SDK.DynamoDB.dynamoDBDocumentClient->AWS.SDK.DynamoDB.DynamoDBDocumentClient.from(client)
+      AWS.SDK.DynamoDB.dynamoDBDocumentClient->AWS.SDK.DynamoDB.DynamoDBDocumentClient.from(
+        client,
+        ~translateConfig={marshallOptions: {removeUndefinedValues: true}},
+      )
 
     let put = AWS.SDK.DynamoDB.makePutCommand({
-      tableName: EnvVar.tableNameProjects,
+      tableName: Global.EnvVar.tableNameProjects,
       item: project,
     })
 
-    Console.log3("Putting %o in DynamoDB table %s", put.input, EnvVar.tableNameProjects)
+    Console.log3("Putting %o in DynamoDB table %s", put.input, Global.EnvVar.tableNameProjects)
 
     docClient->AWS.SDK.DynamoDB.DynamoDBDocumentClient.sendPut(put)
   })

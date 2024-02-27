@@ -16,6 +16,13 @@ Content-Type: application/json
       "fastTempo": "100%",
       "lastPracticed": "2024-02-23T20:43:43Z",
       "lastPracticedTempo": "SLOW"
+    },
+    {
+      "name": "My Second Exercise",
+      "active": true,
+      "topPriority": true,
+      "slowTempo": "75%",
+      "fastTempo": "100%"
     }
   ]
 }
