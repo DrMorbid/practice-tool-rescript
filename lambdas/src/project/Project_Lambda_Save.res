@@ -1,4 +1,5 @@
 open AWS.Lambda
+open AWS.SDK.DynamoDB
 
 let handler: handler = async (~event=?, ~context as _=?, ~callback as _=?) => {
   switch event
@@ -26,21 +27,17 @@ let handler: handler = async (~event=?, ~context as _=?, ~callback as _=?) => {
     ->Result.flatMap(project => project->Project_Utils.toDbSaveItem(~userId))
   )
   ->Result.map(project => {
-    let client = AWS.SDK.DynamoDB.makeDynamoDBClient({})
-    let docClient =
-      AWS.SDK.DynamoDB.dynamoDBDocumentClient->AWS.SDK.DynamoDB.DynamoDBDocumentClient.from(
-        client,
+    let dbClient =
+      dynamoDBDocumentClient->DynamoDBDocumentClient.from(
+        makeDynamoDBClient({}),
         ~translateConfig={marshallOptions: {removeUndefinedValues: true}},
       )
 
-    let put = AWS.SDK.DynamoDB.makePutCommand({
-      tableName: Global.EnvVar.tableNameProjects,
-      item: project,
-    })
+    let put = makePutCommand({tableName: Global.EnvVar.tableNameProjects, item: project})
 
     Console.log3("Putting %o in DynamoDB table %s", put.input, Global.EnvVar.tableNameProjects)
 
-    docClient->AWS.SDK.DynamoDB.DynamoDBDocumentClient.sendPut(put)
+    dbClient->DynamoDBDocumentClient.sendPut(put)
   })
   ->Result.map(result =>
     result->Promise.thenResolve(result => {
