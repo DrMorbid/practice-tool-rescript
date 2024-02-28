@@ -25,7 +25,7 @@ module Context = {
 
 type callback = unit => unit
 
-type result = {
+type response = {
   statusCode: int,
   headers?: Dict.t<string>,
   isBase64Encoded?: bool,
@@ -33,4 +33,8 @@ type result = {
   body: string,
 }
 
-type handler = (~event: Event.t=?, ~context: Context.t=?, ~callback: callback=?) => promise<result>
+type handler = (
+  ~event: Event.t=?,
+  ~context: Context.t=?,
+  ~callback: callback=?,
+) => promise<response>

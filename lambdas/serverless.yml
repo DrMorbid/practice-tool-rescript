@@ -37,7 +37,7 @@ custom:
 
 functions:
   saveProject:
-    handler: src/project/SaveProjectLambda.res.handler
+    handler: src/project/Project_Lambda_Save.res.handler
     events:
       - httpApi:
           path: /project/save
