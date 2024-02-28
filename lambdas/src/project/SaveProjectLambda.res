@@ -28,14 +28,19 @@ let dateCodec: Spice.codec<Date.t> = (dateEncoder, dateDecoder)
 type tempoType = | @spice.as("SLOW") Slow | @spice.as("FAST") Fast
 
 @spice
+type lastPracticed = {
+  date?: @spice.codec(dateCodec) Date.t,
+  tempo?: tempoType,
+}
+
+@spice
 type exercise = {
   name?: string,
   active?: bool,
   topPriority?: bool,
   slowTempo?: string,
   fastTempo?: string,
-  lastPracticed?: @spice.codec(dateCodec) Date.t,
-  lastPracticedTempo?: tempoType,
+  lastPracticed?: lastPracticed,
 }
 
 @spice
@@ -46,14 +51,18 @@ type project = {
   exercises?: array<exercise>,
 }
 
+type lastPracticedDbSaveItem = {
+  date: string,
+  tempo: string,
+}
+
 type exerciseDbSaveItem = {
   name: string,
   active: bool,
   topPriority: bool,
   slowTempo: string,
   fastTempo: string,
-  lastPracticed?: string,
-  lastPracticedTempo?: string,
+  lastPracticed?: lastPracticedDbSaveItem,
 }
 
 type projectDbSaveItem = {
@@ -77,11 +86,11 @@ let exerciseToDbSaveItem = (exercise: exercise) =>
     topPriority: exercise.topPriority->Option.getOr(false),
     slowTempo: exercise.slowTempo->Option.getOr(Exercise.Constant.defaultSlowTempo),
     fastTempo: exercise.fastTempo->Option.getOr(Exercise.Constant.defaultFastTempo),
-    lastPracticed: ?exercise.lastPracticed->Option.map(Date.toISOString),
-    lastPracticedTempo: ?(
-      exercise.lastPracticedTempo
-      ->Option.map(tempoType_encode)
-      ->Option.flatMap(JSON.Decode.string)
+    lastPracticed: ?exercise.lastPracticed->Option.flatMap(({?date, ?tempo}) =>
+      switch (date, tempo->Option.map(tempoType_encode)->Option.flatMap(JSON.Decode.string)) {
+      | (Some(date), Some(tempo)) => Some({date: date->Date.toISOString, tempo})
+      | _ => None
+      }
     ),
   })
 
