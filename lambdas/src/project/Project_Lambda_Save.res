@@ -1,51 +1,25 @@
-open AWS.Lambda
-open AWS.SDK.DynamoDB
+open Utils.Lambda
 
-let handler: handler = async (~event=?, ~context as _=?, ~callback as _=?) => {
-  switch event
-  ->Option.flatMap(({?requestContext}) => requestContext)
-  ->Option.flatMap(({?authorizer}) => authorizer)
-  ->Option.flatMap(({?jwt}) => jwt)
-  ->Option.flatMap(({?claims}) => claims)
-  ->Option.flatMap(({?username}) => username)
-  ->Option.map(username => Ok(username))
-  ->Option.getOr(Error({statusCode: 403, body: "No authenticated user"}))
+module SaveProjectBody = {
+  type t = Project_Type.t
+  type dbSaveItem = Project_Type.Database.Save.t
+  let decode = Project_Type.t_decode
+  let toDBSaveItem = Project_Utils.toDbSaveItem
+}
+module Body = MakeBodyExtractor(SaveProjectBody)
+
+module DBItem = {
+  type t = Project_Type.Database.Save.t
+  let tableName = Global.EnvVar.tableNameProjects
+}
+module DBSaver = Utils.DynamoDB.DBSaver(DBItem)
+
+let handler = async (~event=?, ~context as _=?, ~callback as _=?) => {
+  switch getUser(~event?)
   ->Result.flatMap(userId =>
-    event
-    ->Option.flatMap(({?body}) => body)
-    ->Option.map(JSON.parseExn)
-    ->Option.map(Project_Type.t_decode)
-    ->Option.map(project => {
-      project->Result.mapError(
-        error => {
-          Console.error2("Invalid request body: %o", error)
-          {statusCode: 400, body: "Invalid request body"}
-        },
-      )
-    })
-    ->Option.getOr(Error({statusCode: 400, body: "No request body"}))
-    ->Result.flatMap(project => project->Project_Utils.toDbSaveItem(~userId))
+    Body.extract(~event?)->Result.flatMap(SaveProjectBody.toDBSaveItem(_, ~userId))
   )
-  ->Result.map(project => {
-    let dbClient =
-      dynamoDBDocumentClient->DynamoDBDocumentClient.from(
-        makeDynamoDBClient({}),
-        ~translateConfig={marshallOptions: {removeUndefinedValues: true}},
-      )
-
-    let put = makePutCommand({tableName: Global.EnvVar.tableNameProjects, item: project})
-
-    Console.log3("Putting %o in DynamoDB table %s", put.input, Global.EnvVar.tableNameProjects)
-
-    dbClient->DynamoDBDocumentClient.sendPut(put)
-  })
-  ->Result.map(result =>
-    result->Promise.thenResolve(result => {
-      Console.log2("Put result is %o", result)
-
-      {statusCode: 200, body: "Saved successfully"}
-    })
-  ) {
+  ->Result.map(project => project->DBSaver.save) {
   | Ok(result) => await result
   | Error(result) => result
   }
