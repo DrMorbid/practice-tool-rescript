@@ -1,6 +1,6 @@
 open Exercise_Type
 
-let toDbSaveItem = exercise =>
+let toDBSaveItem = exercise =>
   exercise.name
   ->Utils.String.toNotBlank
   ->Option.map((name): Database.Save.t => {

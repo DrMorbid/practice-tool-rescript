@@ -15,4 +15,11 @@ module Database = {
       exercises: array<Exercise.Type.Database.Save.t>,
     }
   }
+
+  module Get = {
+    type t = {
+      @as("user-id") userId: string,
+      name: string,
+    }
+  }
 }

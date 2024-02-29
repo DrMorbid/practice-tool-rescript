@@ -48,6 +48,18 @@ functions:
               - openid
               - profile
               - email
+  getProject:
+    handler: src/project/Project_Lambda_Get.res.handler
+    events:
+      - httpApi:
+          path: /project/get
+          method: GET
+          authorizer:
+            name: practiceToolAuthorizer
+            scopes:
+              - openid
+              - profile
+              - email
 
 resources:
   Resources:

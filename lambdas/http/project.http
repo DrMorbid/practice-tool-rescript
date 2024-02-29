@@ -28,3 +28,9 @@ Content-Type: application/json
     }
   ]
 }
+
+### Get
+GET https://l6haugjoi5.execute-api.eu-central-1.amazonaws.com/project/save/My First Project
+Accept: application/json
+Authorization: Bearer {{$auth.token("cognito")}}
+Content-Type: application/json

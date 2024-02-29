@@ -12,9 +12,9 @@ let getUser = (~event: option<Event.t>=?) =>
 
 module type Extractable = {
   type t
-  type dbSaveItem
+  type dbRequest
   let decode: JSON.t => result<t, Spice.decodeError>
-  let toDBSaveItem: (~userId: string, t) => result<dbSaveItem, response>
+  let toDBRequest: (~userId: string, t) => result<dbRequest, response>
 }
 
 module MakeBodyExtractor = (Body: Extractable) => {

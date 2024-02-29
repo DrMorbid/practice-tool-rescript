@@ -1,12 +1,12 @@
 open AWS.Lambda
 open Project_Type
 
-let toDbSaveItem = (~userId, {?name, ?active, exercises: ?inputExercises}): result<
+let toDBSaveItem = (~userId, {?name, ?active, exercises: ?inputExercises}): result<
   Database.Save.t,
   response,
 > => {
   let exercises =
-    inputExercises->Option.getOr([])->Array.map(Exercise.Utils.toDbSaveItem)->Array.keepSome
+    inputExercises->Option.getOr([])->Array.map(Exercise.Utils.toDBSaveItem)->Array.keepSome
 
   if exercises->Array.length < inputExercises->Option.getOr([])->Array.length {
     Error({statusCode: 400, body: "Exercise name cannot be empty"})
@@ -22,3 +22,5 @@ let toDbSaveItem = (~userId, {?name, ?active, exercises: ?inputExercises}): resu
     ->Option.getOr(Error({statusCode: 400, body: "Project name cannot be empty"}))
   }
 }
+
+let toDBGetItem = (~userId, name): result<Database.Get.t, response> => Ok({userId, name})
