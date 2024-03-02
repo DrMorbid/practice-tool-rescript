@@ -29,3 +29,16 @@ module MakeBodyExtractor = (Body: Extractable) => {
     })
     ->Option.getOr(Error({statusCode: 400, body: "No request body"}))
 }
+
+module type Respondable = {
+  type t
+  let encode: t => JSON.t
+}
+
+module MakeBodyResponder = (Body: Respondable) => {
+  let createResponse = (~dbItem: option<Body.t>=?) =>
+    dbItem
+    ->Option.map(Body.encode)
+    ->Option.map(bodyEncoded => {statusCode: 200, body: bodyEncoded->JSON.stringify})
+    ->Option.getOr({statusCode: 404, body: "Not found in database"})
+}

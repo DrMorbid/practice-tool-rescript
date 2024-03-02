@@ -30,15 +30,15 @@ module type Getable = {
   let tableName: string
 }
 module DBGetter = (Get: Getable) => {
-  let get = async (key: Get.t): AWS.Lambda.response => {
+  let get = async (key: Get.t) => {
     let dbClient = makeClient()
 
     let get = makeGetCommand({tableName: Get.tableName, key})
 
     Console.log3("Getting %o from DynamoDB table %s", get.input, Get.tableName)
 
-    let {item} = await dbClient->DynamoDBDocumentClient.sendGet(get)
+    let {?item} = await dbClient->DynamoDBDocumentClient.sendGet(get)
 
-    {statusCode: 200, body: item->JSON.stringifyAny->Option.getOr("")}
+    item
   }
 }

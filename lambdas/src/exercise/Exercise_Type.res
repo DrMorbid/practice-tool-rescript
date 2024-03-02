@@ -18,11 +18,13 @@ type t = {
 }
 
 module Database = {
+  @spice
   type lastPracticed = {
     date: string,
     tempo: string,
   }
 
+  @spice
   type t = {
     name: string,
     active: bool,

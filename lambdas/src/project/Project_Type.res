@@ -7,6 +7,7 @@ type t = {
 }
 
 module Database = {
+  @spice
   type t = {
     @as("user-id") userId: string,
     name: string,

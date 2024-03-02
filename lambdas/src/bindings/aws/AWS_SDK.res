@@ -44,7 +44,7 @@ module DynamoDB = {
 
     type getCommandInput<'a> = {@as("TableName") tableName?: string, @as("Key") key?: 'a}
     type get<'a> = {input?: getCommandInput<'a>}
-    type getResult<'a> = {@as("Item") item: 'a}
+    type getResult<'a> = {@as("Item") item?: 'a}
   }
 
   module DynamoDBDocumentClient = {
