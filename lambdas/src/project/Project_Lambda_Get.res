@@ -1,25 +1,34 @@
 open Utils.Lambda
-
-module GetProjectBody = {
-  type t = string
-  type dbRequest = Project_Type.Database.Get.t
-  let decode = Spice.stringFromJson
-  let toDBRequest = Project_Utils.toDBGetItem
-}
-module Body = MakeBodyExtractor(GetProjectBody)
+open AWS.Lambda
+open Project_Type
 
 module DBKey = {
-  type t = Project_Type.Database.Get.t
+  type t = Database.key
+  type result = Database.t
   let tableName = Global.EnvVar.tableNameProjects
 }
 module DBGetter = Utils.DynamoDB.DBGetter(DBKey)
 
-let handler: AWS.Lambda.handler = async (~event=?, ~context as _=?, ~callback as _=?) =>
-  switch getUser(~event?)
+type pathParameters = {name: string}
+
+let handler: handler<pathParameters> = async (~event, ~context as _, ~callback as _) =>
+  switch event
+  ->getUser
   ->Result.flatMap(userId =>
-    Body.extract(~event?)->Result.flatMap(GetProjectBody.toDBRequest(_, ~userId))
+    event.pathParameters
+    ->Option.map(({name}) => Ok(
+      (
+        {
+          userId,
+          name,
+        }: Database.key
+      ),
+    ))
+    ->Option.getOr(
+      Error({statusCode: 400, body: "Project name must be present in path parameters"}),
+    )
   )
-  ->Result.map(project => project->DBGetter.get) {
+  ->Result.map(projectKey => projectKey->DBGetter.get) {
   | Ok(result) => await result
   | Error(result) => result
   }

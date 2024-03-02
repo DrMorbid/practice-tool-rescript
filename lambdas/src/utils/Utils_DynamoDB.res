@@ -26,20 +26,19 @@ module DBSaver = (Body: Savable) => {
 
 module type Getable = {
   type t
+  type result
   let tableName: string
 }
-module DBGetter = (Body: Getable) => {
-  let get = async (key: Body.t): AWS.Lambda.response => {
+module DBGetter = (Get: Getable) => {
+  let get = async (key: Get.t): AWS.Lambda.response => {
     let dbClient = makeClient()
 
-    let get = makeGetCommand({tableName: Body.tableName, key})
+    let get = makeGetCommand({tableName: Get.tableName, key})
 
-    Console.log3("Getting %o from DynamoDB table %s", get.input, Body.tableName)
+    Console.log3("Getting %o from DynamoDB table %s", get.input, Get.tableName)
 
-    let result = await dbClient->DynamoDBDocumentClient.sendGet(get)
+    let {item} = await dbClient->DynamoDBDocumentClient.sendGet(get)
 
-    Console.log2("Get result is %o", result)
-
-    {statusCode: 200, body: "Fetched successfully"}
+    {statusCode: 200, body: item->JSON.stringifyAny->Option.getOr("")}
   }
 }

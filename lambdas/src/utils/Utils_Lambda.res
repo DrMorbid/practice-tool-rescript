@@ -1,8 +1,7 @@
 open AWS.Lambda
 
-let getUser = (~event: option<Event.t>=?) =>
-  event
-  ->Option.flatMap(({?requestContext}) => requestContext)
+let getUser = ({?requestContext}: Event.t<'a>) =>
+  requestContext
   ->Option.flatMap(({?authorizer}) => authorizer)
   ->Option.flatMap(({?jwt}) => jwt)
   ->Option.flatMap(({?claims}) => claims)
@@ -18,9 +17,8 @@ module type Extractable = {
 }
 
 module MakeBodyExtractor = (Body: Extractable) => {
-  let extract = (~event: option<Event.t>=?) =>
-    event
-    ->Option.flatMap(({?body}) => body)
+  let extract = ({?body}: Event.t<'a>) =>
+    body
     ->Option.map(JSON.parseExn)
     ->Option.map(Body.decode)
     ->Option.map(extracted => {

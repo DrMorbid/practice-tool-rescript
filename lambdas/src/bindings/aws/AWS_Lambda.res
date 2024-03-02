@@ -3,7 +3,7 @@ module Event = {
   type jwt = {claims?: claims}
   type authorizer = {jwt?: jwt}
   type requestContext = {authorizer?: authorizer}
-  type t = {requestContext?: requestContext, body?: string}
+  type t<'a> = {requestContext?: requestContext, body?: string, pathParameters?: 'a}
 }
 
 module Context = {
@@ -33,8 +33,8 @@ type response = {
   body: string,
 }
 
-type handler = (
-  ~event: Event.t=?,
-  ~context: Context.t=?,
-  ~callback: callback=?,
+type handler<'a> = (
+  ~event: Event.t<'a>,
+  ~context: Context.t,
+  ~callback: callback,
 ) => promise<response>

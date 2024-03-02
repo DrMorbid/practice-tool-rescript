@@ -7,19 +7,15 @@ type t = {
 }
 
 module Database = {
-  module Save = {
-    type t = {
-      @as("user-id") userId: string,
-      name: string,
-      active: bool,
-      exercises: array<Exercise.Type.Database.Save.t>,
-    }
+  type t = {
+    @as("user-id") userId: string,
+    name: string,
+    active: bool,
+    exercises: array<Exercise.Type.Database.t>,
   }
 
-  module Get = {
-    type t = {
-      @as("user-id") userId: string,
-      name: string,
-    }
+  type key = {
+    @as("user-id") userId: string,
+    name: string,
   }
 }

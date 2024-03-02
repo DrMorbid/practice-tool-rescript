@@ -18,19 +18,17 @@ type t = {
 }
 
 module Database = {
-  module Save = {
-    type lastPracticed = {
-      date: string,
-      tempo: string,
-    }
+  type lastPracticed = {
+    date: string,
+    tempo: string,
+  }
 
-    type t = {
-      name: string,
-      active: bool,
-      topPriority: bool,
-      slowTempo: string,
-      fastTempo: string,
-      lastPracticed?: lastPracticed,
-    }
+  type t = {
+    name: string,
+    active: bool,
+    topPriority: bool,
+    slowTempo: string,
+    fastTempo: string,
+    lastPracticed?: lastPracticed,
   }
 }

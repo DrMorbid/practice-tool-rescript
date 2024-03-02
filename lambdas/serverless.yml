@@ -25,6 +25,7 @@ provider:
         - Effect: Allow
           Action:
             - dynamodb:PutItem
+            - dynamodb:GetItem
           Resource: "arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:custom.tableNameProjects}"
 
 custom:
@@ -52,7 +53,7 @@ functions:
     handler: src/project/Project_Lambda_Get.res.handler
     events:
       - httpApi:
-          path: /project/get
+          path: /project/get/{name}
           method: GET
           authorizer:
             name: practiceToolAuthorizer

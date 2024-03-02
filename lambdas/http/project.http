@@ -1,5 +1,5 @@
 ### Save
-POST https://l6haugjoi5.execute-api.eu-central-1.amazonaws.com/project/save
+POST {{url}}/project/save
 Accept: application/json
 Authorization: Bearer {{$auth.token("cognito")}}
 Content-Type: application/json
@@ -30,7 +30,7 @@ Content-Type: application/json
 }
 
 ### Get
-GET https://l6haugjoi5.execute-api.eu-central-1.amazonaws.com/project/save/My First Project
+GET {{url}}/project/get/My First Project
 Accept: application/json
 Authorization: Bearer {{$auth.token("cognito")}}
 Content-Type: application/json

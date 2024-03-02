@@ -2,7 +2,7 @@ open AWS.Lambda
 open Project_Type
 
 let toDBSaveItem = (~userId, {?name, ?active, exercises: ?inputExercises}): result<
-  Database.Save.t,
+  Database.t,
   response,
 > => {
   let exercises =
@@ -13,7 +13,7 @@ let toDBSaveItem = (~userId, {?name, ?active, exercises: ?inputExercises}): resu
   } else {
     name
     ->Utils.String.toNotBlank
-    ->Option.map((name): result<Database.Save.t, 'a> => Ok({
+    ->Option.map((name): result<Database.t, 'a> => Ok({
       userId,
       name,
       active: active->Option.getOr(false),
@@ -23,4 +23,4 @@ let toDBSaveItem = (~userId, {?name, ?active, exercises: ?inputExercises}): resu
   }
 }
 
-let toDBGetItem = (~userId, name): result<Database.Get.t, response> => Ok({userId, name})
+let toDBGetItem = (~userId, name): result<Database.key, response> => Ok({userId, name})
