@@ -42,3 +42,24 @@ module DBGetter = (Get: Getable) => {
     item
   }
 }
+
+module type Deletable = {
+  type t
+  type result
+  let tableName: string
+}
+module DBDeleter = (Delete: Deletable) => {
+  let delete = async (key: Delete.t): AWS.Lambda.response => {
+    let dbClient = makeClient()
+
+    let delete = makeDeleteCommand({tableName: Delete.tableName, key})
+
+    Console.log3("Deleting %o from DynamoDB table %s", delete.input, Delete.tableName)
+
+    let result = await dbClient->DynamoDBDocumentClient.sendDelete(delete)
+
+    Console.log2("Delete result is %o", result)
+
+    {statusCode: 200, body: "Saved successfully"}
+  }
+}

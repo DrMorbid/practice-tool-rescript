@@ -45,6 +45,10 @@ module DynamoDB = {
     type getCommandInput<'a> = {@as("TableName") tableName?: string, @as("Key") key?: 'a}
     type get<'a> = {input?: getCommandInput<'a>}
     type getResult<'a> = {@as("Item") item?: 'a}
+
+    type deleteCommandInput<'a> = {@as("TableName") tableName?: string, @as("Key") key?: 'a}
+    type delete<'a> = {input?: deleteCommandInput<'a>}
+    type deleteResult
   }
 
   module DynamoDBDocumentClient = {
@@ -68,6 +72,7 @@ module DynamoDB = {
     @send external from: (parent, client, ~translateConfig: translateConfig=?) => t = "from"
     @send external sendPut: (t, Command.put<'a>) => promise<Command.putResult> = "send"
     @send external sendGet: (t, Command.get<'a>) => promise<Command.getResult<'b>> = "send"
+    @send external sendDelete: (t, Command.delete<'a>) => promise<Command.deleteResult> = "send"
   }
 
   @module("@aws-sdk/client-dynamodb") @new
@@ -81,4 +86,7 @@ module DynamoDB = {
 
   @module("@aws-sdk/lib-dynamodb") @new
   external makeGetCommand: Command.getCommandInput<'a> => Command.get<'a> = "GetCommand"
+
+  @module("@aws-sdk/lib-dynamodb") @new
+  external makeDeleteCommand: Command.deleteCommandInput<'a> => Command.delete<'a> = "DeleteCommand"
 }

@@ -26,6 +26,7 @@ provider:
           Action:
             - dynamodb:PutItem
             - dynamodb:GetItem
+            - dynamodb:DeleteItem
           Resource: "arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:custom.tableNameProjects}"
 
 custom:
@@ -41,7 +42,7 @@ functions:
     handler: src/project/Project_Lambda_Save.res.handler
     events:
       - httpApi:
-          path: /project/save
+          path: /project
           method: POST
           authorizer:
             name: practiceToolAuthorizer
@@ -53,8 +54,20 @@ functions:
     handler: src/project/Project_Lambda_Get.res.handler
     events:
       - httpApi:
-          path: /project/get/{name}
+          path: /project/{name}
           method: GET
+          authorizer:
+            name: practiceToolAuthorizer
+            scopes:
+              - openid
+              - profile
+              - email
+  deleteProject:
+    handler: src/project/Project_Lambda_Delete.res.handler
+    events:
+      - httpApi:
+          path: /project/{name}
+          method: DELETE
           authorizer:
             name: practiceToolAuthorizer
             scopes:

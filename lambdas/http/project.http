@@ -1,5 +1,5 @@
 ### Save
-POST {{url}}/project/save
+POST {{url}}/project
 Accept: application/json
 Authorization: Bearer {{$auth.token("cognito")}}
 Content-Type: application/json
@@ -30,7 +30,13 @@ Content-Type: application/json
 }
 
 ### Get
-GET {{url}}/project/get/My First Project
+GET {{url}}/project/My First Project
+Accept: application/json
+Authorization: Bearer {{$auth.token("cognito")}}
+Content-Type: application/json
+
+### Delete
+DELETE {{url}}/project/My First Project
 Accept: application/json
 Authorization: Bearer {{$auth.token("cognito")}}
 Content-Type: application/json
