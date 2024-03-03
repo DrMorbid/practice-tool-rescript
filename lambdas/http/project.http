@@ -4,39 +4,24 @@ Accept: application/json
 Authorization: Bearer {{$auth.token("cognito")}}
 Content-Type: application/json
 
-{
-  "name": "My First Project",
-  "active": true,
-  "exercises": [
-    {
-      "name": "My First Exercise",
-      "active": true,
-      "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%",
-      "lastPracticed": {
-        "date": "2024-02-23T20:43:43Z",
-        "tempo": "SLOW"
-      }
-    },
-    {
-      "name": "My Second Exercise",
-      "active": true,
-      "topPriority": true,
-      "slowTempo": "75%",
-      "fastTempo": "100%"
-    }
-  ]
-}
+< ./mindwork.json
+#< ./between-the-planets.json
+#< ./voice-of-instinct.json
 
 ### Get
-GET {{url}}/project/My First Project
+GET {{url}}/project/Voice Of Instinct
 Accept: application/json
 Authorization: Bearer {{$auth.token("cognito")}}
 Content-Type: application/json
 
 ### Delete
-DELETE {{url}}/project/My First Project
+DELETE {{url}}/project/Voice Of Instinct
+Accept: application/json
+Authorization: Bearer {{$auth.token("cognito")}}
+Content-Type: application/json
+
+### GetAll
+GET {{url}}/project
 Accept: application/json
 Authorization: Bearer {{$auth.token("cognito")}}
 Content-Type: application/json

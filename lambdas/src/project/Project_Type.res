@@ -1,7 +1,7 @@
 @spice
 type t = {
   userId?: string,
-  name?: string,
+  projectName?: string,
   active?: bool,
   exercises?: array<Exercise.Type.t>,
 }
@@ -9,14 +9,14 @@ type t = {
 module Database = {
   @spice
   type t = {
-    @as("user-id") userId: string,
-    name: string,
+    userId: string,
+    projectName: string,
     active: bool,
     exercises: array<Exercise.Type.Database.t>,
   }
 
   type key = {
-    @as("user-id") userId: string,
-    name: string,
+    userId: string,
+    projectName: string,
   }
 }

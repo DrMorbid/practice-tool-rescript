@@ -27,6 +27,7 @@ provider:
             - dynamodb:PutItem
             - dynamodb:GetItem
             - dynamodb:DeleteItem
+            - dynamodb:Query
           Resource: "arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:custom.tableNameProjects}"
 
 custom:
@@ -74,6 +75,18 @@ functions:
               - openid
               - profile
               - email
+  getAllProjects:
+    handler: src/project/Project_Lambda_GetAll.res.handler
+    events:
+      - httpApi:
+          path: /project
+          method: GET
+          authorizer:
+            name: practiceToolAuthorizer
+            scopes:
+              - openid
+              - profile
+              - email
 
 resources:
   Resources:
@@ -83,14 +96,14 @@ resources:
         TableName: ${self:custom.tableNameProjects}
         BillingMode: PAY_PER_REQUEST
         KeySchema:
-          - AttributeName: user-id
+          - AttributeName: userId
             KeyType: HASH
-          - AttributeName: name
+          - AttributeName: projectName
             KeyType: RANGE
         AttributeDefinitions:
-          - AttributeName: user-id
+          - AttributeName: userId
             AttributeType: S
-          - AttributeName: name
+          - AttributeName: projectName
             AttributeType: S
     PracticeToolHistoryTable:
       Type: AWS::DynamoDB::Table
@@ -98,12 +111,12 @@ resources:
         TableName: ${self:custom.tableNameHistory}
         BillingMode: PAY_PER_REQUEST
         KeySchema:
-          - AttributeName: user-id
+          - AttributeName: userId
             KeyType: HASH
           - AttributeName: date
             KeyType: RANGE
         AttributeDefinitions:
-          - AttributeName: user-id
+          - AttributeName: userId
             AttributeType: S
           - AttributeName: date
             AttributeType: S

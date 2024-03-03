@@ -63,3 +63,26 @@ module DBDeleter = (Delete: Deletable) => {
     {statusCode: 200, body: "Saved successfully"}
   }
 }
+
+module type Queryable = {
+  let tableName: string
+}
+module DBQueryCaller = (Query: Queryable) => {
+  let query = async (~userId) => {
+    let dbClient = makeClient()
+
+    let query = makeQueryCommand({
+      tableName: Query.tableName,
+      keyConditionExpression: "userId = :userId AND begins_with(projectName, :empty)",
+      expressionAttributeValues: [(":userId", userId), (":empty", "")]->Dict.fromArray,
+    })
+
+    Console.log3("Querying %o from DynamoDB table %s", query.input, Query.tableName)
+
+    let result = await dbClient->DynamoDBDocumentClient.sendQuery(query)
+
+    Console.log2("Query result is %o", result)
+
+    result
+  }
+}

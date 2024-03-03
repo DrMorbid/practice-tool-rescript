@@ -1,10 +1,10 @@
 open Exercise_Type
 
 let toDBSaveItem = exercise =>
-  exercise.name
+  exercise.exerciseName
   ->Utils.String.toNotBlank
-  ->Option.map((name): Database.t => {
-    name,
+  ->Option.map((exerciseName): Database.t => {
+    exerciseName,
     active: exercise.active->Option.getOr(false),
     topPriority: exercise.topPriority->Option.getOr(false),
     slowTempo: exercise.slowTempo->Option.getOr(Exercise_Constant.defaultSlowTempo),

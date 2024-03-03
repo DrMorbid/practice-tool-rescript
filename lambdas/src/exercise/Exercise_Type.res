@@ -9,7 +9,7 @@ type lastPracticed = {
 
 @spice
 type t = {
-  name?: string,
+  exerciseName?: string,
   active?: bool,
   topPriority?: bool,
   slowTempo?: string,
@@ -26,7 +26,7 @@ module Database = {
 
   @spice
   type t = {
-    name: string,
+    exerciseName: string,
     active: bool,
     topPriority: bool,
     slowTempo: string,
