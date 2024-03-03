@@ -73,8 +73,9 @@ module DBQueryCaller = (Query: Queryable) => {
 
     let query = makeQueryCommand({
       tableName: Query.tableName,
-      keyConditionExpression: "userId = :userId AND begins_with(projectName, :empty)",
-      expressionAttributeValues: [(":userId", userId), (":empty", "")]->Dict.fromArray,
+      keyConditionExpression: "#userId = :userId",
+      expressionAttributeNames: [("#userId", "userId")]->Dict.fromArray,
+      expressionAttributeValues: [(":userId", userId)]->Dict.fromArray,
     })
 
     Console.log3("Querying %o from DynamoDB table %s", query.input, Query.tableName)

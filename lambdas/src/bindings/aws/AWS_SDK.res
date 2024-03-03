@@ -53,7 +53,18 @@ module DynamoDB = {
     type queryCommandInput<'a> = {
       @as("TableName") tableName?: string,
       @as("KeyConditionExpression") keyConditionExpression?: string,
+      @as("ExpressionAttributeNames") expressionAttributeNames?: Dict.t<string>,
       @as("ExpressionAttributeValues") expressionAttributeValues?: Dict.t<string>,
+      @as("Limit") limit?: int,
+      @as("ReturnConsumedCapacity")
+      returnConsumedCapacity?: [#INDEXES | #TOTAL | #NONE],
+      @as("Select")
+      select?: [
+        | #ALL_ATTRIBUTES
+        | #ALL_PROJECTED_ATTRIBUTES
+        | #COUNT
+        | #SPECIFIC_ATTRIBUTES
+      ],
     }
     type query<'a> = {input?: queryCommandInput<'a>}
     type queryResult
