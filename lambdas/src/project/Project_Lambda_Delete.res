@@ -1,5 +1,3 @@
-open Utils.Lambda
-open AWS.Lambda
 open Project_Type
 
 module DBKey = {
@@ -9,26 +7,14 @@ module DBKey = {
 }
 module DBDeleter = Utils.DynamoDB.DBDeleter(DBKey)
 
-type pathParameters = {name: string}
-
-let handler: handler<pathParameters> = async (~event, ~context as _, ~callback as _) =>
+let handler: AWS.Lambda.handler<Project_Utils.projectNamePathParam> = async (
+  ~event,
+  ~context as _,
+  ~callback as _,
+) =>
   switch event
-  ->getUser
-  ->Result.flatMap(userId =>
-    event.pathParameters
-    ->Option.map(({name}) => Ok(
-      (
-        {
-          userId,
-          name,
-        }: Database.key
-      ),
-    ))
-    ->Option.getOr(
-      Error({statusCode: 400, body: "Project name must be present in path parameters"}),
-    )
-  )
-  ->Result.map(projectKey => projectKey->DBDeleter.delete) {
+  ->Project_Utils.getProjectTableKey
+  ->Result.map(projectTableKey => projectTableKey->DBDeleter.delete) {
   | Ok(result) => await result
   | Error(result) => result
   }

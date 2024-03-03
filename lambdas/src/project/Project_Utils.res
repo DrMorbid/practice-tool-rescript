@@ -1,5 +1,6 @@
 open AWS.Lambda
 open Project_Type
+open Utils.Lambda
 
 let toDBSaveItem = (~userId, {?name, ?active, exercises: ?inputExercises}): result<
   Database.t,
@@ -24,3 +25,22 @@ let toDBSaveItem = (~userId, {?name, ?active, exercises: ?inputExercises}): resu
 }
 
 let toDBGetItem = (~userId, name): result<Database.key, response> => Ok({userId, name})
+
+type projectNamePathParam = {name: string}
+let getProjectTableKey = event =>
+  event
+  ->getUser
+  ->Result.flatMap(userId =>
+    event.pathParameters
+    ->Option.map(({name}) => Ok(
+      (
+        {
+          userId,
+          name,
+        }: Database.key
+      ),
+    ))
+    ->Option.getOr(
+      Error({statusCode: 400, body: "Project name must be present in path parameters"}),
+    )
+  )

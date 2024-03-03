@@ -11,11 +11,8 @@ let getUser = ({?requestContext}: Event.t<'a>) =>
 
 module type Extractable = {
   type t
-  type dbRequest
   let decode: JSON.t => result<t, Spice.decodeError>
-  let toDBRequest: (~userId: string, t) => result<dbRequest, response>
 }
-
 module MakeBodyExtractor = (Body: Extractable) => {
   let extract = ({?body}: Event.t<'a>) =>
     body
@@ -34,7 +31,6 @@ module type Respondable = {
   type t
   let encode: t => JSON.t
 }
-
 module MakeBodyResponder = (Body: Respondable) => {
   let createResponse = (~dbItem: option<Body.t>=?) =>
     dbItem
