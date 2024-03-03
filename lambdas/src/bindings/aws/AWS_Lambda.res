@@ -33,8 +33,6 @@ type response = {
   body: string,
 }
 
-type handler<'a> = (
-  ~event: Event.t<'a>,
-  ~context: Context.t,
-  ~callback: callback,
-) => promise<response>
+type handler<'a> = Event.t<'a> => promise<response>
+type handlerWithContext<'a> = (Event.t<'a>, Context.t) => promise<response>
+type handlerWithContextAndCallback<'a> = (Event.t<'a>, Context.t, callback) => promise<response>

@@ -14,7 +14,7 @@ module DBItem = {
 }
 module DBSaver = Utils.DynamoDB.DBSaver(DBItem)
 
-let handler: AWS.Lambda.handler<'a> = async (~event, ~context as _, ~callback as _) =>
+let handler: AWS.Lambda.handler<'a> = async event =>
   switch event
   ->getUser
   ->Result.flatMap(userId =>
