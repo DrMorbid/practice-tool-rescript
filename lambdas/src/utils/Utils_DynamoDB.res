@@ -58,7 +58,7 @@ module DBDeleter = (Delete: Deletable) => {
 
     Console.log2("Delete result is %o", result)
 
-    {statusCode: 200, body: "Saved successfully"}
+    {statusCode: 200, body: "Deleted successfully"}
   }
 }
 
