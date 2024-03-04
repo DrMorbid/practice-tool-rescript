@@ -67,7 +67,11 @@ module DynamoDB = {
       ],
     }
     type query<'a> = {input?: queryCommandInput<'a>}
-    type queryResult
+    type queryResult<'a> = {
+      @as("Count") count: int,
+      @as("Items") items: array<'a>,
+      @as("ScannedCount") scannedCount: int,
+    }
   }
 
   module DynamoDBDocumentClient = {
@@ -92,7 +96,7 @@ module DynamoDB = {
     @send external sendPut: (t, Command.put<'a>) => promise<Command.putResult> = "send"
     @send external sendGet: (t, Command.get<'a>) => promise<Command.getResult<'b>> = "send"
     @send external sendDelete: (t, Command.delete<'a>) => promise<Command.deleteResult> = "send"
-    @send external sendQuery: (t, Command.query<'a>) => promise<Command.queryResult> = "send"
+    @send external sendQuery: (t, Command.query<'a>) => promise<Command.queryResult<'b>> = "send"
   }
 
   @module("@aws-sdk/client-dynamodb") @new

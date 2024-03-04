@@ -3,7 +3,6 @@ open Project_Type
 
 module DBKey = {
   type t = Database.key
-  type result = Database.t
   let tableName = Global.EnvVar.tableNameProjects
 }
 module DBGetter = Utils.DynamoDB.DBGetter(DBKey)
@@ -18,8 +17,8 @@ let handler: AWS.Lambda.handler<Project_Utils.projectNamePathParam> = async even
   switch event
   ->Project_Utils.getProjectTableKey
   ->Result.map(async projectTableKey => {
-    let dbItem = await projectTableKey->DBGetter.get
-    Response.createResponse(~dbItem?)
+    let dbResponse = await projectTableKey->DBGetter.get
+    Response.createResponse(~dbResponse?)
   }) {
   | Ok(result) => await result
   | Error(result) => result

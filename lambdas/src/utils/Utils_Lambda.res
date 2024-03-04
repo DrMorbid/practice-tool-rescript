@@ -32,8 +32,8 @@ module type Respondable = {
   let encode: t => JSON.t
 }
 module MakeBodyResponder = (Body: Respondable) => {
-  let createResponse = (~dbItem: option<Body.t>=?) =>
-    dbItem
+  let createResponse = (~dbResponse: option<Body.t>=?) =>
+    dbResponse
     ->Option.map(Body.encode)
     ->Option.map(bodyEncoded => {statusCode: 200, body: bodyEncoded->JSON.stringify})
     ->Option.getOr({statusCode: 404, body: "Not found in database"})

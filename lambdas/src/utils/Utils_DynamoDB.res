@@ -26,7 +26,6 @@ module DBSaver = (Body: Savable) => {
 
 module type Getable = {
   type t
-  type result
   let tableName: string
 }
 module DBGetter = (Get: Getable) => {
@@ -45,7 +44,6 @@ module DBGetter = (Get: Getable) => {
 
 module type Deletable = {
   type t
-  type result
   let tableName: string
 }
 module DBDeleter = (Delete: Deletable) => {
@@ -80,10 +78,10 @@ module DBQueryCaller = (Query: Queryable) => {
 
     Console.log3("Querying %o from DynamoDB table %s", query.input, Query.tableName)
 
-    let result = await dbClient->DynamoDBDocumentClient.sendQuery(query)
+    let {count, items} = await dbClient->DynamoDBDocumentClient.sendQuery(query)
 
-    Console.log2("Query result is %o", result)
+    Console.log2("Query returned %i items", count)
 
-    result
+    items
   }
 }

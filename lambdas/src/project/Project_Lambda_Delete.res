@@ -2,7 +2,6 @@ open Project_Type
 
 module DBKey = {
   type t = Database.key
-  type result = Database.t
   let tableName = Global.EnvVar.tableNameProjects
 }
 module DBDeleter = Utils.DynamoDB.DBDeleter(DBKey)
