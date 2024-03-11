@@ -87,6 +87,18 @@ functions:
               - openid
               - profile
               - email
+  getPracticeSession:
+    handler: src/session/Session_Lambda_Get.res.handler
+    events:
+      - httpApi:
+          path: /session/{projectName}/{exerciseCount}
+          method: GET
+          authorizer:
+            name: practiceToolAuthorizer
+            scopes:
+              - openid
+              - profile
+              - email
 
 resources:
   Resources:

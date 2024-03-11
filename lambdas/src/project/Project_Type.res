@@ -20,3 +20,5 @@ module Database = {
     projectName: string,
   }
 }
+
+type projectNamePathParam = {name: string}
