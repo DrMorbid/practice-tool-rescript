@@ -6,4 +6,4 @@ let getSessionConfiguration: Event.t<sessionConfigurationPathParam> => result<
   response,
 >
 
-let createSession: practiceSession => practiceSession
+let createSession: practiceSessionRequest => practiceSession

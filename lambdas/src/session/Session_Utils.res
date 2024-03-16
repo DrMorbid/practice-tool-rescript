@@ -18,7 +18,7 @@ let getSessionConfiguration = event =>
     )
   )
 
-let createSession = ({projectTableKey}) => {
+let createSession = ({projectTableKey}: practiceSessionRequest) => {
   projectTableKey,
   exercises: list{},
   topPriorityExercises: list{},

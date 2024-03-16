@@ -4,9 +4,13 @@
   "scripts": {
     "res:build": "rescript",
     "res:dev": "rescript clean && rescript -w",
-    "deploy": "serverless deploy"
+    "deploy": "serverless deploy",
+    "test": "jest",
+    "test:watch": "jest --watchAll"
   },
   "devDependencies": {
+    "@greenlabs/rescript-jest": "^28.1.0",
+    "jest": "^28.1.3",
     "serverless": "^3.38.0"
   },
   "dependencies": {
