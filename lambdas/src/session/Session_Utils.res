@@ -17,3 +17,9 @@ let getSessionConfiguration = event =>
       Error({statusCode: 400, body: "Project name must be present in path parameters"}),
     )
   )
+
+let createSession = ({projectTableKey}) => {
+  projectTableKey,
+  exercises: list{},
+  topPriorityExercises: list{},
+}
