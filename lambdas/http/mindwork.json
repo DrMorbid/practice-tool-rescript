@@ -6,8 +6,8 @@
       "exerciseName": "Causality (The Reconcilliation)",
       "active": true,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%",
+      "slowTempo": 75,
+      "fastTempo": 100,
       "lastPracticed": {
         "date": "2024-02-23T20:43:43Z",
         "tempo": "SLOW"
@@ -17,8 +17,8 @@
       "exerciseName": "Depersonalized",
       "active": false,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%",
+      "slowTempo": 75,
+      "fastTempo": 100,
       "lastPracticed": {
         "date": "2024-02-23T20:43:43Z",
         "tempo": "FAST"
@@ -28,8 +28,8 @@
       "exerciseName": "Enter Eterea",
       "active": false,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%",
+      "slowTempo": 75,
+      "fastTempo": 100,
       "lastPracticed": {
         "date": "2024-02-22T20:43:43Z",
         "tempo": "SLOW"
@@ -39,8 +39,8 @@
       "exerciseName": "Grinding the Edges",
       "active": false,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%",
+      "slowTempo": 75,
+      "fastTempo": 100,
       "lastPracticed": {
         "date": "2024-02-22T20:43:43Z",
         "tempo": "FAST"
@@ -50,71 +50,71 @@
       "exerciseName": "Heartfelt",
       "active": true,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%"
+      "slowTempo": 75,
+      "fastTempo": 100
     },
     {
       "exerciseName": "Heartfelt 3",
       "active": true,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%"
+      "slowTempo": 75,
+      "fastTempo": 100
     },
     {
       "exerciseName": "Intro",
       "active": true,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%"
+      "slowTempo": 75,
+      "fastTempo": 100
     },
     {
       "exerciseName": "Last Lie Told",
       "active": false,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%"
+      "slowTempo": 75,
+      "fastTempo": 100
     },
     {
       "exerciseName": "Mind Renewal",
       "active": true,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%"
+      "slowTempo": 75,
+      "fastTempo": 100
     },
     {
       "exerciseName": "Party's Over (Talk Talk cover)",
       "active": true,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%"
+      "slowTempo": 75,
+      "fastTempo": 100
     },
     {
       "exerciseName": "Perceiving The Reality",
       "active": false,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%"
+      "slowTempo": 75,
+      "fastTempo": 100
     },
     {
       "exerciseName": "The Stream Of Causality",
       "active": false,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%"
+      "slowTempo": 75,
+      "fastTempo": 100
     },
     {
       "exerciseName": "Twisted Priorities",
       "active": false,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%"
+      "slowTempo": 75,
+      "fastTempo": 100
     },
     {
       "exerciseName": "With Faith On My Side",
       "active": true,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%"
+      "slowTempo": 75,
+      "fastTempo": 100
     }
   ]
 }

@@ -2,8 +2,8 @@ open Session_Type
 open AWS.Lambda
 
 let getSessionConfiguration: Event.t<sessionConfigurationPathParam> => result<
-  practiceSessionRequest,
+  practiceSessionDBRequest,
   response,
 >
 
-let createSession: practiceSessionRequest => practiceSession
+let createSession: practiceSessionCreatorRequest => practiceSession

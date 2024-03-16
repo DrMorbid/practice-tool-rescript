@@ -3,8 +3,9 @@ open Project_Type
 open Project_Utils
 
 module GetProjectResponse = {
-  type t = Database.t
-  let encode = Database.t_encode
+  @spice
+  type t = Database.Get.t
+  let encode = t_encode
 }
 module Response = MakeBodyResponder(GetProjectResponse)
 

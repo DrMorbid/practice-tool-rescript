@@ -3,7 +3,7 @@ open Project_Type
 open Utils.Lambda
 
 let toDBSaveItem = (~userId, {?projectName, ?active, exercises: ?inputExercises}): result<
-  Database.t,
+  Database.Save.t,
   response,
 > => {
   let exercises =
@@ -14,7 +14,7 @@ let toDBSaveItem = (~userId, {?projectName, ?active, exercises: ?inputExercises}
   } else {
     projectName
     ->Utils.String.toNotBlank
-    ->Option.map((projectName): result<Database.t, 'a> => Ok({
+    ->Option.map((projectName): result<Database.Save.t, 'a> => Ok({
       userId,
       projectName,
       active: active->Option.getOr(false),

@@ -1,9 +1,13 @@
+open Project.Type
+
 type sessionConfigurationPathParam = {projectName: string, exerciseCount: int}
 
-type practiceSessionRequest = {projectTableKey: Project.Type.Database.key, exerciseCount: int}
+type practiceSessionDBRequest = {projectTableKey: Database.key, exerciseCount: int}
+
+type practiceSessionCreatorRequest = {project: Database.Get.t, exerciseCount: int}
 
 type practiceSession = {
-  projectTableKey: Project.Type.Database.key,
-  exercises: list<Exercise.Type.t>,
-  topPriorityExercises: list<Exercise.Type.t>,
+  projectName: string,
+  exercises: list<Exercise.Type.toPractice>,
+  topPriorityExercises: list<Exercise.Type.toPractice>,
 }

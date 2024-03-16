@@ -6,8 +6,8 @@
       "exerciseName": "Distortion Of Reality",
       "active": true,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%",
+      "slowTempo": 75,
+      "fastTempo": 100,
       "lastPracticed": {
         "date": "2024-02-23T20:43:43Z",
         "tempo": "SLOW"
@@ -17,8 +17,8 @@
       "exerciseName": "Energy Of Wishes",
       "active": true,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%",
+      "slowTempo": 75,
+      "fastTempo": 100,
       "lastPracticed": {
         "date": "2024-02-23T20:43:43Z",
         "tempo": "FAST"
@@ -28,8 +28,8 @@
       "exerciseName": "Gravitational Collapse",
       "active": true,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%",
+      "slowTempo": 75,
+      "fastTempo": 100,
       "lastPracticed": {
         "date": "2024-02-22T20:43:43Z",
         "tempo": "SLOW"
@@ -39,8 +39,8 @@
       "exerciseName": "Immersion Into The Unknown",
       "active": true,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%",
+      "slowTempo": 75,
+      "fastTempo": 100,
       "lastPracticed": {
         "date": "2024-02-22T20:43:43Z",
         "tempo": "FAST"
@@ -50,50 +50,50 @@
       "exerciseName": "Heartfelt",
       "active": true,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%"
+      "slowTempo": 75,
+      "fastTempo": 100
     },
     {
       "exerciseName": "Inside",
       "active": true,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%"
+      "slowTempo": 75,
+      "fastTempo": 100
     },
     {
       "exerciseName": "Reckoning",
       "active": true,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%"
+      "slowTempo": 75,
+      "fastTempo": 100
     },
     {
       "exerciseName": "Sleepwalking",
       "active": true,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%"
+      "slowTempo": 75,
+      "fastTempo": 100
     },
     {
       "exerciseName": "Time Dilation",
       "active": false,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%"
+      "slowTempo": 75,
+      "fastTempo": 100
     },
     {
       "exerciseName": "Walk",
       "active": true,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%"
+      "slowTempo": 75,
+      "fastTempo": 100
     },
     {
       "exerciseName": "Waves Of Consciousness",
       "active": true,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%"
+      "slowTempo": 75,
+      "fastTempo": 100
     }
   ]
 }

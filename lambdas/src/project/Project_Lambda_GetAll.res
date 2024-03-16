@@ -8,7 +8,7 @@ module DBQueryCaller = Utils.DynamoDB.DBQueryCaller(DBQuery)
 
 module GetAllProjectsResponse = {
   @spice
-  type t = array<Database.t>
+  type t = array<Database.Get.t>
   let encode = t_encode
 }
 module Response = MakeBodyResponder(GetAllProjectsResponse)

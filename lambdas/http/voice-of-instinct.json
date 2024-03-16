@@ -6,8 +6,8 @@
       "exerciseName": "Again",
       "active": true,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%",
+      "slowTempo": 75,
+      "fastTempo": 100,
       "lastPracticed": {
         "date": "2024-02-23T20:43:43Z",
         "tempo": "SLOW"
@@ -17,8 +17,8 @@
       "exerciseName": "Evanescence",
       "active": false,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%",
+      "slowTempo": 75,
+      "fastTempo": 100,
       "lastPracticed": {
         "date": "2024-02-23T20:43:43Z",
         "tempo": "FAST"
@@ -28,8 +28,8 @@
       "exerciseName": "Look At Yourself",
       "active": true,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%",
+      "slowTempo": 75,
+      "fastTempo": 100,
       "lastPracticed": {
         "date": "2024-02-22T20:43:43Z",
         "tempo": "SLOW"
@@ -39,8 +39,8 @@
       "exerciseName": "Nová Píseň",
       "active": true,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%",
+      "slowTempo": 75,
+      "fastTempo": 100,
       "lastPracticed": {
         "date": "2024-02-22T20:43:43Z",
         "tempo": "FAST"
@@ -50,22 +50,22 @@
       "exerciseName": "On Your Side",
       "active": true,
       "topPriority": true,
-      "slowTempo": "75%",
-      "fastTempo": "100%"
+      "slowTempo": 75,
+      "fastTempo": 100
     },
     {
       "exerciseName": "The Winner Takes It All",
       "active": true,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%"
+      "slowTempo": 75,
+      "fastTempo": 100
     },
     {
       "exerciseName": "Veselá",
       "active": true,
       "topPriority": false,
-      "slowTempo": "75%",
-      "fastTempo": "100%"
+      "slowTempo": 75,
+      "fastTempo": 100
     }
   ]
 }

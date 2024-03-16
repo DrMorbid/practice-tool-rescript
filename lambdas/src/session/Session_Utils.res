@@ -5,7 +5,7 @@ open Session_Type
 let getSessionConfiguration = event =>
   event
   ->getUser
-  ->Result.flatMap((userId): result<practiceSessionRequest, response> =>
+  ->Result.flatMap((userId): result<practiceSessionDBRequest, response> =>
     event.pathParameters
     ->Option.flatMap(({projectName, exerciseCount}) =>
       Some({name: projectName})
@@ -18,8 +18,8 @@ let getSessionConfiguration = event =>
     )
   )
 
-let createSession = ({projectTableKey}: practiceSessionRequest) => {
-  projectTableKey,
+let createSession = ({project}) => {
+  projectName: project.projectName,
   exercises: list{},
   topPriorityExercises: list{},
 }

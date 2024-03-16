@@ -1,2 +1,2 @@
-let defaultSlowTempo = "100%"
-let defaultFastTempo = "100%"
+let defaultSlowTempo = 75
+let defaultFastTempo = 100

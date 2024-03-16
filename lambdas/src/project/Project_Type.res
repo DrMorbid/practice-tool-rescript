@@ -7,12 +7,24 @@ type t = {
 }
 
 module Database = {
-  @spice
-  type t = {
-    userId: string,
-    projectName: string,
-    active: bool,
-    exercises: array<Exercise.Type.Database.t>,
+  module Save = {
+    @spice
+    type t = {
+      userId: string,
+      projectName: string,
+      active: bool,
+      exercises: array<Exercise.Type.Database.Save.t>,
+    }
+  }
+
+  module Get = {
+    @spice
+    type t = {
+      userId: string,
+      projectName: string,
+      active: bool,
+      exercises: array<Exercise.Type.Database.Get.t>,
+    }
   }
 
   type key = {

@@ -6,7 +6,7 @@ let handler: handler<sessionConfigurationPathParam> = async event =>
   switch event
   ->Session_Utils.getSessionConfiguration
   ->Result.map(async ({projectTableKey, exerciseCount}) => {
-    let dbResponse = await projectTableKey->DBGetter.get
+    let dbResponse: option<Project.Type.Database.Get.t> = await projectTableKey->DBGetter.get
     Console.log3(
       "Got project %o, will prepare practice session with %i exercises",
       dbResponse,
