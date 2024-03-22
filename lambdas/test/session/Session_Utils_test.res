@@ -114,7 +114,7 @@ describe("Session Utilities", () => {
     )
 
     test(
-      "Given project has 2 active exercises, when I request 2 exercises, then it returns 2 exercises to practice",
+      "Given project has 2 active exercises, when non of them was ever practiced and I request 2 exercises, then it returns 2 exercises to practice with correct tempos",
       () => {
         expect(
           Session.Utils.createSession({
@@ -133,6 +133,13 @@ describe("Session Utilities", () => {
                 {
                   exerciseName: "Exercise 2",
                   active: true,
+                  topPriority: false,
+                  slowTempo: 75,
+                  fastTempo: 100,
+                },
+                {
+                  exerciseName: "Exercise 3",
+                  active: false,
                   topPriority: false,
                   slowTempo: 75,
                   fastTempo: 100,

@@ -1,6 +1,7 @@
 open AWS.Lambda
 open Utils.Lambda
 open Session_Type
+open Exercise.Type
 
 let getSessionConfiguration = event =>
   event
@@ -18,8 +19,26 @@ let getSessionConfiguration = event =>
     )
   )
 
-let createSession = ({project}) => {
-  projectName: project.projectName,
-  exercises: list{},
-  topPriorityExercises: list{},
+let createSession = ({project: {exercises, projectName, active}, exerciseCount}) => {
+  let emptyResult = {projectName, exercises: list{}, topPriorityExercises: list{}}
+
+  if active {
+    let exercises = exercises->Array.filter(({active}) => active)
+    let neverPracticedExercises =
+      exercises->Array.filter(({?lastPracticed}) => lastPracticed->Option.isNone)
+
+    {
+      ...emptyResult,
+      exercises: neverPracticedExercises
+      ->Array.mapWithIndex(({exerciseName, fastTempo, slowTempo}, index) => {
+        exerciseName,
+        tempo: (index + 1)->Int.mod(2) == 0 ? Fast : Slow,
+        tempoValue: (index + 1)->Int.mod(2) == 0 ? fastTempo : slowTempo,
+      })
+      ->Array.slice(~start=0, ~end=exerciseCount)
+      ->List.fromArray,
+    }
+  } else {
+    emptyResult
+  }
 }

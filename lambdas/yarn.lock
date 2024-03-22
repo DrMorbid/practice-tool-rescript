@@ -143,9 +143,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/client-dynamodb@npm:^3.535.0":
-  version: 3.535.0
-  resolution: "@aws-sdk/client-dynamodb@npm:3.535.0"
+"@aws-sdk/client-dynamodb@npm:^3.538.0":
+  version: 3.538.0
+  resolution: "@aws-sdk/client-dynamodb@npm:3.538.0"
   dependencies:
     "@aws-crypto/sha256-browser": "npm:3.0.0"
     "@aws-crypto/sha256-js": "npm:3.0.0"
@@ -190,7 +190,7 @@ __metadata:
     "@smithy/util-waiter": "npm:^2.2.0"
     tslib: "npm:^2.6.2"
     uuid: "npm:^9.0.1"
-  checksum: 10c0/bb225d9cf1a81b908a50895c9e3c9164b964e5c7157af609a82b4a591e39ee70db61473b1e0282bb5a8122d9f4094dbfbde287fffd83bb367c6a88a1cc233cc1
+  checksum: 10c0/2b44c23dfa2a6a40f14fb6a5bdaed0704b458d042e8c0363cf10cf63e105f4fcb3cf063a54a35a02ed32435babacf220a48493df7f36a003730fc07381f26a55
   languageName: node
   linkType: hard
 
@@ -738,17 +738,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/lib-dynamodb@npm:^3.535.0":
-  version: 3.535.0
-  resolution: "@aws-sdk/lib-dynamodb@npm:3.535.0"
+"@aws-sdk/lib-dynamodb@npm:^3.538.0":
+  version: 3.538.0
+  resolution: "@aws-sdk/lib-dynamodb@npm:3.538.0"
   dependencies:
-    "@aws-sdk/util-dynamodb": "npm:3.535.0"
+    "@aws-sdk/util-dynamodb": "npm:3.538.0"
     "@smithy/smithy-client": "npm:^2.5.0"
     "@smithy/types": "npm:^2.12.0"
     tslib: "npm:^2.6.2"
   peerDependencies:
     "@aws-sdk/client-dynamodb": ^3.0.0
-  checksum: 10c0/3092890d93cd64f3459660ab9cf870c8f3e39ead3f79f1b3d0ee8c28a35aa23c8da64abe412d691b99940c91a8e2fbee382b14775c1a074b792d7434f7bbf1f4
+  checksum: 10c0/e5d0e3dec876644d2924ec2e91e6c3e1475da034e8d4e89aa37a69cf874bc6f3946d51e6a4be69744f2123d662c76b728bcf4ac021ad0c9dba1e27988f65a933
   languageName: node
   linkType: hard
 
@@ -938,14 +938,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/util-dynamodb@npm:3.535.0":
-  version: 3.535.0
-  resolution: "@aws-sdk/util-dynamodb@npm:3.535.0"
+"@aws-sdk/util-dynamodb@npm:3.538.0":
+  version: 3.538.0
+  resolution: "@aws-sdk/util-dynamodb@npm:3.538.0"
   dependencies:
     tslib: "npm:^2.6.2"
   peerDependencies:
     "@aws-sdk/client-dynamodb": ^3.0.0
-  checksum: 10c0/dbd13b50319cf1a046e51d8e742bf675ec153f0ecf4f5aa9d66523d322557ef6aa3f3bac054d3883a32b3de0fc46bf92dd09ad7e990c342c274273eac445444c
+  checksum: 10c0/c1fa2eaea3010ff4fae510ba737527630764e86a80635f0c5e3dd7b0c1a4b883e88ad0add5d0f975939d036400aeb3aa83fc51fa8026866da7955a0125a84748
   languageName: node
   linkType: hard
 
@@ -1059,6 +1059,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/code-frame@npm:^7.24.1":
+  version: 7.24.2
+  resolution: "@babel/code-frame@npm:7.24.2"
+  dependencies:
+    "@babel/highlight": "npm:^7.24.2"
+    picocolors: "npm:^1.0.0"
+  checksum: 10c0/d1d4cba89475ab6aab7a88242e1fd73b15ecb9f30c109b69752956434d10a26a52cbd37727c4eca104b6d45227bd1dfce39a6a6f4a14c9b2f07f871e968cf406
+  languageName: node
+  linkType: hard
+
 "@babel/compat-data@npm:^7.23.5":
   version: 7.23.5
   resolution: "@babel/compat-data@npm:7.23.5"
@@ -1098,6 +1108,18 @@ __metadata:
     "@jridgewell/trace-mapping": "npm:^0.3.17"
     jsesc: "npm:^2.5.1"
   checksum: 10c0/53540e905cd10db05d9aee0a5304e36927f455ce66f95d1253bb8a179f286b88fa7062ea0db354c566fe27f8bb96567566084ffd259f8feaae1de5eccc8afbda
+  languageName: node
+  linkType: hard
+
+"@babel/generator@npm:^7.24.1":
+  version: 7.24.1
+  resolution: "@babel/generator@npm:7.24.1"
+  dependencies:
+    "@babel/types": "npm:^7.24.0"
+    "@jridgewell/gen-mapping": "npm:^0.3.5"
+    "@jridgewell/trace-mapping": "npm:^0.3.25"
+    jsesc: "npm:^2.5.1"
+  checksum: 10c0/f0eea7497657cdf68cfb4b7d181588e1498eefd1f303d73b0d8ca9b21a6db27136a6f5beb8f988b6bdcd4249870826080950450fd310951de42ecf36df274881
   languageName: node
   linkType: hard
 
@@ -1232,12 +1254,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/highlight@npm:^7.24.2":
+  version: 7.24.2
+  resolution: "@babel/highlight@npm:7.24.2"
+  dependencies:
+    "@babel/helper-validator-identifier": "npm:^7.22.20"
+    chalk: "npm:^2.4.2"
+    js-tokens: "npm:^4.0.0"
+    picocolors: "npm:^1.0.0"
+  checksum: 10c0/98ce00321daedeed33a4ed9362dc089a70375ff1b3b91228b9f05e6591d387a81a8cba68886e207861b8871efa0bc997ceabdd9c90f6cce3ee1b2f7f941b42db
+  languageName: node
+  linkType: hard
+
 "@babel/parser@npm:^7.1.0, @babel/parser@npm:^7.14.7, @babel/parser@npm:^7.20.7, @babel/parser@npm:^7.24.0":
   version: 7.24.0
   resolution: "@babel/parser@npm:7.24.0"
   bin:
     parser: ./bin/babel-parser.js
   checksum: 10c0/77593d0b9de9906823c4d653bb6cda1c7593837598516330f655f70cba6224a37def7dbe5b4dad0038482d407d8d209eb8be5f48ca9a13357d769f829c5adb8e
+  languageName: node
+  linkType: hard
+
+"@babel/parser@npm:^7.24.1":
+  version: 7.24.1
+  resolution: "@babel/parser@npm:7.24.1"
+  bin:
+    parser: ./bin/babel-parser.js
+  checksum: 10c0/d2a8b99aa5f33182b69d5569367403a40e7c027ae3b03a1f81fd8ac9b06ceb85b31f6ee4267fb90726dc2ac99909c6bdaa9cf16c379efab73d8dfe85cee32c50
   languageName: node
   linkType: hard
 
@@ -1395,7 +1438,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/traverse@npm:^7.24.0, @babel/traverse@npm:^7.7.2":
+"@babel/traverse@npm:^7.24.0":
   version: 7.24.0
   resolution: "@babel/traverse@npm:7.24.0"
   dependencies:
@@ -1410,6 +1453,24 @@ __metadata:
     debug: "npm:^4.3.1"
     globals: "npm:^11.1.0"
   checksum: 10c0/55ffd2b0ce0fbd0a09051edc4def4fb1e96f35e0b100c0dc2a7429df569971ae312c290e980e423471f350961705698a257c7eea8c8304918024cc26f02468ba
+  languageName: node
+  linkType: hard
+
+"@babel/traverse@npm:^7.7.2":
+  version: 7.24.1
+  resolution: "@babel/traverse@npm:7.24.1"
+  dependencies:
+    "@babel/code-frame": "npm:^7.24.1"
+    "@babel/generator": "npm:^7.24.1"
+    "@babel/helper-environment-visitor": "npm:^7.22.20"
+    "@babel/helper-function-name": "npm:^7.23.0"
+    "@babel/helper-hoist-variables": "npm:^7.22.5"
+    "@babel/helper-split-export-declaration": "npm:^7.22.6"
+    "@babel/parser": "npm:^7.24.1"
+    "@babel/types": "npm:^7.24.0"
+    debug: "npm:^4.3.1"
+    globals: "npm:^11.1.0"
+  checksum: 10c0/c087b918f6823776537ba246136c70e7ce0719fc05361ebcbfd16f4e6f2f6f1f8f4f9167f1d9b675f27d12074839605189cc9d689de20b89a85e7c140f23daab
   languageName: node
   linkType: hard
 
@@ -1744,7 +1805,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jridgewell/trace-mapping@npm:^0.3.12, @jridgewell/trace-mapping@npm:^0.3.13, @jridgewell/trace-mapping@npm:^0.3.17, @jridgewell/trace-mapping@npm:^0.3.24":
+"@jridgewell/trace-mapping@npm:^0.3.12, @jridgewell/trace-mapping@npm:^0.3.13, @jridgewell/trace-mapping@npm:^0.3.17, @jridgewell/trace-mapping@npm:^0.3.24, @jridgewell/trace-mapping@npm:^0.3.25":
   version: 0.3.25
   resolution: "@jridgewell/trace-mapping@npm:0.3.25"
   dependencies:
@@ -7209,8 +7270,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "practice-tool-rescript@workspace:."
   dependencies:
-    "@aws-sdk/client-dynamodb": "npm:^3.535.0"
-    "@aws-sdk/lib-dynamodb": "npm:^3.535.0"
+    "@aws-sdk/client-dynamodb": "npm:^3.538.0"
+    "@aws-sdk/lib-dynamodb": "npm:^3.538.0"
     "@greenlabs/ppx-spice": "npm:0.2.1"
     "@greenlabs/rescript-jest": "npm:^28.1.0"
     "@rescript/core": "npm:^1.1.0"
