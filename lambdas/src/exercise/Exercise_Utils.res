@@ -18,3 +18,16 @@ let toDBSaveItem = exercise =>
       }
     ),
   })
+
+let isSlow = tempo =>
+  switch tempo {
+  | Slow => true
+  | Fast => false
+  }
+
+let switchTempo = ({exerciseName, slowTempo, fastTempo, ?lastPracticed}: Database.Get.t) =>
+  lastPracticed->Option.map(({tempo: lastPracticedTempo}) => {
+    exerciseName,
+    tempo: lastPracticedTempo->isSlow ? Fast : Slow,
+    tempoValue: lastPracticedTempo->isSlow ? fastTempo : slowTempo,
+  })
