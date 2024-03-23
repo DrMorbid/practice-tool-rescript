@@ -114,6 +114,90 @@ describe("Session Utilities", () => {
     )
 
     test(
+      "Given any project, when I request odd number of exercises, then it returns no exercises to practice",
+      () => {
+        expect(
+          Session.Utils.createSession({
+            project: {
+              userId: "abc",
+              projectName: "My Project",
+              active: true,
+              exercises: [
+                {
+                  exerciseName: "Exercise 1",
+                  active: true,
+                  topPriority: false,
+                  slowTempo: 75,
+                  fastTempo: 100,
+                  lastPracticed: {
+                    date: Js.Date.fromString("2024-03-10T21:30:54.321Z00:00"),
+                    tempo: Slow,
+                  },
+                },
+                {
+                  exerciseName: "Exercise 2",
+                  active: true,
+                  topPriority: false,
+                  slowTempo: 50,
+                  fastTempo: 75,
+                },
+                {
+                  exerciseName: "Exercise 3",
+                  active: true,
+                  topPriority: false,
+                  slowTempo: 75,
+                  fastTempo: 100,
+                  lastPracticed: {
+                    date: Js.Date.fromString("2024-03-10T21:30:54.321Z00:00"),
+                    tempo: Fast,
+                  },
+                },
+                {
+                  exerciseName: "Exercise 4",
+                  active: true,
+                  topPriority: false,
+                  slowTempo: 75,
+                  fastTempo: 100,
+                  lastPracticed: {
+                    date: Js.Date.fromString("2024-03-11T21:30:54.321Z00:00"),
+                    tempo: Slow,
+                  },
+                },
+                {
+                  exerciseName: "Exercise 5",
+                  active: true,
+                  topPriority: false,
+                  slowTempo: 75,
+                  fastTempo: 100,
+                  lastPracticed: {
+                    date: Js.Date.fromString("2024-03-11T21:30:54.321Z00:00"),
+                    tempo: Fast,
+                  },
+                },
+                {
+                  exerciseName: "Exercise 6",
+                  active: true,
+                  topPriority: false,
+                  slowTempo: 75,
+                  fastTempo: 100,
+                  lastPracticed: {
+                    date: Js.Date.fromString("2024-03-12T21:30:54.321Z00:00"),
+                    tempo: Slow,
+                  },
+                },
+              ],
+            },
+            exerciseCount: 3,
+          }),
+        )->toEqual({
+          projectName: "My Project",
+          exercises: list{},
+          topPriorityExercises: list{},
+        })
+      },
+    )
+
+    test(
       "Given project has 2 active exercises, when none of them has ever been practiced and I request 2 exercises, then it returns 2 exercises to practice with correct tempos",
       () => {
         expect(
