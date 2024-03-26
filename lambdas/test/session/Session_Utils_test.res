@@ -356,7 +356,7 @@ describe("Session Utilities", () => {
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
-                  fastTempo: 100,
+                  fastTempo: 75,
                 },
                 {
                   exerciseName: "Exercise 3",
@@ -374,7 +374,7 @@ describe("Session Utilities", () => {
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
-                  fastTempo: 100,
+                  fastTempo: 75,
                   lastPracticed: {
                     date: Js.Date.fromString("2024-03-11T21:30:54.321Z00:00"),
                     tempo: Fast,
@@ -396,7 +396,7 @@ describe("Session Utilities", () => {
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
-                  fastTempo: 75,
+                  fastTempo: 100,
                 },
               ],
             },
@@ -406,9 +406,9 @@ describe("Session Utilities", () => {
           projectName: "My Project",
           exercises: list{
             {exerciseName: "Exercise 2", tempo: Slow, tempoValue: 75},
-            {exerciseName: "Exercise 6", tempo: Fast, tempoValue: 75},
+            {exerciseName: "Exercise 6", tempo: Fast, tempoValue: 100},
             {exerciseName: "Exercise 1", tempo: Slow, tempoValue: 75},
-            {exerciseName: "Exercise 4", tempo: Fast, tempoValue: 100},
+            {exerciseName: "Exercise 4", tempo: Fast, tempoValue: 75},
           },
           topPriorityExercises: list{},
         })
