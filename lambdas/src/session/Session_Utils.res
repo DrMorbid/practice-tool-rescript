@@ -23,7 +23,7 @@ let getSessionConfiguration = event =>
 let createSession = ({project: {exercises, projectName, active}, exerciseCount}) => {
   let emptyResult = {projectName, exercises: list{}, topPriorityExercises: list{}}
 
-  if active {
+  if active && exerciseCount->Int.mod(2) == 0 {
     // Prepare input
     let exercises = exercises->Array.filter(({active}) => active)
     let neverPracticedExercises =
