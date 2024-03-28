@@ -502,5 +502,74 @@ describe("Session Utilities", () => {
         })
       },
     )
+
+    test(
+      "Given project has 4 active exercises, when the oldest was practiced on the slow tempo and I request 2 exercises, then it returns the 2 exercises in the correct order",
+      () => {
+        expect(
+          Session.Utils.createSession({
+            project: {
+              userId: "abc",
+              projectName: "My Project",
+              active: true,
+              exercises: [
+                {
+                  exerciseName: "Exercise 1",
+                  active: true,
+                  topPriority: false,
+                  slowTempo: 50,
+                  fastTempo: 75,
+                  lastPracticed: {
+                    date: Js.Date.fromString("2024-03-10T21:30:54.321Z00:00"),
+                    tempo: Slow,
+                  },
+                },
+                {
+                  exerciseName: "Exercise 2",
+                  active: true,
+                  topPriority: false,
+                  slowTempo: 75,
+                  fastTempo: 75,
+                  lastPracticed: {
+                    date: Js.Date.fromString("2024-03-11T21:30:54.321Z00:00"),
+                    tempo: Slow,
+                  },
+                },
+                {
+                  exerciseName: "Exercise 3",
+                  active: true,
+                  topPriority: false,
+                  slowTempo: 75,
+                  fastTempo: 100,
+                  lastPracticed: {
+                    date: Js.Date.fromString("2024-03-11T21:30:54.321Z00:00"),
+                    tempo: Fast,
+                  },
+                },
+                {
+                  exerciseName: "Exercise 4",
+                  active: true,
+                  topPriority: false,
+                  slowTempo: 50,
+                  fastTempo: 75,
+                  lastPracticed: {
+                    date: Js.Date.fromString("2024-03-12T21:30:54.321Z00:00"),
+                    tempo: Slow,
+                  },
+                },
+              ],
+            },
+            exerciseCount: 2,
+          }),
+        )->toEqual({
+          projectName: "My Project",
+          exercises: list{
+            {exerciseName: "Exercise 3", tempo: Slow, tempoValue: 75},
+            {exerciseName: "Exercise 1", tempo: Fast, tempoValue: 75},
+          },
+          topPriorityExercises: list{},
+        })
+      },
+    )
   })
 })
