@@ -20,45 +20,87 @@ let getSessionConfiguration = event =>
     )
   )
 
+let rec addMore = (
+  ~exerciseCount,
+  ~tempo,
+  ~exercisesToBePracticedSlow,
+  ~exercisesToBePracticedFast,
+  result,
+) => {
+  if (
+    exerciseCount == 0 ||
+      (exercisesToBePracticedSlow->List.length == 0 && exercisesToBePracticedFast->List.length == 0)
+  ) {
+    result
+  } else {
+    let (nextToPractice, takenFromTempo) = if tempo == Slow {
+      if exercisesToBePracticedSlow->List.head->Option.isNone {
+        (exercisesToBePracticedFast->List.head->convertOption(~tempo), Fast)
+      } else {
+        (exercisesToBePracticedSlow->List.head->convertOption(~tempo), Slow)
+      }
+    } else if exercisesToBePracticedFast->List.head->Option.isNone {
+      (exercisesToBePracticedSlow->List.head->convertOption(~tempo), Slow)
+    } else {
+      (exercisesToBePracticedFast->List.head->convertOption(~tempo), Fast)
+    }
+
+    nextToPractice
+    ->Option.map(nextToPractice => result->Array.concat([nextToPractice]))
+    ->Option.getOr(result)
+    ->addMore(
+      ~exerciseCount=exerciseCount - 1,
+      ~tempo=tempo == Slow ? Fast : Slow,
+      ~exercisesToBePracticedSlow=takenFromTempo == Slow
+        ? exercisesToBePracticedSlow->List.tail->Option.getOr(list{})
+        : exercisesToBePracticedSlow,
+      ~exercisesToBePracticedFast=takenFromTempo == Fast
+        ? exercisesToBePracticedFast->List.tail->Option.getOr(list{})
+        : exercisesToBePracticedFast,
+    )
+  }
+}
+
 let createSession = ({project: {exercises, projectName, active}, exerciseCount}) => {
   let emptyResult = {projectName, exercises: list{}, topPriorityExercises: list{}}
 
   if active && exerciseCount->Int.mod(2) == 0 {
     // Prepare input
     let exercises = exercises->Array.filter(({active}) => active)
-    let neverPracticedExercises =
-      exercises->Array.filter(({?lastPracticed}) => lastPracticed->Option.isNone)
-    let alreadyPracticedExercises =
-      exercises
-      ->Array.filter(({?lastPracticed}) => lastPracticed->Option.isSome)
-      ->Array.toSorted((exercise1, exercise2) =>
-        exercise1.lastPracticed->Option.compare(exercise2.lastPracticed, (
-          lastPracticed1,
-          lastPracticed2,
-        ) => lastPracticed1.date->Date.compare(lastPracticed2.date))
-      )
 
-    // Calculate output
-    let calculatedNeverPracticedExercises =
+    let neverPracticedExercises =
+      exercises
+      ->Array.filter(({?lastPracticed}) => lastPracticed->Option.isNone)
+      ->sortByLastPracticedDateDate
+    let exercisesToBePracticedSlow =
+      exercises
+      ->Array.filter(({?lastPracticed}) =>
+        lastPracticed->Option.map(({tempo}) => tempo == Fast)->Option.getOr(false)
+      )
+      ->sortByLastPracticedDateDate
+      ->List.fromArray
+    let exercisesToBePracticedFast =
+      exercises
+      ->Array.filter(({?lastPracticed}) =>
+        lastPracticed->Option.map(({tempo}) => tempo == Slow)->Option.getOr(false)
+      )
+      ->sortByLastPracticedDateDate
+      ->List.fromArray
+
+    // Prepare output
+    let exercises =
       neverPracticedExercises
       ->Array.slice(~start=0, ~end=exerciseCount)
-      ->Array.mapWithIndex(({exerciseName, fastTempo, slowTempo}, index) => {
-        exerciseName,
-        tempo: (index + 1)->Int.mod(2) == 0 ? Fast : Slow,
-        tempoValue: (index + 1)->Int.mod(2) == 0 ? fastTempo : slowTempo,
-      })
-      ->List.fromArray
-    let exercises = if calculatedNeverPracticedExercises->List.size < exerciseCount {
-      calculatedNeverPracticedExercises->List.concat(
-        alreadyPracticedExercises
-        ->Array.slice(~start=0, ~end=exerciseCount - calculatedNeverPracticedExercises->List.size)
-        ->Array.map(switchTempo)
-        ->Array.keepSome
-        ->List.fromArray,
+      ->Array.mapWithIndex((exercise, index) =>
+        exercise->convert(~tempo=(index + 1)->Int.mod(2) == 0 ? Fast : Slow)
       )
-    } else {
-      calculatedNeverPracticedExercises
-    }
+      ->addMore(
+        ~exerciseCount=exerciseCount - neverPracticedExercises->Array.length,
+        ~tempo=neverPracticedExercises->Array.length->Int.mod(2) == 0 ? Slow : Fast,
+        ~exercisesToBePracticedSlow,
+        ~exercisesToBePracticedFast,
+      )
+      ->List.fromArray
 
     let result = {...emptyResult, exercises}
     Console.log3(
