@@ -64,7 +64,8 @@ let rec addMore = (
 let createSession = ({project: {exercises, projectName, active}, exerciseCount}) => {
   let emptyResult = {projectName, exercises: list{}, topPriorityExercises: list{}}
 
-  if active && exerciseCount->Int.mod(2) == 0 {
+  if active {
+    let exerciseCount = exerciseCount->Int.mod(2) == 0 ? exerciseCount : exerciseCount - 1
     // Prepare input
     let exercises = exercises->Array.filter(({active}) => active)
 

@@ -114,7 +114,7 @@ describe("Session Utilities", () => {
     )
 
     test(
-      "Given any project, when I request odd number of exercises, then it returns no exercises to practice",
+      "Given project has 6 active exercises, when only one has never been practiced and I request odd number of exercises, then it returns exercises as if I requested n - 1",
       () => {
         expect(
           Session.Utils.createSession({
@@ -191,7 +191,10 @@ describe("Session Utilities", () => {
           }),
         )->toEqual({
           projectName: "My Project",
-          exercises: list{},
+          exercises: list{
+            {exerciseName: "Exercise 2", tempo: Slow, tempoValue: 50},
+            {exerciseName: "Exercise 1", tempo: Fast, tempoValue: 100},
+          },
           topPriorityExercises: list{},
         })
       },
