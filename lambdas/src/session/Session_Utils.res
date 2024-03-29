@@ -21,8 +21,8 @@ let getSessionConfiguration = event =>
   )
 
 let rec addMore = (
+  ~tempo=?,
   ~exerciseCount,
-  ~tempo,
   ~exercisesToBePracticedSlow,
   ~exercisesToBePracticedFast,
   result,
@@ -33,16 +33,25 @@ let rec addMore = (
   ) {
     result
   } else {
-    let (nextToPractice, takenFromTempo) = if tempo == Slow {
-      if exercisesToBePracticedSlow->List.head->Option.isNone {
-        (exercisesToBePracticedFast->List.head->convertOption(~tempo), Fast)
-      } else {
+    let (nextToPractice, takenFromTempo) = switch tempo {
+    | Some(tempo) =>
+      if tempo == Slow {
+        if exercisesToBePracticedSlow->List.head->Option.isNone {
+          (exercisesToBePracticedFast->List.head->convertOption(~tempo), Fast)
+        } else {
+          (exercisesToBePracticedSlow->List.head->convertOption(~tempo), Slow)
+        }
+      } else if exercisesToBePracticedFast->List.head->Option.isNone {
         (exercisesToBePracticedSlow->List.head->convertOption(~tempo), Slow)
+      } else {
+        (exercisesToBePracticedFast->List.head->convertOption(~tempo), Fast)
       }
-    } else if exercisesToBePracticedFast->List.head->Option.isNone {
-      (exercisesToBePracticedSlow->List.head->convertOption(~tempo), Slow)
-    } else {
-      (exercisesToBePracticedFast->List.head->convertOption(~tempo), Fast)
+    | None =>
+      if exercisesToBePracticedSlow->List.head->Option.isNone {
+        (exercisesToBePracticedFast->List.head->convertOption(~tempo=Fast), Fast)
+      } else {
+        (exercisesToBePracticedSlow->List.head->convertOption(~tempo=Slow), Slow)
+      }
     }
 
     nextToPractice
@@ -50,7 +59,7 @@ let rec addMore = (
     ->Option.getOr(result)
     ->addMore(
       ~exerciseCount=exerciseCount - 1,
-      ~tempo=tempo == Slow ? Fast : Slow,
+      ~tempo=tempo->Option.map(tempo => tempo == Slow ? Fast : Slow)->Option.getOr(Fast),
       ~exercisesToBePracticedSlow=takenFromTempo == Slow
         ? exercisesToBePracticedSlow->List.tail->Option.getOr(list{})
         : exercisesToBePracticedSlow,
@@ -86,23 +95,30 @@ let getExercisesToBePracticedFast = (~onlyTopPriority=false, exercises: array<Da
   ->List.fromArray
 
 let pickExercisesToBePracticed = (
+  ~topPriority=false,
   ~neverPracticedExercises,
   ~exercisesToBePracticedSlow,
   ~exercisesToBePracticedFast,
   ~exerciseCount,
-) =>
+) => {
+  let neverPracticedCount = neverPracticedExercises->Array.length
   neverPracticedExercises
   ->Array.slice(~start=0, ~end=exerciseCount)
   ->Array.mapWithIndex((exercise, index) =>
     exercise->convert(~tempo=(index + 1)->Int.mod(2) == 0 ? Fast : Slow)
   )
   ->addMore(
-    ~exerciseCount=exerciseCount - neverPracticedExercises->Array.length,
-    ~tempo=neverPracticedExercises->Array.length->Int.mod(2) == 0 ? Slow : Fast,
+    ~exerciseCount=exerciseCount - neverPracticedCount,
+    ~tempo=?neverPracticedCount == 0 && topPriority
+      ? None
+      : neverPracticedCount->Int.mod(2) == 0
+      ? Some(Slow)
+      : Some(Fast),
     ~exercisesToBePracticedSlow,
     ~exercisesToBePracticedFast,
   )
   ->List.fromArray
+}
 
 let createSession = ({project: {exercises, projectName, active}, exerciseCount}) => {
   let emptyResult = {projectName, exercises: list{}, topPriorityExercises: list{}}
@@ -129,6 +145,7 @@ let createSession = ({project: {exercises, projectName, active}, exerciseCount})
       ~exercisesToBePracticedSlow=topPriorityExercisesToBePracticedSlow,
       ~exercisesToBePracticedFast=topPriorityExercisesToBePracticedFast,
       ~exerciseCount=exercises->Array.filter(({topPriority}) => topPriority == true)->Array.length,
+      ~topPriority=true,
     )
     let exercises = pickExercisesToBePracticed(
       ~neverPracticedExercises,
