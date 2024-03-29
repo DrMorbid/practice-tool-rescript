@@ -14,7 +14,7 @@ let handler: AWS.Lambda.handler<projectNamePathParam> = async event =>
   ->getProjectTableKey
   ->Result.map(async projectTableKey => {
     let dbResponse = await projectTableKey->DBGetter.get
-    Response.createResponse(~dbResponse?)
+    dbResponse->Response.create
   }) {
   | Ok(result) => await result
   | Error(result) => result

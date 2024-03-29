@@ -1,6 +1,15 @@
 open AWS.Lambda
 open Session_Type
-open Project_Utils
+open Project.Utils
+open Session_Utils
+open Utils.Lambda
+
+module GetProjectResponse = {
+  @spice
+  type t = practiceSession
+  let encode = t_encode
+}
+module Response = MakeBodyResponder(GetProjectResponse)
 
 let handler: handler<sessionConfigurationPathParam> = async event =>
   switch event
@@ -12,7 +21,10 @@ let handler: handler<sessionConfigurationPathParam> = async event =>
       dbResponse,
       exerciseCount,
     )
-    {statusCode: 200, body: "Go practice!"}
+
+    dbResponse
+    ->Option.map(project => {project, exerciseCount}->createSession)
+    ->Response.create
   }) {
   | Ok(result) => await result
   | Error(result) => result
