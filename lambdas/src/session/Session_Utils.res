@@ -4,6 +4,15 @@ open Session_Type
 open Exercise.Type
 open Exercise.Utils
 
+type sessionCalculationInput = {
+  neverPracticedTopPriorityExercises: array<Database.Get.t>,
+  topPriorityExercisesToBePracticedSlow: list<Database.Get.t>,
+  topPriorityExercisesToBePracticedFast: list<Database.Get.t>,
+  neverPracticedExercises: array<Database.Get.t>,
+  exercisesToBePracticedSlow: list<Database.Get.t>,
+  exercisesToBePracticedFast: list<Database.Get.t>,
+}
+
 let getSessionConfiguration = event =>
   event
   ->getUser
@@ -20,7 +29,7 @@ let getSessionConfiguration = event =>
     )
   )
 
-let rec addMore = (
+let rec addAlreadyPracticedExercises = (
   ~tempo=?,
   ~exerciseCount,
   ~exercisesToBePracticedSlow,
@@ -57,7 +66,7 @@ let rec addMore = (
     nextToPractice
     ->Option.map(nextToPractice => result->Array.concat([nextToPractice]))
     ->Option.getOr(result)
-    ->addMore(
+    ->addAlreadyPracticedExercises(
       ~exerciseCount=exerciseCount - 1,
       ~tempo=tempo->Option.map(tempo => tempo == Slow ? Fast : Slow)->Option.getOr(Fast),
       ~exercisesToBePracticedSlow=takenFromTempo == Slow
@@ -107,7 +116,7 @@ let pickExercisesToBePracticed = (
   ->Array.mapWithIndex((exercise, index) =>
     exercise->convert(~tempo=(index + 1)->Int.mod(2) == 0 ? Fast : Slow)
   )
-  ->addMore(
+  ->addAlreadyPracticedExercises(
     ~exerciseCount=exerciseCount - neverPracticedCount,
     ~tempo=?neverPracticedCount == 0 && topPriority
       ? None
@@ -120,41 +129,64 @@ let pickExercisesToBePracticed = (
   ->List.fromArray
 }
 
+let splitForSessionCalculation = (exercises: array<Database.Get.t>) => {
+  neverPracticedTopPriorityExercises: exercises->getNeverPracticedExercises(~onlyTopPriority=true),
+  topPriorityExercisesToBePracticedSlow: exercises->getExercisesToBePracticedSlow(
+    ~onlyTopPriority=true,
+  ),
+  topPriorityExercisesToBePracticedFast: exercises->getExercisesToBePracticedFast(
+    ~onlyTopPriority=true,
+  ),
+  neverPracticedExercises: exercises->getNeverPracticedExercises,
+  exercisesToBePracticedSlow: exercises->getExercisesToBePracticedSlow,
+  exercisesToBePracticedFast: exercises->getExercisesToBePracticedFast,
+}
+
+let calculateSession = (
+  ~exercises: array<Database.Get.t>,
+  ~exerciseCount,
+  ~emptyResult,
+  {
+    neverPracticedTopPriorityExercises,
+    topPriorityExercisesToBePracticedSlow,
+    topPriorityExercisesToBePracticedFast,
+    neverPracticedExercises,
+    exercisesToBePracticedSlow,
+    exercisesToBePracticedFast,
+  },
+) => {
+  let topPriorityExercises = pickExercisesToBePracticed(
+    ~neverPracticedExercises=neverPracticedTopPriorityExercises,
+    ~exercisesToBePracticedSlow=topPriorityExercisesToBePracticedSlow,
+    ~exercisesToBePracticedFast=topPriorityExercisesToBePracticedFast,
+    ~exerciseCount=exercises->Array.filter(({topPriority}) => topPriority == true)->Array.length,
+    ~topPriority=true,
+  )
+  let exercises = pickExercisesToBePracticed(
+    ~neverPracticedExercises,
+    ~exercisesToBePracticedSlow,
+    ~exercisesToBePracticedFast,
+    ~exerciseCount,
+  )
+
+  {...emptyResult, topPriorityExercises, exercises}
+}
+
+let dealWithOddNumber = exerciseCount =>
+  exerciseCount->Int.mod(2) == 0 ? exerciseCount : exerciseCount - 1
+
 let createSession = ({project: {exercises, projectName, active}, exerciseCount}) => {
   let emptyResult = {projectName, exercises: list{}, topPriorityExercises: list{}}
 
   if active {
-    let exerciseCount = exerciseCount->Int.mod(2) == 0 ? exerciseCount : exerciseCount - 1
-    // Prepare input
+    let exerciseCount = exerciseCount->dealWithOddNumber
     let exercises = exercises->Array.filter(({active}) => active)
 
-    let neverPracticedTopPriorityExercises =
-      exercises->getNeverPracticedExercises(~onlyTopPriority=true)
-    let topPriorityExercisesToBePracticedSlow =
-      exercises->getExercisesToBePracticedSlow(~onlyTopPriority=true)
-    let topPriorityExercisesToBePracticedFast =
-      exercises->getExercisesToBePracticedFast(~onlyTopPriority=true)
+    let result =
+      exercises
+      ->splitForSessionCalculation
+      ->calculateSession(~exercises, ~exerciseCount, ~emptyResult)
 
-    let neverPracticedExercises = exercises->getNeverPracticedExercises
-    let exercisesToBePracticedSlow = exercises->getExercisesToBePracticedSlow
-    let exercisesToBePracticedFast = exercises->getExercisesToBePracticedFast
-
-    // Prepare output
-    let topPriorityExercises = pickExercisesToBePracticed(
-      ~neverPracticedExercises=neverPracticedTopPriorityExercises,
-      ~exercisesToBePracticedSlow=topPriorityExercisesToBePracticedSlow,
-      ~exercisesToBePracticedFast=topPriorityExercisesToBePracticedFast,
-      ~exerciseCount=exercises->Array.filter(({topPriority}) => topPriority == true)->Array.length,
-      ~topPriority=true,
-    )
-    let exercises = pickExercisesToBePracticed(
-      ~neverPracticedExercises,
-      ~exercisesToBePracticedSlow,
-      ~exercisesToBePracticedFast,
-      ~exerciseCount,
-    )
-
-    let result = {...emptyResult, topPriorityExercises, exercises}
     Console.log3(
       "Created practice session %s for poject %s",
       result->JSON.stringifyAnyWithIndent(2),
