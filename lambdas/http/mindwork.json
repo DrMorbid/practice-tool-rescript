@@ -1,9 +1,9 @@
 {
-  "projectName": "Mindwork",
+  "name": "Mindwork",
   "active": true,
   "exercises": [
     {
-      "exerciseName": "Causality (The Reconcilliation)",
+      "name": "Causality (The Reconcilliation)",
       "active": true,
       "topPriority": false,
       "slowTempo": 75,
@@ -14,7 +14,7 @@
       }
     },
     {
-      "exerciseName": "Depersonalized",
+      "name": "Depersonalized",
       "active": false,
       "topPriority": false,
       "slowTempo": 75,
@@ -25,7 +25,7 @@
       }
     },
     {
-      "exerciseName": "Enter Eterea",
+      "name": "Enter Eterea",
       "active": false,
       "topPriority": false,
       "slowTempo": 75,
@@ -36,7 +36,7 @@
       }
     },
     {
-      "exerciseName": "Grinding the Edges",
+      "name": "Grinding the Edges",
       "active": false,
       "topPriority": false,
       "slowTempo": 75,
@@ -47,70 +47,70 @@
       }
     },
     {
-      "exerciseName": "Heartfelt",
+      "name": "Heartfelt",
       "active": true,
       "topPriority": false,
       "slowTempo": 75,
       "fastTempo": 100
     },
     {
-      "exerciseName": "Heartfelt 3",
+      "name": "Heartfelt 3",
       "active": true,
       "topPriority": false,
       "slowTempo": 75,
       "fastTempo": 100
     },
     {
-      "exerciseName": "Intro",
+      "name": "Intro",
       "active": true,
       "topPriority": false,
       "slowTempo": 75,
       "fastTempo": 100
     },
     {
-      "exerciseName": "Last Lie Told",
+      "name": "Last Lie Told",
       "active": false,
       "topPriority": false,
       "slowTempo": 75,
       "fastTempo": 100
     },
     {
-      "exerciseName": "Mind Renewal",
+      "name": "Mind Renewal",
       "active": true,
       "topPriority": false,
       "slowTempo": 75,
       "fastTempo": 100
     },
     {
-      "exerciseName": "Party's Over (Talk Talk cover)",
+      "name": "Party's Over (Talk Talk cover)",
       "active": true,
       "topPriority": false,
       "slowTempo": 75,
       "fastTempo": 100
     },
     {
-      "exerciseName": "Perceiving The Reality",
+      "name": "Perceiving The Reality",
       "active": false,
       "topPriority": false,
       "slowTempo": 75,
       "fastTempo": 100
     },
     {
-      "exerciseName": "The Stream Of Causality",
+      "name": "The Stream Of Causality",
       "active": false,
       "topPriority": false,
       "slowTempo": 75,
       "fastTempo": 100
     },
     {
-      "exerciseName": "Twisted Priorities",
+      "name": "Twisted Priorities",
       "active": false,
       "topPriority": false,
       "slowTempo": 75,
       "fastTempo": 100
     },
     {
-      "exerciseName": "With Faith On My Side",
+      "name": "With Faith On My Side",
       "active": true,
       "topPriority": false,
       "slowTempo": 75,

@@ -110,12 +110,12 @@ resources:
         KeySchema:
           - AttributeName: userId
             KeyType: HASH
-          - AttributeName: projectName
+          - AttributeName: name
             KeyType: RANGE
         AttributeDefinitions:
           - AttributeName: userId
             AttributeType: S
-          - AttributeName: projectName
+          - AttributeName: name
             AttributeType: S
     PracticeToolHistoryTable:
       Type: AWS::DynamoDB::Table

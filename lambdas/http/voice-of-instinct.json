@@ -1,9 +1,9 @@
 {
-  "projectName": "Voice Of Instinct",
+  "name": "Voice Of Instinct",
   "active": true,
   "exercises": [
     {
-      "exerciseName": "Again",
+      "name": "Again",
       "active": true,
       "topPriority": false,
       "slowTempo": 75,
@@ -14,7 +14,7 @@
       }
     },
     {
-      "exerciseName": "Evanescence",
+      "name": "Evanescence",
       "active": false,
       "topPriority": false,
       "slowTempo": 75,
@@ -25,7 +25,7 @@
       }
     },
     {
-      "exerciseName": "Look At Yourself",
+      "name": "Look At Yourself",
       "active": true,
       "topPriority": false,
       "slowTempo": 75,
@@ -36,7 +36,7 @@
       }
     },
     {
-      "exerciseName": "Nová Píseň",
+      "name": "Nová Píseň",
       "active": true,
       "topPriority": false,
       "slowTempo": 75,
@@ -47,21 +47,21 @@
       }
     },
     {
-      "exerciseName": "On Your Side",
+      "name": "On Your Side",
       "active": true,
       "topPriority": true,
       "slowTempo": 75,
       "fastTempo": 100
     },
     {
-      "exerciseName": "The Winner Takes It All",
+      "name": "The Winner Takes It All",
       "active": true,
       "topPriority": false,
       "slowTempo": 75,
       "fastTempo": 100
     },
     {
-      "exerciseName": "Veselá",
+      "name": "Veselá",
       "active": true,
       "topPriority": false,
       "slowTempo": 75,

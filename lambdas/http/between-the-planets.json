@@ -1,9 +1,9 @@
 {
-  "projectName": "Between The Planets",
+  "name": "Between The Planets",
   "active": true,
   "exercises": [
     {
-      "exerciseName": "Distortion Of Reality",
+      "name": "Distortion Of Reality",
       "active": true,
       "topPriority": false,
       "slowTempo": 75,
@@ -14,7 +14,7 @@
       }
     },
     {
-      "exerciseName": "Energy Of Wishes",
+      "name": "Energy Of Wishes",
       "active": true,
       "topPriority": false,
       "slowTempo": 75,
@@ -25,7 +25,7 @@
       }
     },
     {
-      "exerciseName": "Gravitational Collapse",
+      "name": "Gravitational Collapse",
       "active": true,
       "topPriority": false,
       "slowTempo": 75,
@@ -36,7 +36,7 @@
       }
     },
     {
-      "exerciseName": "Immersion Into The Unknown",
+      "name": "Immersion Into The Unknown",
       "active": true,
       "topPriority": false,
       "slowTempo": 75,
@@ -47,49 +47,49 @@
       }
     },
     {
-      "exerciseName": "Heartfelt",
+      "name": "Heartfelt",
       "active": true,
       "topPriority": false,
       "slowTempo": 75,
       "fastTempo": 100
     },
     {
-      "exerciseName": "Inside",
+      "name": "Inside",
       "active": true,
       "topPriority": false,
       "slowTempo": 75,
       "fastTempo": 100
     },
     {
-      "exerciseName": "Reckoning",
+      "name": "Reckoning",
       "active": true,
       "topPriority": false,
       "slowTempo": 75,
       "fastTempo": 100
     },
     {
-      "exerciseName": "Sleepwalking",
+      "name": "Sleepwalking",
       "active": true,
       "topPriority": false,
       "slowTempo": 75,
       "fastTempo": 100
     },
     {
-      "exerciseName": "Time Dilation",
+      "name": "Time Dilation",
       "active": false,
       "topPriority": false,
       "slowTempo": 75,
       "fastTempo": 100
     },
     {
-      "exerciseName": "Walk",
+      "name": "Walk",
       "active": true,
       "topPriority": false,
       "slowTempo": 75,
       "fastTempo": 100
     },
     {
-      "exerciseName": "Waves Of Consciousness",
+      "name": "Waves Of Consciousness",
       "active": true,
       "topPriority": false,
       "slowTempo": 75,
