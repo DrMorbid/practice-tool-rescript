@@ -1,14 +1,15 @@
 open Utils.Lambda
-open Project_Type
 
 module DBQuery = {
+  type t = Project.Type.t
+  let decode = Project.Type.t_decode
   let tableName = Global.EnvVar.tableNameProjects
 }
 module DBQueryCaller = Utils.DynamoDB.DBQueryCaller(DBQuery)
 
 module GetAllProjectsResponse = {
   @spice
-  type t = array<Database.Get.t>
+  type t = array<Project_Type.t>
   let encode = t_encode
 }
 module Response = MakeBodyResponder(GetAllProjectsResponse)

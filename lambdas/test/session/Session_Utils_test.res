@@ -10,11 +10,11 @@ describe("Session Utilities", () => {
           Session.Utils.createSession({
             project: {
               userId: "abc",
-              projectName: "My Project",
+              name: "My Project",
               active: false,
               exercises: [
                 {
-                  exerciseName: "Exercise 1",
+                  name: "Exercise 1",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
@@ -25,7 +25,7 @@ describe("Session Utilities", () => {
             exerciseCount: 2,
           }),
         )->toEqual({
-          projectName: "My Project",
+          name: "My Project",
           exercises: list{},
           topPriorityExercises: list{},
         })
@@ -37,11 +37,11 @@ describe("Session Utilities", () => {
       () => {
         expect(
           Session.Utils.createSession({
-            project: {userId: "abc", projectName: "My Project", active: true, exercises: []},
+            project: {userId: "abc", name: "My Project", active: true, exercises: []},
             exerciseCount: 2,
           }),
         )->toEqual({
-          projectName: "My Project",
+          name: "My Project",
           exercises: list{},
           topPriorityExercises: list{},
         })
@@ -55,11 +55,11 @@ describe("Session Utilities", () => {
           Session.Utils.createSession({
             project: {
               userId: "abc",
-              projectName: "My Project",
+              name: "My Project",
               active: true,
               exercises: [
                 {
-                  exerciseName: "Exercise 1",
+                  name: "Exercise 1",
                   active: false,
                   topPriority: false,
                   slowTempo: 75,
@@ -70,7 +70,7 @@ describe("Session Utilities", () => {
             exerciseCount: 2,
           }),
         )->toEqual({
-          projectName: "My Project",
+          name: "My Project",
           exercises: list{},
           topPriorityExercises: list{},
         })
@@ -84,18 +84,18 @@ describe("Session Utilities", () => {
           Session.Utils.createSession({
             project: {
               userId: "abc",
-              projectName: "My Project",
+              name: "My Project",
               active: true,
               exercises: [
                 {
-                  exerciseName: "Exercise 1",
+                  name: "Exercise 1",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
                   fastTempo: 100,
                 },
                 {
-                  exerciseName: "Exercise 2",
+                  name: "Exercise 2",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
@@ -106,7 +106,7 @@ describe("Session Utilities", () => {
             exerciseCount: 0,
           }),
         )->toEqual({
-          projectName: "My Project",
+          name: "My Project",
           exercises: list{},
           topPriorityExercises: list{},
         })
@@ -120,11 +120,11 @@ describe("Session Utilities", () => {
           Session.Utils.createSession({
             project: {
               userId: "abc",
-              projectName: "My Project",
+              name: "My Project",
               active: true,
               exercises: [
                 {
-                  exerciseName: "Exercise 1",
+                  name: "Exercise 1",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
@@ -135,14 +135,14 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 2",
+                  name: "Exercise 2",
                   active: true,
                   topPriority: false,
                   slowTempo: 50,
                   fastTempo: 75,
                 },
                 {
-                  exerciseName: "Exercise 3",
+                  name: "Exercise 3",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
@@ -153,7 +153,7 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 4",
+                  name: "Exercise 4",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
@@ -164,7 +164,7 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 5",
+                  name: "Exercise 5",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
@@ -175,7 +175,7 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 6",
+                  name: "Exercise 6",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
@@ -190,10 +190,10 @@ describe("Session Utilities", () => {
             exerciseCount: 3,
           }),
         )->toEqual({
-          projectName: "My Project",
+          name: "My Project",
           exercises: list{
-            {exerciseName: "Exercise 2", tempo: Slow, tempoValue: 50},
-            {exerciseName: "Exercise 1", tempo: Fast, tempoValue: 100},
+            {name: "Exercise 2", tempo: Slow, tempoValue: 50},
+            {name: "Exercise 1", tempo: Fast, tempoValue: 100},
           },
           topPriorityExercises: list{},
         })
@@ -207,25 +207,25 @@ describe("Session Utilities", () => {
           Session.Utils.createSession({
             project: {
               userId: "abc",
-              projectName: "My Project",
+              name: "My Project",
               active: true,
               exercises: [
                 {
-                  exerciseName: "Exercise 1",
+                  name: "Exercise 1",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
                   fastTempo: 100,
                 },
                 {
-                  exerciseName: "Exercise 2",
+                  name: "Exercise 2",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
                   fastTempo: 100,
                 },
                 {
-                  exerciseName: "Exercise 3",
+                  name: "Exercise 3",
                   active: false,
                   topPriority: false,
                   slowTempo: 75,
@@ -236,10 +236,10 @@ describe("Session Utilities", () => {
             exerciseCount: 2,
           }),
         )->toEqual({
-          projectName: "My Project",
+          name: "My Project",
           exercises: list{
-            {exerciseName: "Exercise 1", tempo: Slow, tempoValue: 75},
-            {exerciseName: "Exercise 2", tempo: Fast, tempoValue: 100},
+            {name: "Exercise 1", tempo: Slow, tempoValue: 75},
+            {name: "Exercise 2", tempo: Fast, tempoValue: 100},
           },
           topPriorityExercises: list{},
         })
@@ -253,11 +253,11 @@ describe("Session Utilities", () => {
           Session.Utils.createSession({
             project: {
               userId: "abc",
-              projectName: "My Project",
+              name: "My Project",
               active: true,
               exercises: [
                 {
-                  exerciseName: "Exercise 1",
+                  name: "Exercise 1",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
@@ -268,14 +268,14 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 2",
+                  name: "Exercise 2",
                   active: true,
                   topPriority: false,
                   slowTempo: 50,
                   fastTempo: 75,
                 },
                 {
-                  exerciseName: "Exercise 3",
+                  name: "Exercise 3",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
@@ -286,7 +286,7 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 4",
+                  name: "Exercise 4",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
@@ -297,7 +297,7 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 5",
+                  name: "Exercise 5",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
@@ -308,7 +308,7 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 6",
+                  name: "Exercise 6",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
@@ -323,10 +323,10 @@ describe("Session Utilities", () => {
             exerciseCount: 2,
           }),
         )->toEqual({
-          projectName: "My Project",
+          name: "My Project",
           exercises: list{
-            {exerciseName: "Exercise 2", tempo: Slow, tempoValue: 50},
-            {exerciseName: "Exercise 1", tempo: Fast, tempoValue: 100},
+            {name: "Exercise 2", tempo: Slow, tempoValue: 50},
+            {name: "Exercise 1", tempo: Fast, tempoValue: 100},
           },
           topPriorityExercises: list{},
         })
@@ -340,11 +340,11 @@ describe("Session Utilities", () => {
           Session.Utils.createSession({
             project: {
               userId: "abc",
-              projectName: "My Project",
+              name: "My Project",
               active: true,
               exercises: [
                 {
-                  exerciseName: "Exercise 1",
+                  name: "Exercise 1",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
@@ -355,14 +355,14 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 2",
+                  name: "Exercise 2",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
                   fastTempo: 75,
                 },
                 {
-                  exerciseName: "Exercise 3",
+                  name: "Exercise 3",
                   active: false,
                   topPriority: false,
                   slowTempo: 75,
@@ -373,7 +373,7 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 4",
+                  name: "Exercise 4",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
@@ -384,7 +384,7 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 5",
+                  name: "Exercise 5",
                   active: false,
                   topPriority: false,
                   slowTempo: 75,
@@ -395,7 +395,7 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 6",
+                  name: "Exercise 6",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
@@ -406,12 +406,12 @@ describe("Session Utilities", () => {
             exerciseCount: 6,
           }),
         )->toEqual({
-          projectName: "My Project",
+          name: "My Project",
           exercises: list{
-            {exerciseName: "Exercise 2", tempo: Slow, tempoValue: 75},
-            {exerciseName: "Exercise 6", tempo: Fast, tempoValue: 100},
-            {exerciseName: "Exercise 1", tempo: Slow, tempoValue: 75},
-            {exerciseName: "Exercise 4", tempo: Fast, tempoValue: 75},
+            {name: "Exercise 2", tempo: Slow, tempoValue: 75},
+            {name: "Exercise 6", tempo: Fast, tempoValue: 100},
+            {name: "Exercise 1", tempo: Slow, tempoValue: 75},
+            {name: "Exercise 4", tempo: Fast, tempoValue: 75},
           },
           topPriorityExercises: list{},
         })
@@ -425,11 +425,11 @@ describe("Session Utilities", () => {
           Session.Utils.createSession({
             project: {
               userId: "abc",
-              projectName: "My Project",
+              name: "My Project",
               active: true,
               exercises: [
                 {
-                  exerciseName: "Exercise 1",
+                  name: "Exercise 1",
                   active: true,
                   topPriority: false,
                   slowTempo: 50,
@@ -440,14 +440,14 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 2",
+                  name: "Exercise 2",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
                   fastTempo: 75,
                 },
                 {
-                  exerciseName: "Exercise 3",
+                  name: "Exercise 3",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
@@ -458,7 +458,7 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 4",
+                  name: "Exercise 4",
                   active: true,
                   topPriority: false,
                   slowTempo: 50,
@@ -469,7 +469,7 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 5",
+                  name: "Exercise 5",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
@@ -480,7 +480,7 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 6",
+                  name: "Exercise 6",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
@@ -491,12 +491,12 @@ describe("Session Utilities", () => {
             exerciseCount: 4,
           }),
         )->toEqual({
-          projectName: "My Project",
+          name: "My Project",
           exercises: list{
-            {exerciseName: "Exercise 2", tempo: Slow, tempoValue: 75},
-            {exerciseName: "Exercise 6", tempo: Fast, tempoValue: 100},
-            {exerciseName: "Exercise 1", tempo: Slow, tempoValue: 50},
-            {exerciseName: "Exercise 3", tempo: Fast, tempoValue: 100},
+            {name: "Exercise 2", tempo: Slow, tempoValue: 75},
+            {name: "Exercise 6", tempo: Fast, tempoValue: 100},
+            {name: "Exercise 1", tempo: Slow, tempoValue: 50},
+            {name: "Exercise 3", tempo: Fast, tempoValue: 100},
           },
           topPriorityExercises: list{},
         })
@@ -510,11 +510,11 @@ describe("Session Utilities", () => {
           Session.Utils.createSession({
             project: {
               userId: "abc",
-              projectName: "My Project",
+              name: "My Project",
               active: true,
               exercises: [
                 {
-                  exerciseName: "Exercise 1",
+                  name: "Exercise 1",
                   active: true,
                   topPriority: false,
                   slowTempo: 50,
@@ -525,7 +525,7 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 2",
+                  name: "Exercise 2",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
@@ -536,7 +536,7 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 3",
+                  name: "Exercise 3",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
@@ -547,7 +547,7 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 4",
+                  name: "Exercise 4",
                   active: true,
                   topPriority: false,
                   slowTempo: 50,
@@ -562,10 +562,10 @@ describe("Session Utilities", () => {
             exerciseCount: 2,
           }),
         )->toEqual({
-          projectName: "My Project",
+          name: "My Project",
           exercises: list{
-            {exerciseName: "Exercise 3", tempo: Slow, tempoValue: 75},
-            {exerciseName: "Exercise 1", tempo: Fast, tempoValue: 75},
+            {name: "Exercise 3", tempo: Slow, tempoValue: 75},
+            {name: "Exercise 1", tempo: Fast, tempoValue: 75},
           },
           topPriorityExercises: list{},
         })
@@ -579,11 +579,11 @@ describe("Session Utilities", () => {
           Session.Utils.createSession({
             project: {
               userId: "abc",
-              projectName: "My Project",
+              name: "My Project",
               active: true,
               exercises: [
                 {
-                  exerciseName: "Exercise 1",
+                  name: "Exercise 1",
                   active: true,
                   topPriority: false,
                   slowTempo: 50,
@@ -594,7 +594,7 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 2",
+                  name: "Exercise 2",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
@@ -605,7 +605,7 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 3",
+                  name: "Exercise 3",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
@@ -616,7 +616,7 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 4",
+                  name: "Exercise 4",
                   active: true,
                   topPriority: false,
                   slowTempo: 50,
@@ -627,7 +627,7 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 5",
+                  name: "Exercise 5",
                   active: true,
                   topPriority: true,
                   slowTempo: 75,
@@ -642,12 +642,12 @@ describe("Session Utilities", () => {
             exerciseCount: 2,
           }),
         )->toEqual({
-          projectName: "My Project",
+          name: "My Project",
           exercises: list{
-            {exerciseName: "Exercise 3", tempo: Slow, tempoValue: 75},
-            {exerciseName: "Exercise 1", tempo: Fast, tempoValue: 75},
+            {name: "Exercise 3", tempo: Slow, tempoValue: 75},
+            {name: "Exercise 1", tempo: Fast, tempoValue: 75},
           },
-          topPriorityExercises: list{{exerciseName: "Exercise 5", tempo: Fast, tempoValue: 75}},
+          topPriorityExercises: list{{name: "Exercise 5", tempo: Fast, tempoValue: 75}},
         })
       },
     )
@@ -659,11 +659,11 @@ describe("Session Utilities", () => {
           Session.Utils.createSession({
             project: {
               userId: "abc",
-              projectName: "My Project",
+              name: "My Project",
               active: true,
               exercises: [
                 {
-                  exerciseName: "Exercise 1",
+                  name: "Exercise 1",
                   active: true,
                   topPriority: false,
                   slowTempo: 50,
@@ -674,7 +674,7 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 2",
+                  name: "Exercise 2",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
@@ -685,7 +685,7 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 3",
+                  name: "Exercise 3",
                   active: true,
                   topPriority: false,
                   slowTempo: 75,
@@ -696,7 +696,7 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 4",
+                  name: "Exercise 4",
                   active: true,
                   topPriority: false,
                   slowTempo: 50,
@@ -707,7 +707,7 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 5",
+                  name: "Exercise 5",
                   active: true,
                   topPriority: true,
                   slowTempo: 75,
@@ -718,7 +718,7 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 6",
+                  name: "Exercise 6",
                   active: true,
                   topPriority: true,
                   slowTempo: 75,
@@ -729,21 +729,21 @@ describe("Session Utilities", () => {
                   },
                 },
                 {
-                  exerciseName: "Exercise 7",
+                  name: "Exercise 7",
                   active: false,
                   topPriority: true,
                   slowTempo: 50,
                   fastTempo: 75,
                 },
                 {
-                  exerciseName: "Exercise 8",
+                  name: "Exercise 8",
                   active: true,
                   topPriority: true,
                   slowTempo: 75,
                   fastTempo: 75,
                 },
                 {
-                  exerciseName: "Exercise 9",
+                  name: "Exercise 9",
                   active: true,
                   topPriority: true,
                   slowTempo: 75,
@@ -758,16 +758,16 @@ describe("Session Utilities", () => {
             exerciseCount: 2,
           }),
         )->toEqual({
-          projectName: "My Project",
+          name: "My Project",
           exercises: list{
-            {exerciseName: "Exercise 3", tempo: Slow, tempoValue: 75},
-            {exerciseName: "Exercise 1", tempo: Fast, tempoValue: 75},
+            {name: "Exercise 3", tempo: Slow, tempoValue: 75},
+            {name: "Exercise 1", tempo: Fast, tempoValue: 75},
           },
           topPriorityExercises: list{
-            {exerciseName: "Exercise 8", tempo: Slow, tempoValue: 75},
-            {exerciseName: "Exercise 5", tempo: Fast, tempoValue: 75},
-            {exerciseName: "Exercise 6", tempo: Slow, tempoValue: 75},
-            {exerciseName: "Exercise 9", tempo: Fast, tempoValue: 100},
+            {name: "Exercise 8", tempo: Slow, tempoValue: 75},
+            {name: "Exercise 5", tempo: Fast, tempoValue: 75},
+            {name: "Exercise 6", tempo: Slow, tempoValue: 75},
+            {name: "Exercise 9", tempo: Fast, tempoValue: 100},
           },
         })
       },

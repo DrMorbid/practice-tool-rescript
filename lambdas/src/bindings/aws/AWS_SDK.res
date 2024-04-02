@@ -38,13 +38,13 @@ module DynamoDB = {
   }
 
   module Command = {
-    type putCommandInput<'a> = {@as("TableName") tableName?: string, @as("Item") item?: 'a}
-    type put<'a> = {input?: putCommandInput<'a>}
+    type putCommandInput = {@as("TableName") tableName?: string, @as("Item") item?: JSON.t}
+    type put = {input?: putCommandInput}
     type putResult
 
     type getCommandInput<'a> = {@as("TableName") tableName?: string, @as("Key") key?: 'a}
     type get<'a> = {input?: getCommandInput<'a>}
-    type getResult<'a> = {@as("Item") item?: 'a}
+    type getResult = {@as("Item") item?: JSON.t}
 
     type deleteCommandInput<'a> = {@as("TableName") tableName?: string, @as("Key") key?: 'a}
     type delete<'a> = {input?: deleteCommandInput<'a>}
@@ -67,9 +67,9 @@ module DynamoDB = {
       ],
     }
     type query<'a> = {input?: queryCommandInput<'a>}
-    type queryResult<'a> = {
+    type queryResult = {
       @as("Count") count: int,
-      @as("Items") items: array<'a>,
+      @as("Items") items: array<JSON.t>,
       @as("ScannedCount") scannedCount: int,
     }
   }
@@ -93,10 +93,10 @@ module DynamoDB = {
     }
 
     @send external from: (parent, client, ~translateConfig: translateConfig=?) => t = "from"
-    @send external sendPut: (t, Command.put<'a>) => promise<Command.putResult> = "send"
-    @send external sendGet: (t, Command.get<'a>) => promise<Command.getResult<'b>> = "send"
+    @send external sendPut: (t, Command.put) => promise<Command.putResult> = "send"
+    @send external sendGet: (t, Command.get<'a>) => promise<Command.getResult> = "send"
     @send external sendDelete: (t, Command.delete<'a>) => promise<Command.deleteResult> = "send"
-    @send external sendQuery: (t, Command.query<'a>) => promise<Command.queryResult<'b>> = "send"
+    @send external sendQuery: (t, Command.query<'a>) => promise<Command.queryResult> = "send"
   }
 
   @module("@aws-sdk/client-dynamodb") @new
@@ -106,7 +106,7 @@ module DynamoDB = {
   external dynamoDBDocumentClient: DynamoDBDocumentClient.parent = "DynamoDBDocumentClient"
 
   @module("@aws-sdk/lib-dynamodb") @new
-  external makePutCommand: Command.putCommandInput<'a> => Command.put<'a> = "PutCommand"
+  external makePutCommand: Command.putCommandInput => Command.put = "PutCommand"
 
   @module("@aws-sdk/lib-dynamodb") @new
   external makeGetCommand: Command.getCommandInput<'a> => Command.get<'a> = "GetCommand"

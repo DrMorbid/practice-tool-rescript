@@ -1,15 +1,14 @@
 open Utils.Lambda
-open Project_Type
 open Project_Utils
 
 module GetProjectResponse = {
   @spice
-  type t = Database.Get.t
+  type t = Project_Type.t
   let encode = t_encode
 }
 module Response = MakeBodyResponder(GetProjectResponse)
 
-let handler: AWS.Lambda.handler<projectNamePathParam> = async event =>
+let handler: AWS.Lambda.handler<Project_Type.projectNamePathParam> = async event =>
   switch event
   ->getProjectTableKey
   ->Result.map(async projectTableKey => {

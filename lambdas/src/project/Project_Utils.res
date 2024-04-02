@@ -1,22 +1,21 @@
 open AWS.Lambda
-open Project_Type
 open Utils.Lambda
 
-let toDBSaveItem = (~userId, {?projectName, ?active, exercises: ?inputExercises}): result<
-  Database.Save.t,
-  response,
-> => {
+let fromRequest = (
+  ~userId,
+  {?name, ?active, exercises: ?inputExercises}: Project_Type.FromRequest.t,
+): result<Project_Type.t, response> => {
   let exercises =
-    inputExercises->Option.getOr([])->Array.map(Exercise.Utils.toDBSaveItem)->Array.keepSome
+    inputExercises->Option.getOr([])->Array.map(Exercise.Utils.fromRequest)->Array.keepSome
 
   if exercises->Array.length < inputExercises->Option.getOr([])->Array.length {
     Error({statusCode: 400, body: "Exercise name cannot be empty"})
   } else {
-    projectName
+    name
     ->Utils.String.toNotBlank
-    ->Option.map((projectName): result<Database.Save.t, 'a> => Ok({
+    ->Option.map((name): result<Project_Type.t, 'a> => Ok({
       userId,
-      projectName,
+      name,
       active: active->Option.getOr(false),
       exercises,
     }))
@@ -24,16 +23,12 @@ let toDBSaveItem = (~userId, {?projectName, ?active, exercises: ?inputExercises}
   }
 }
 
-let toDBGetItem = (~userId, projectName): result<Database.key, response> => Ok({
-  userId,
-  projectName,
-})
-
 let toProjectTableKey = (~userId, key) =>
-  key->Option.map(({name}): Database.key => {
+  key->Option.map(({name}: Project_Type.projectNamePathParam): Project_Type.dbKey => {
     userId,
     projectName: name,
   })
+
 let getProjectTableKey = event =>
   event
   ->getUser
@@ -47,7 +42,9 @@ let getProjectTableKey = event =>
   )
 
 module DBKey = {
-  type t = Database.key
+  type key = Project_Type.dbKey
+  type t = Project_Type.t
+  let decode = Project_Type.t_decode
   let tableName = Global.EnvVar.tableNameProjects
 }
 module DBGetter = Utils.DynamoDB.DBGetter(DBKey)

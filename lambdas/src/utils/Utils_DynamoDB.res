@@ -8,11 +8,12 @@ let makeClient = () =>
 
 module type Savable = {
   type t
+  let encode: t => JSON.t
   let tableName: string
 }
 module DBSaver = (Body: Savable) => {
   let save = async (item: Body.t): AWS.Lambda.response => {
-    let put = makePutCommand({tableName: Body.tableName, item})
+    let put = makePutCommand({tableName: Body.tableName, item: item->Body.encode})
 
     Console.log3("Putting %o in DynamoDB table %s", put.input, Body.tableName)
 
@@ -25,11 +26,13 @@ module DBSaver = (Body: Savable) => {
 }
 
 module type Getable = {
+  type key
   type t
+  let decode: JSON.t => result<t, Spice.decodeError>
   let tableName: string
 }
 module DBGetter = (Get: Getable) => {
-  let get = async (key: Get.t) => {
+  let get = async (key: Get.key) => {
     let dbClient = makeClient()
 
     let get = makeGetCommand({tableName: Get.tableName, key})
@@ -39,6 +42,19 @@ module DBGetter = (Get: Getable) => {
     let {?item} = await dbClient->DynamoDBDocumentClient.sendGet(get)
 
     item
+    ->Option.map(Get.decode)
+    ->Option.flatMap(item =>
+      switch item {
+      | Ok(item) => Some(item)
+      | Error(error) => {
+          Console.error2(
+            "Error decoding database item from JSON to type after database GET request: %o",
+            error,
+          )
+          None
+        }
+      }
+    )
   }
 }
 
@@ -63,6 +79,8 @@ module DBDeleter = (Delete: Deletable) => {
 }
 
 module type Queryable = {
+  type t
+  let decode: JSON.t => result<t, Spice.decodeError>
   let tableName: string
 }
 module DBQueryCaller = (Query: Queryable) => {
@@ -83,5 +101,18 @@ module DBQueryCaller = (Query: Queryable) => {
     Console.log2("Query returned %i items", count)
 
     items
+    ->Array.map(item =>
+      switch item->Query.decode {
+      | Ok(item) => Some(item)
+      | Error(error) => {
+          Console.error2(
+            "Error decoding database item from JSON to type after database query request: %o",
+            error,
+          )
+          None
+        }
+      }
+    )
+    ->Array.keepSome
   }
 }

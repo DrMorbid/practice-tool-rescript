@@ -3,61 +3,41 @@ type tempo = | @spice.as("SLOW") Slow | @spice.as("FAST") Fast
 
 @spice
 type lastPracticed = {
-  date?: @spice.codec(Utils.Date.SpiceCodec.date) Date.t,
-  tempo?: tempo,
-}
-
-@spice
-type toPractice = {
-  exerciseName: string,
+  date: @spice.codec(Utils.Date.SpiceCodec.date) Date.t,
   tempo: tempo,
-  tempoValue: int,
 }
 
 @spice
 type t = {
-  exerciseName?: string,
-  active?: bool,
-  topPriority?: bool,
-  slowTempo?: int,
-  fastTempo?: int,
+  name: string,
+  active: bool,
+  topPriority: bool,
+  slowTempo: int,
+  fastTempo: int,
   lastPracticed?: lastPracticed,
 }
 
-module Database = {
-  module Save = {
-    @spice
-    type lastPracticed = {
-      date: string,
-      tempo: string,
-    }
+@spice
+type toPractice = {
+  name: string,
+  tempo: tempo,
+  tempoValue: int,
+}
 
-    @spice
-    type t = {
-      exerciseName: string,
-      active: bool,
-      topPriority: bool,
-      slowTempo: int,
-      fastTempo: int,
-      lastPracticed?: lastPracticed,
-    }
+module FromRequest = {
+  @spice
+  type lastPracticed = {
+    date?: @spice.codec(Utils.Date.SpiceCodec.date) Date.t,
+    tempo?: tempo,
   }
 
-  module Get = {
-    @spice
-    type lastPracticed = {
-      date: @spice.codec(Utils.Date.SpiceCodec.date) Date.t,
-      tempo: tempo,
-    }
-
-    @spice
-    type t = {
-      exerciseName: string,
-      active: bool,
-      topPriority: bool,
-      slowTempo: int,
-      fastTempo: int,
-      lastPracticed?: lastPracticed,
-    }
+  @spice
+  type t = {
+    name?: string,
+    active?: bool,
+    topPriority?: bool,
+    slowTempo?: int,
+    fastTempo?: int,
+    lastPracticed?: lastPracticed,
   }
 }
