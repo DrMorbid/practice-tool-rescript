@@ -28,6 +28,7 @@ module DBSaver = (Body: Savable) => {
 module type Getable = {
   type key
   type t
+  let encodeKey: key => JSON.t
   let decode: JSON.t => result<t, Spice.decodeError>
   let tableName: string
 }
@@ -35,7 +36,7 @@ module DBGetter = (Get: Getable) => {
   let get = async (key: Get.key) => {
     let dbClient = makeClient()
 
-    let get = makeGetCommand({tableName: Get.tableName, key})
+    let get = makeGetCommand({tableName: Get.tableName, key: key->Get.encodeKey})
 
     Console.log3("Getting %o from DynamoDB table %s", get.input, Get.tableName)
 
@@ -60,13 +61,14 @@ module DBGetter = (Get: Getable) => {
 
 module type Deletable = {
   type t
+  let encode: t => JSON.t
   let tableName: string
 }
 module DBDeleter = (Delete: Deletable) => {
   let delete = async (key: Delete.t): AWS.Lambda.response => {
     let dbClient = makeClient()
 
-    let delete = makeDeleteCommand({tableName: Delete.tableName, key})
+    let delete = makeDeleteCommand({tableName: Delete.tableName, key: key->Delete.encode})
 
     Console.log3("Deleting %o from DynamoDB table %s", delete.input, Delete.tableName)
 

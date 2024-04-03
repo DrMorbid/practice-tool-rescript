@@ -1,5 +1,6 @@
 module DBKey = {
   type t = Project_Type.dbKey
+  let encode = Project_Type.dbKey_encode
   let tableName = Global.EnvVar.tableNameProjects
 }
 module DBDeleter = Utils.DynamoDB.DBDeleter(DBKey)

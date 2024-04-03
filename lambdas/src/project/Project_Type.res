@@ -16,9 +16,10 @@ module FromRequest = {
   }
 }
 
+@spice
 type dbKey = {
   userId: string,
-  projectName: string,
+  @as("name") projectName: string,
 }
 
 type projectNamePathParam = {name: string}

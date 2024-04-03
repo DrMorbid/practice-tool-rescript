@@ -44,6 +44,7 @@ let getProjectTableKey = event =>
 module DBKey = {
   type key = Project_Type.dbKey
   type t = Project_Type.t
+  let encodeKey = Project_Type.dbKey_encode
   let decode = Project_Type.t_decode
   let tableName = Global.EnvVar.tableNameProjects
 }

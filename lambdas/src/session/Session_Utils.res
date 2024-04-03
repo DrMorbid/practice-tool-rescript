@@ -190,7 +190,7 @@ let createSession = ({project: {exercises, name, active}, exerciseCount}) => {
 
     Console.log3(
       "Created practice session %s for poject %s",
-      result->JSON.stringifyAnyWithIndent(2),
+      result->JSON.stringifyAny(~space=2),
       name,
     )
     result

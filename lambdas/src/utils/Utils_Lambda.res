@@ -16,7 +16,7 @@ module type Extractable = {
 module MakeBodyExtractor = (Body: Extractable) => {
   let extract = ({?body}: Event.t<'a>) =>
     body
-    ->Option.map(JSON.parseExn)
+    ->Option.map(JSON.parseExn(_))
     ->Option.map(Body.decode)
     ->Option.map(extracted => {
       extracted->Result.mapError(error => {

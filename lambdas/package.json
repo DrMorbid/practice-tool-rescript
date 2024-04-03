@@ -17,7 +17,7 @@
     "@aws-sdk/client-dynamodb": "^3.540.0",
     "@aws-sdk/lib-dynamodb": "^3.540.0",
     "@greenlabs/ppx-spice": "0.2.1",
-    "@rescript/core": "^1.1.0",
+    "@rescript/core": "^1.2.0",
     "rescript": "^11.0.1"
   }
 }
