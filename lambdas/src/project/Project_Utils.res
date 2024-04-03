@@ -26,7 +26,7 @@ let fromRequest = (
 let toProjectTableKey = (~userId, key) =>
   key->Option.map(({name}: Project_Type.projectNamePathParam): Project_Type.dbKey => {
     userId,
-    projectName: name,
+    name,
   })
 
 let getProjectTableKey = event =>
