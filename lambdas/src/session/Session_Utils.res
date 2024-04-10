@@ -35,10 +35,19 @@ let rec addAlreadyPracticedExercises = (
   ~exercisesToBePracticedFast,
   result,
 ) => {
+  Console.debug2(
+    "The requester number of exercises already practiced in the past to be added is %i",
+    exerciseCount,
+  )
+
   if (
     exerciseCount == 0 ||
       (exercisesToBePracticedSlow->List.length == 0 && exercisesToBePracticedFast->List.length == 0)
   ) {
+    Console.debug2(
+      "Added all the exercises already practiced in the past. The result is %o",
+      result,
+    )
     result
   } else {
     let (nextToPractice, takenFromTempo) = switch tempo {
@@ -111,9 +120,10 @@ let pickExercisesToBePracticed = (
   ~exercisesToBePracticedFast,
   ~exerciseCount,
 ) => {
+  let neverPracticedExercises = neverPracticedExercises->Array.slice(~start=0, ~end=exerciseCount)
   let neverPracticedCount = neverPracticedExercises->Array.length
+
   neverPracticedExercises
-  ->Array.slice(~start=0, ~end=exerciseCount)
   ->Array.mapWithIndex((exercise, index) =>
     exercise->convert(~tempo=(index + 1)->Int.mod(2) == 0 ? Fast : Slow)
   )
@@ -156,6 +166,7 @@ let calculateSession = (
     exercisesToBePracticedFast,
   },
 ) => {
+  Console.debug("Calculating top priority exercises.")
   let topPriorityExercises = pickExercisesToBePracticed(
     ~neverPracticedExercises=neverPracticedTopPriorityExercises,
     ~exercisesToBePracticedSlow=topPriorityExercisesToBePracticedSlow,
@@ -163,6 +174,8 @@ let calculateSession = (
     ~exerciseCount=exercises->Array.filter(({topPriority}) => topPriority == true)->Array.length,
     ~topPriority=true,
   )
+
+  Console.debug2("Calculating normal exercises with desired count being %i.", exerciseCount)
   let exercises = pickExercisesToBePracticed(
     ~neverPracticedExercises,
     ~exercisesToBePracticedSlow,

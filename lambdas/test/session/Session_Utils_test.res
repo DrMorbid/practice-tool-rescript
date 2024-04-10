@@ -772,5 +772,144 @@ describe("Session Utilities", () => {
         })
       },
     )
+
+    test(
+      "Given project has a lot of active exercises and no active top priority, when  I request 2 exercises, then it returns the 2 exercises in the correct order",
+      () => {
+        expect(
+          Session.Utils.createSession({
+            project: {
+              userId: "85b8cc13-ba41-42b0-bf36-77f8a84622f8",
+              name: "Mindwork",
+              active: true,
+              exercises: [
+                {
+                  name: "Causality (The Reconcilliation)",
+                  active: true,
+                  topPriority: false,
+                  slowTempo: 75,
+                  fastTempo: 100,
+                  lastPracticed: {
+                    date: Js.Date.fromString("2024-02-23T20:43:43.000Z"),
+                    tempo: Slow,
+                  },
+                },
+                {
+                  name: "Depersonalized",
+                  active: false,
+                  topPriority: false,
+                  slowTempo: 75,
+                  fastTempo: 100,
+                  lastPracticed: {
+                    date: Js.Date.fromString("2024-02-23T20:43:43.000Z"),
+                    tempo: Fast,
+                  },
+                },
+                {
+                  name: "Enter Eterea",
+                  active: false,
+                  topPriority: false,
+                  slowTempo: 75,
+                  fastTempo: 100,
+                  lastPracticed: {
+                    date: Js.Date.fromString("2024-02-22T20:43:43.000Z"),
+                    tempo: Slow,
+                  },
+                },
+                {
+                  name: "Grinding the Edges",
+                  active: false,
+                  topPriority: false,
+                  slowTempo: 75,
+                  fastTempo: 100,
+                  lastPracticed: {
+                    date: Js.Date.fromString("2024-02-22T20:43:43.000Z"),
+                    tempo: Fast,
+                  },
+                },
+                {
+                  name: "Heartfelt",
+                  active: true,
+                  topPriority: false,
+                  slowTempo: 75,
+                  fastTempo: 100,
+                },
+                {
+                  name: "Heartfelt 3",
+                  active: true,
+                  topPriority: false,
+                  slowTempo: 75,
+                  fastTempo: 100,
+                },
+                {
+                  name: "Intro",
+                  active: true,
+                  topPriority: false,
+                  slowTempo: 75,
+                  fastTempo: 100,
+                },
+                {
+                  name: "Last Lie Told",
+                  active: false,
+                  topPriority: false,
+                  slowTempo: 75,
+                  fastTempo: 100,
+                },
+                {
+                  name: "Mind Renewal",
+                  active: true,
+                  topPriority: false,
+                  slowTempo: 75,
+                  fastTempo: 100,
+                },
+                {
+                  name: "Party's Over (Talk Talk cover)",
+                  active: true,
+                  topPriority: false,
+                  slowTempo: 75,
+                  fastTempo: 100,
+                },
+                {
+                  name: "Perceiving The Reality",
+                  active: false,
+                  topPriority: false,
+                  slowTempo: 75,
+                  fastTempo: 100,
+                },
+                {
+                  name: "The Stream Of Causality",
+                  active: false,
+                  topPriority: false,
+                  slowTempo: 75,
+                  fastTempo: 100,
+                },
+                {
+                  name: "Twisted Priorities",
+                  active: false,
+                  topPriority: false,
+                  slowTempo: 75,
+                  fastTempo: 100,
+                },
+                {
+                  name: "With Faith On My Side",
+                  active: true,
+                  topPriority: false,
+                  slowTempo: 75,
+                  fastTempo: 100,
+                },
+              ],
+            },
+            exerciseCount: 2,
+          }),
+        )->toEqual({
+          name: "Mindwork",
+          exercises: list{
+            {name: "Heartfelt", tempo: Slow, tempoValue: 75},
+            {name: "Heartfelt 3", tempo: Fast, tempoValue: 100},
+          },
+          topPriorityExercises: list{},
+        })
+      },
+    )
   })
 })
