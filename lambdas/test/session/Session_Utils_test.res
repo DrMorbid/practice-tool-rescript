@@ -774,7 +774,7 @@ describe("Session Utilities", () => {
     )
 
     test(
-      "Given project has a lot of active exercises and no active top priority, when  I request 2 exercises, then it returns the 2 exercises in the correct order",
+      "Given project has a lot of active exercises that were not practiced yet and no active top priority, when I request 2 exercises, then it returns the 2 exercises in the correct order",
       () => {
         expect(
           Session.Utils.createSession({
