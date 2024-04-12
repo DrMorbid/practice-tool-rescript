@@ -15,16 +15,28 @@ let handler: handler<sessionConfigurationPathParam> = async event =>
   switch event
   ->Session_Utils.getSessionConfiguration
   ->Result.map(async ({projectTableKey, exerciseCount}) => {
-    let dbResponse: option<Project.Type.t> = await projectTableKey->DBGetter.get
-    Console.log3(
-      "Got project %o, will prepare practice session with %i exercises",
-      dbResponse,
-      exerciseCount,
+    let project = await projectTableKey->DBGetter.get
+
+    let project = project->Result.flatMap(validateSessionConfiguration(_, ~exerciseCount))
+
+    project->Result.forEach(project =>
+      Console.log3(
+        "Got project %o, will prepare practice session with %i exercises",
+        project,
+        exerciseCount,
+      )
     )
 
-    dbResponse
-    ->Option.map(project => {project, exerciseCount}->createSession)
+    project
+    ->Result.map(project => {project, exerciseCount}->createSession)
     ->Response.create
+  })
+  ->Result.map(async result => {
+    let result = await result
+    switch result {
+    | Ok(result) => result
+    | Error(result) => result
+    }
   }) {
   | Ok(result) => await result
   | Error(result) => result

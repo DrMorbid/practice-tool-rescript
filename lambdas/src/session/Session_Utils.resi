@@ -6,4 +6,9 @@ let getSessionConfiguration: Event.t<sessionConfigurationPathParam> => result<
   response,
 >
 
+let validateSessionConfiguration: (
+  ~exerciseCount: int,
+  Project.Type.t,
+) => result<Project.Type.t, response>
+
 let createSession: practiceSessionCreatorRequest => practiceSession

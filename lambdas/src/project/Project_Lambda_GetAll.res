@@ -19,7 +19,14 @@ let handler: AWS.Lambda.handler<'a> = async event =>
   ->getUser
   ->Result.map(async userId => {
     let dbResponse = await DBQueryCaller.query(~userId)
-    Some(dbResponse)->Response.create
+    Ok(dbResponse)->Response.create
+  })
+  ->Result.map(async result => {
+    let result = await result
+    switch result {
+    | Ok(result) => result
+    | Error(result) => result
+    }
   }) {
   | Ok(result) => await result
   | Error(result) => result

@@ -28,6 +28,25 @@ let getSessionConfiguration = event =>
     )
   )
 
+let validateSessionConfiguration = (~exerciseCount, project: Project.Type.t) => {
+  (
+    project.active ? Ok(project) : Error({statusCode: 400, body: "Project is not active"})
+  )->Result.flatMap(project => {
+    let activeTopPriorityExercises =
+      project.exercises->Array.filter(({active, topPriority}) => active && topPriority)
+    let activeExercises =
+      project.exercises->Array.filter(({active, topPriority}) => active && !topPriority)
+
+    if (
+      activeTopPriorityExercises->Array.length > 0 || activeExercises->Array.length >= exerciseCount
+    ) {
+      Ok(project)
+    } else {
+      Error({statusCode: 400, body: "Project does not have enough active exercises"})
+    }
+  })
+}
+
 let rec addAlreadyPracticedExercises = (
   ~tempo=?,
   ~exerciseCount,

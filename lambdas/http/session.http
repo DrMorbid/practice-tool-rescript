@@ -1,5 +1,5 @@
 ### Get
-GET {{url}}/session/Mindwork/2
+GET {{url}}/session/Voice Of Instinct/2
 Accept: application/json
 Authorization: Bearer {{$auth.token("cognito")}}
 Content-Type: application/json

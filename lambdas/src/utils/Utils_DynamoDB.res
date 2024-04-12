@@ -1,4 +1,5 @@
 open AWS.SDK.DynamoDB
+open AWS.Lambda
 
 let makeClient = () =>
   dynamoDBDocumentClient->DynamoDBDocumentClient.from(
@@ -44,18 +45,20 @@ module DBGetter = (Get: Getable) => {
 
     item
     ->Option.map(Get.decode)
-    ->Option.flatMap(item =>
+    ->Option.map(item =>
       switch item {
-      | Ok(item) => Some(item)
+      | Ok(item) => Ok(item)
       | Error(error) => {
-          Console.error2(
-            "Error decoding database item from JSON to type after database GET request: %o",
+          Console.error3(
+            "Error decoding database item %o from JSON to type after database GET request: %o",
+            key,
             error,
           )
-          None
+          Error({statusCode: 500, body: "Invalid response from database"})
         }
       }
     )
+    ->Option.getOr(Error({statusCode: 404, body: "Not found in database"}))
   }
 }
 
