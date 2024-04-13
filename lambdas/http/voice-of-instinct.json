@@ -1,10 +1,10 @@
 {
   "name": "Voice Of Instinct",
-  "active": false,
+  "active": true,
   "exercises": [
     {
       "name": "Again",
-      "active": true,
+      "active": false,
       "topPriority": false,
       "slowTempo": 75,
       "fastTempo": 100,
@@ -26,7 +26,7 @@
     },
     {
       "name": "Look At Yourself",
-      "active": true,
+      "active": false,
       "topPriority": false,
       "slowTempo": 75,
       "fastTempo": 100,
@@ -37,7 +37,7 @@
     },
     {
       "name": "Nová Píseň",
-      "active": true,
+      "active": false,
       "topPriority": false,
       "slowTempo": 75,
       "fastTempo": 100,
@@ -48,7 +48,7 @@
     },
     {
       "name": "On Your Side",
-      "active": true,
+      "active": false,
       "topPriority": true,
       "slowTempo": 75,
       "fastTempo": 100
@@ -62,7 +62,7 @@
     },
     {
       "name": "Veselá",
-      "active": true,
+      "active": false,
       "topPriority": false,
       "slowTempo": 75,
       "fastTempo": 100

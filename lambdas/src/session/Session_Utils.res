@@ -205,15 +205,20 @@ let calculateSession = (
   {...emptyResult, topPriorityExercises, exercises}
 }
 
-let dealWithOddNumber = exerciseCount =>
-  exerciseCount->Int.mod(2) == 0 ? exerciseCount : exerciseCount - 1
+let normalize = (~exercises: array<Exercise.Type.t>, exerciseCount) => {
+  let exerciseCount = exerciseCount->Int.mod(2) == 0 ? exerciseCount : exerciseCount - 1
+  let nrOfActiveExercises = exercises->Array.filter(({topPriority}) => !topPriority)->Array.length
+  exerciseCount > nrOfActiveExercises && exerciseCount - nrOfActiveExercises <= 1
+    ? 0
+    : exerciseCount
+}
 
 let createSession = ({project: {exercises, name, active}, exerciseCount}) => {
   let emptyResult = {name, exercises: list{}, topPriorityExercises: list{}}
 
   if active {
-    let exerciseCount = exerciseCount->dealWithOddNumber
     let exercises = exercises->Array.filter(({active}) => active)
+    let exerciseCount = exerciseCount->normalize(~exercises)
 
     let result =
       exercises

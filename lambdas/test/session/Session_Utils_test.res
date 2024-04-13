@@ -114,6 +114,42 @@ describe("Session Utilities", () => {
     )
 
     test(
+      "Given project has 1 active exercise and 1 active top priority exercise, when I request 2 exercises, then it returns only the one top priority exercise to practice",
+      () => {
+        expect(
+          Session.Utils.createSession({
+            project: {
+              userId: "abc",
+              name: "My Project",
+              active: true,
+              exercises: [
+                {
+                  name: "Exercise 1",
+                  active: true,
+                  topPriority: false,
+                  slowTempo: 75,
+                  fastTempo: 100,
+                },
+                {
+                  name: "Exercise 2",
+                  active: true,
+                  topPriority: true,
+                  slowTempo: 75,
+                  fastTempo: 100,
+                },
+              ],
+            },
+            exerciseCount: 2,
+          }),
+        )->toEqual({
+          name: "My Project",
+          exercises: list{},
+          topPriorityExercises: list{{name: "Exercise 2", tempo: Slow, tempoValue: 75}},
+        })
+      },
+    )
+
+    test(
       "Given project has 6 active exercises, when only one has never been practiced and I request odd number of exercises, then it returns exercises as if I requested n - 1",
       () => {
         expect(
