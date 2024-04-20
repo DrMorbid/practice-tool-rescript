@@ -99,6 +99,18 @@ functions:
               - openid
               - profile
               - email
+  savePracticeSession:
+    handler: src/session/Session_Lambda_Save.res.handler
+    events:
+      - httpApi:
+          path: /session
+          method: POST
+          authorizer:
+            name: practiceToolAuthorizer
+            scopes:
+              - openid
+              - profile
+              - email
 
 resources:
   Resources:

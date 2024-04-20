@@ -24,6 +24,13 @@ type toPractice = {
   tempoValue: int,
 }
 
+@spice
+type exerciseSession = {
+  name: string,
+  projectName: string,
+  tempo: tempo,
+}
+
 module FromRequest = {
   @spice
   type lastPracticed = {
@@ -39,5 +46,12 @@ module FromRequest = {
     slowTempo?: int,
     fastTempo?: int,
     lastPracticed?: lastPracticed,
+  }
+
+  @spice
+  type exerciseSession = {
+    name?: string,
+    projectName?: string,
+    tempo?: tempo,
   }
 }

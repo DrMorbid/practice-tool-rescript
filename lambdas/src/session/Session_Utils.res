@@ -235,3 +235,15 @@ let createSession = ({project: {exercises, name, active}, exerciseCount}) => {
     emptyResult
   }
 }
+
+let fromRequest = (~userId, practiceSession: FromRequest.practiceSession): result<
+  storedPracticeSession,
+  response,
+> => {
+  let exercises = practiceSession->Array.map(fromSessionRequest)->Array.keepSome
+  if exercises->Array.length == 0 {
+    Error({statusCode: 400, body: "At least one exercise must have been practiced"})
+  } else {
+    Ok({userId, date: Date.make(), exercises})
+  }
+}

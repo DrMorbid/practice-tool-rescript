@@ -1,13 +1,22 @@
-let fromRequest = (exercise: Exercise_Type.FromRequest.t): option<Exercise_Type.t> =>
-  exercise.name
+let fromRequest = (
+  {
+    ?name,
+    ?active,
+    ?topPriority,
+    ?slowTempo,
+    ?fastTempo,
+    ?lastPracticed,
+  }: Exercise_Type.FromRequest.t,
+): option<Exercise_Type.t> =>
+  name
   ->Utils.String.toNotBlank
   ->Option.map((name): Exercise_Type.t => {
     name,
-    active: exercise.active->Option.getOr(false),
-    topPriority: exercise.topPriority->Option.getOr(false),
-    slowTempo: exercise.slowTempo->Option.getOr(Exercise_Constant.defaultSlowTempo),
-    fastTempo: exercise.fastTempo->Option.getOr(Exercise_Constant.defaultFastTempo),
-    lastPracticed: ?exercise.lastPracticed->Option.flatMap(({?date, ?tempo}): option<
+    active: active->Option.getOr(false),
+    topPriority: topPriority->Option.getOr(false),
+    slowTempo: slowTempo->Option.getOr(Exercise_Constant.defaultSlowTempo),
+    fastTempo: fastTempo->Option.getOr(Exercise_Constant.defaultFastTempo),
+    lastPracticed: ?lastPracticed->Option.flatMap(({?date, ?tempo}): option<
       Exercise_Type.lastPracticed,
     > =>
       switch (date, tempo) {
@@ -44,3 +53,16 @@ let convert = ({name, slowTempo, fastTempo}: Exercise_Type.t, ~tempo): Exercise_
   tempoValue: tempo == Slow ? slowTempo : fastTempo,
 }
 let convertOption = (exercise, ~tempo) => exercise->Option.map(convert(_, ~tempo))
+
+let fromSessionRequest = (
+  {?name, ?projectName, ?tempo}: Exercise_Type.FromRequest.exerciseSession,
+): option<Exercise_Type.exerciseSession> =>
+  name
+  ->Utils.String.toNotBlank
+  ->Option.flatMap(name =>
+    switch (projectName, tempo) {
+    | (Some(projectName), Some(tempo)) =>
+      Some(({name, projectName, tempo}: Exercise_Type.exerciseSession))
+    | _ => None
+    }
+  )

@@ -12,3 +12,8 @@ let validateSessionConfiguration: (
 ) => result<Project.Type.t, response>
 
 let createSession: practiceSessionCreatorRequest => practiceSession
+
+let fromRequest: (
+  ~userId: string,
+  FromRequest.practiceSession,
+) => result<storedPracticeSession, response>

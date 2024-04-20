@@ -1,3 +1,5 @@
+open Exercise.Type
+
 type sessionConfigurationPathParam = {projectName: string, exerciseCount: int}
 
 type practiceSessionDBRequest = {projectTableKey: Project.Type.dbKey, exerciseCount: int}
@@ -7,6 +9,18 @@ type practiceSessionCreatorRequest = {project: Project.Type.t, exerciseCount: in
 @spice
 type practiceSession = {
   name: string,
-  exercises: list<Exercise.Type.toPractice>,
-  topPriorityExercises: list<Exercise.Type.toPractice>,
+  exercises: list<toPractice>,
+  topPriorityExercises: list<toPractice>,
+}
+
+@spice
+type storedPracticeSession = {
+  userId: string,
+  date: @spice.codec(Utils.Date.SpiceCodec.date) Date.t,
+  exercises: array<exerciseSession>,
+}
+
+module FromRequest = {
+  @spice
+  type practiceSession = array<FromRequest.exerciseSession>
 }
