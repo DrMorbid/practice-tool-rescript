@@ -14,15 +14,30 @@ type practiceSession = {
 }
 
 @spice
-type storedPracticeSession = {
+type historyItem = {
   userId: string,
   date: @spice.codec(Utils.Date.SpiceCodec.date) Date.t,
   exercises: array<exerciseSession>,
 }
 
+type projectToUpdate = {
+  name: string,
+  exercises: array<FromRequest.t>,
+}
+
+type projectsToUpdate = {
+  userId: string,
+  projects: array<projectToUpdate>,
+}
+
+type saveSessionWrapper = {
+  projects: projectsToUpdate,
+  historyItem: historyItem,
+}
+
 module FromRequest = {
   @spice
-  type projectSession = {name: string, exercises: array<FromRequest.exerciseSession>}
+  type projectSession = {name?: string, exercises: array<FromRequest.exerciseSession>}
   @spice
   type practiceSession = array<projectSession>
 }

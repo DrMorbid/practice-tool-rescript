@@ -237,17 +237,24 @@ let createSession = ({project: {exercises, name, active}, exerciseCount}) => {
 }
 
 let fromRequest = (~userId, practiceSession: FromRequest.practiceSession): result<
-  storedPracticeSession,
+  historyItem,
   response,
 > => {
   let exercises =
     practiceSession
-    ->Array.flatMap(({name, exercises}) => exercises->Array.map(exercise => (name, exercise)))
-    ->Array.map(((projectName, exercise)) => exercise->fromSessionRequest(~projectName))
-    ->Array.keepSome
-  if exercises->Array.length == 0 {
-    Error({statusCode: 400, body: "At least one exercise must have been practiced"})
-  } else {
-    Ok({userId, date: Date.make(), exercises})
+    ->Array.flatMap(({?name, exercises}) => exercises->Array.map(exercise => (name, exercise)))
+    ->Array.map(((projectName, exercise)) => exercise->fromSessionRequest(~projectName?))
+
+  switch (exercises, exercises->Array.find(Result.isError)) {
+  | ([], _) => Error({statusCode: 400, body: "At least one exercise must have been practiced"})
+  | (_, Some(Error(exerciseError))) => Error(exerciseError)
+  | _ =>
+    Ok({
+      userId,
+      date: Date.make(),
+      exercises: exercises->Array.filterMap(exercise =>
+        exercise->Result.map(exercise => Some(exercise))->Result.getOr(None)
+      ),
+    })
   }
 }

@@ -55,11 +55,16 @@ let convert = ({name, slowTempo, fastTempo}: Exercise_Type.t, ~tempo): Exercise_
 let convertOption = (exercise, ~tempo) => exercise->Option.map(convert(_, ~tempo))
 
 let fromSessionRequest = (
-  ~projectName,
+  ~projectName=?,
   {?name, ?tempo}: Exercise_Type.FromRequest.exerciseSession,
-): option<Exercise_Type.exerciseSession> =>
-  name
-  ->Utils.String.toNotBlank
-  ->Option.flatMap(name =>
-    tempo->Option.map((tempo): Exercise_Type.exerciseSession => {name, projectName, tempo})
+) =>
+  projectName
+  ->Option.map(projectName =>
+    name
+    ->Utils.String.toNotBlank
+    ->Option.flatMap(name =>
+      tempo->Option.map(tempo => Ok({Exercise_Type.name, projectName, tempo}))
+    )
+    ->Option.getOr(Error({AWS.Lambda.statusCode: 400, body: "Missing exercise name or tempo"}))
   )
+  ->Option.getOr(Error({AWS.Lambda.statusCode: 400, body: "Missing project name"}))

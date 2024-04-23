@@ -13,7 +13,4 @@ let validateSessionConfiguration: (
 
 let createSession: practiceSessionCreatorRequest => practiceSession
 
-let fromRequest: (
-  ~userId: string,
-  FromRequest.practiceSession,
-) => result<storedPracticeSession, response>
+let fromRequest: (~userId: string, FromRequest.practiceSession) => result<historyItem, response>
