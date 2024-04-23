@@ -240,7 +240,11 @@ let fromRequest = (~userId, practiceSession: FromRequest.practiceSession): resul
   storedPracticeSession,
   response,
 > => {
-  let exercises = practiceSession->Array.map(fromSessionRequest)->Array.keepSome
+  let exercises =
+    practiceSession
+    ->Array.flatMap(({name, exercises}) => exercises->Array.map(exercise => (name, exercise)))
+    ->Array.map(((projectName, exercise)) => exercise->fromSessionRequest(~projectName))
+    ->Array.keepSome
   if exercises->Array.length == 0 {
     Error({statusCode: 400, body: "At least one exercise must have been practiced"})
   } else {

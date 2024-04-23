@@ -51,7 +51,6 @@ module FromRequest = {
   @spice
   type exerciseSession = {
     name?: string,
-    projectName?: string,
     tempo?: tempo,
   }
 }

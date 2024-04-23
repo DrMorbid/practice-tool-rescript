@@ -22,5 +22,7 @@ type storedPracticeSession = {
 
 module FromRequest = {
   @spice
-  type practiceSession = array<FromRequest.exerciseSession>
+  type projectSession = {name: string, exercises: array<FromRequest.exerciseSession>}
+  @spice
+  type practiceSession = array<projectSession>
 }

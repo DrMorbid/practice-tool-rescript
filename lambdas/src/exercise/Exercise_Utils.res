@@ -55,14 +55,11 @@ let convert = ({name, slowTempo, fastTempo}: Exercise_Type.t, ~tempo): Exercise_
 let convertOption = (exercise, ~tempo) => exercise->Option.map(convert(_, ~tempo))
 
 let fromSessionRequest = (
-  {?name, ?projectName, ?tempo}: Exercise_Type.FromRequest.exerciseSession,
+  ~projectName,
+  {?name, ?tempo}: Exercise_Type.FromRequest.exerciseSession,
 ): option<Exercise_Type.exerciseSession> =>
   name
   ->Utils.String.toNotBlank
   ->Option.flatMap(name =>
-    switch (projectName, tempo) {
-    | (Some(projectName), Some(tempo)) =>
-      Some(({name, projectName, tempo}: Exercise_Type.exerciseSession))
-    | _ => None
-    }
+    tempo->Option.map((tempo): Exercise_Type.exerciseSession => {name, projectName, tempo})
   )
