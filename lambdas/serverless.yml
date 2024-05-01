@@ -29,6 +29,10 @@ provider:
             - dynamodb:DeleteItem
             - dynamodb:Query
           Resource: "arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:custom.tableNameProjects}"
+        - Effect: Allow
+          Action:
+            - dynamodb:PutItem
+          Resource: "arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:custom.tableNameHistory}"
 
 custom:
   defaultStage: dev

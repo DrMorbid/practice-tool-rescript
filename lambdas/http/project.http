@@ -4,12 +4,12 @@ Accept: application/json
 Authorization: Bearer {{$auth.token("cognito")}}
 Content-Type: application/json
 
-#< ./mindwork.json
-#< ./between-the-planets.json
-< ./voice-of-instinct.json
+#< ./body/project/mindwork.json
+#< ./body/project/between-the-planets.json
+< ./body/project/voice-of-instinct.json
 
 ### Get
-GET {{url}}/project/Voice Of Instinct
+GET {{url}}/project/Mindwork
 Accept: application/json
 Authorization: Bearer {{$auth.token("cognito")}}
 Content-Type: application/json
