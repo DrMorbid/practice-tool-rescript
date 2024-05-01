@@ -37,3 +37,6 @@ module MakeBodyResponder = (Body: Respondable) => {
     ->Result.map(Body.encode)
     ->Result.map(bodyEncoded => {statusCode: 200, body: bodyEncoded->JSON.stringify})
 }
+
+let isOk = ({statusCode}) => statusCode >= 200 && statusCode < 300
+let isNotOk = response => !(response->isOk)

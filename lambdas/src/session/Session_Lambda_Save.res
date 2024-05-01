@@ -8,13 +8,6 @@ module SaveSessionBody = {
 }
 module Body = MakeBodyExtractor(SaveSessionBody)
 
-module GetProject = {
-  @spice
-  type t = Project.Type.t
-  let encode = t_encode
-}
-module ProjectResponse = MakeBodyResponder(GetProject)
-
 module DBProjectItem = {
   type t = Project.Type.t
   let encode = Project.Type.t_encode
@@ -50,7 +43,10 @@ let handler: handler<'a> = async event =>
                   ? Some({
                       name,
                       exercises: exercises->Array.concat([
-                        {name, lastPracticed: {date: historyItem.date, tempo}},
+                        {
+                          name,
+                          lastPracticed: {date: historyItem.date, tempo},
+                        },
                       ]),
                     })
                   : None,
@@ -65,7 +61,43 @@ let handler: handler<'a> = async event =>
       historyItem,
     })
   })
-  ->Result.map(({projects, historyItem}) => historyItem->DBHistorySaver.save) {
+  ->Result.map(async ({projects, historyItem}) => {
+    let projectSaveResults =
+      await projects.projects
+      ->Array.map(async project => {
+        let projectDBResponse =
+          await {name: project.name}
+          ->Project.Utils.toProjectTableKey(~userId=projects.userId)
+          ->Project.Utils.DBGetter.get
+
+        await (
+          switch projectDBResponse->Result.map(
+            projectFromDB => {
+              ...projectFromDB,
+              exercises: projectFromDB.exercises->Array.map(
+                exerciseFromDB => {
+                  ...exerciseFromDB,
+                  lastPracticed: ?(
+                    project.exercises
+                    ->Array.find(exercise => exercise.name == exerciseFromDB.name)
+                    ->Option.map(exercise => exercise.lastPracticed)
+                  ),
+                },
+              ),
+            },
+          ) {
+          | Ok(project) => project->DBProjectSaver.save
+          | Error(error) => Promise.resolve(error)
+          }
+        )
+      })
+      ->Promise.all
+
+    switch projectSaveResults->Array.find(isNotOk) {
+    | Some(projectSaveResult) => projectSaveResult
+    | None => await historyItem->DBHistorySaver.save
+    }
+  }) {
   | Ok(result) => await result
   | Error(result) => result
   }

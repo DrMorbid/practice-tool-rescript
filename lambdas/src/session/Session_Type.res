@@ -20,9 +20,14 @@ type historyItem = {
   exercises: array<exerciseSession>,
 }
 
+type exerciseToUpdate = {
+  name: string,
+  lastPracticed: lastPracticed,
+}
+
 type projectToUpdate = {
   name: string,
-  exercises: array<FromRequest.t>,
+  exercises: array<exerciseToUpdate>,
 }
 
 type projectsToUpdate = {

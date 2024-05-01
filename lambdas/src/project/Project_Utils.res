@@ -23,18 +23,22 @@ let fromRequest = (
   }
 }
 
-let toProjectTableKey = (~userId, key) =>
-  key->Option.map(({name}: Project_Type.projectNamePathParam): Project_Type.dbKey => {
-    userId,
-    name,
-  })
+let toProjectTableKey = (
+  ~userId,
+  {name}: Project_Type.projectNamePathParam,
+): Project_Type.dbKey => {
+  userId,
+  name,
+}
+
+let optionToProjectTableKey = (~userId, key) => key->Option.map(toProjectTableKey(_, ~userId))
 
 let getProjectTableKey = event =>
   event
   ->getUser
   ->Result.flatMap(userId =>
     event.pathParameters
-    ->toProjectTableKey(~userId)
+    ->optionToProjectTableKey(~userId)
     ->Option.map(projectKey => Ok(projectKey))
     ->Option.getOr(
       Error({statusCode: 400, body: "Project name must be present in path parameters"}),
