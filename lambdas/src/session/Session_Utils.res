@@ -15,13 +15,17 @@ type sessionCalculationInput = {
 let getSessionConfiguration = event =>
   event
   ->getUser
-  ->Result.flatMap((userId): result<practiceSessionDBRequest, response> =>
+  ->Result.flatMap((userId): result<array<practiceSessionDBRequest>, response> =>
     event.pathParameters
-    ->Option.map(({projectName, exerciseCount}) => {
-      projectTableKey: {name: projectName}->Project.Utils.toProjectTableKey(~userId),
-      exerciseCount,
-    })
-    ->Option.map(practiceSessionRequest => Ok(practiceSessionRequest))
+    ->Option.map(sessionConfiguration =>
+      sessionConfiguration->Array.map(
+        ({projectName, exerciseCount}) => {
+          projectTableKey: {name: projectName}->Project.Utils.toProjectTableKey(~userId),
+          exerciseCount,
+        },
+      )
+    )
+    ->Option.map(practiceSessionRequests => Ok(practiceSessionRequests))
     ->Option.getOr(
       Error({statusCode: 400, body: "Project name must be present in path parameters"}),
     )
