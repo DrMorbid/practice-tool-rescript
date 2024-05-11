@@ -10,4 +10,5 @@ Accept: application/json
 Authorization: Bearer {{$auth.token("cognito")}}
 Content-Type: application/json
 
-< ./body/session/mindwork.json
+#< ./body/session/mindwork.json
+< ./body/session/mindwork-and-between-the-planets.json

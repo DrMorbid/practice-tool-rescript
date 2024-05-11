@@ -47,13 +47,6 @@
       }
     },
     {
-      "name": "Heartfelt",
-      "active": true,
-      "topPriority": false,
-      "slowTempo": 75,
-      "fastTempo": 100
-    },
-    {
       "name": "Inside",
       "active": true,
       "topPriority": false,
