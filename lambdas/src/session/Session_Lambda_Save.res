@@ -1,6 +1,7 @@
 open AWS.Lambda
 open Session_Type
 open Utils.Lambda
+open Session_Utils
 
 module SaveSessionBody = {
   type t = FromRequest.practiceSession
@@ -28,43 +29,18 @@ let handler: handler<'a> = async event =>
   ->Result.flatMap(userId =>
     event
     ->Body.extract
-    ->Result.flatMap(Session_Utils.fromRequest(_, ~userId))
-    ->Session_Utils.toSaveSessionWrapper(~userId)
+    ->Result.flatMap(fromRequest(_, ~userId))
+    ->toSaveSessionWrapper(~userId)
   )
   ->Result.map(async ({projects, historyItem}) => {
-    let projectSaveResults =
-      await projects.projects
-      ->Array.map(async project => {
-        let projectDBResponse =
-          await {name: project.name}
-          ->Project.Utils.toProjectTableKey(~userId=projects.userId)
-          ->Project.Utils.DBGetter.get
+    let projectsSaveResults =
+      await projects.projects->updateProjects(
+        ~userId=projects.userId,
+        ~saveToDb=DBProjectSaver.save,
+      )
 
-        await (
-          switch projectDBResponse->Result.map(
-            projectFromDB => {
-              ...projectFromDB,
-              exercises: projectFromDB.exercises->Array.map(
-                exerciseFromDB => {
-                  ...exerciseFromDB,
-                  lastPracticed: ?(
-                    project.exercises
-                    ->Array.find(exercise => exercise.name == exerciseFromDB.name)
-                    ->Option.map(exercise => exercise.lastPracticed)
-                  ),
-                },
-              ),
-            },
-          ) {
-          | Ok(project) => project->DBProjectSaver.save
-          | Error(error) => Promise.resolve(error)
-          }
-        )
-      })
-      ->Promise.all
-
-    switch projectSaveResults->Array.find(isNotOk) {
-    | Some(projectSaveResult) => projectSaveResult
+    switch projectsSaveResults->Array.find(isNotOk) {
+    | Some(projectsSaveResults) => projectsSaveResults
     | None => await historyItem->DBHistorySaver.save
     }
   }) {

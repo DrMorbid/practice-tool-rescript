@@ -291,3 +291,32 @@ let toSaveSessionWrapper = (~userId, historyItem) =>
     }),
     historyItem,
   })
+
+let updateProjects = async (~userId, ~saveToDb, projects) =>
+  await projects
+  ->Array.map(async project => {
+    let projectDBResponse =
+      await {name: project.name}
+      ->Project.Utils.toProjectTableKey(~userId)
+      ->Project.Utils.DBGetter.get
+
+    await (
+      switch projectDBResponse->Result.map(projectFromDB => {
+        ...projectFromDB,
+        exercises: projectFromDB.exercises->Array.map(
+          exerciseFromDB => {
+            ...exerciseFromDB,
+            lastPracticed: ?(
+              project.exercises
+              ->Array.find(exercise => exercise.name == exerciseFromDB.name)
+              ->Option.map(exercise => exercise.lastPracticed)
+            ),
+          },
+        ),
+      }) {
+      | Ok(project) => project->saveToDb
+      | Error(error) => Promise.resolve(error)
+      }
+    )
+  })
+  ->Promise.all

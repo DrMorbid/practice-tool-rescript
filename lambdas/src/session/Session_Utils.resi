@@ -19,3 +19,9 @@ let toSaveSessionWrapper: (
   ~userId: string,
   result<historyItem, 'a>,
 ) => result<saveSessionWrapper, 'a>
+
+let updateProjects: (
+  ~userId: string,
+  ~saveToDb: Project.Type.t => promise<response>,
+  array<projectToUpdate>,
+) => promise<array<response>>
