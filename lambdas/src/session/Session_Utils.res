@@ -257,3 +257,37 @@ let fromRequest = (~userId, practiceSession: FromRequest.practiceSession): resul
     })
   }
 }
+
+let toSaveSessionWrapper = (~userId, historyItem) =>
+  historyItem->Result.map((historyItem: historyItem) => {
+    projects: historyItem.exercises->Array.reduce({userId, projects: []}, (
+      result,
+      {name: exerciseName, projectName, tempo},
+    ) => {
+      ...result,
+      projects: result.projects
+      ->Array.filter(({name}) => name != projectName)
+      ->Array.concat([
+        result.projects
+        ->Array.findMap(
+          ({name, exercises}) =>
+            name == projectName
+              ? Some({
+                  name,
+                  exercises: exercises->Array.concat([
+                    {
+                      name: exerciseName,
+                      lastPracticed: {date: historyItem.date, tempo},
+                    },
+                  ]),
+                })
+              : None,
+        )
+        ->Option.getOr({
+          name: projectName,
+          exercises: [{name: exerciseName, lastPracticed: {date: historyItem.date, tempo}}],
+        }),
+      ]),
+    }),
+    historyItem,
+  })

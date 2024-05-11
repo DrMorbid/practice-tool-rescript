@@ -14,3 +14,8 @@ let validateSessionConfiguration: (
 let createSession: practiceSessionCreatorRequest => practiceSession
 
 let fromRequest: (~userId: string, FromRequest.practiceSession) => result<historyItem, response>
+
+let toSaveSessionWrapper: (
+  ~userId: string,
+  result<historyItem, 'a>,
+) => result<saveSessionWrapper, 'a>
