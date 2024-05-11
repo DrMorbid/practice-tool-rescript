@@ -9,7 +9,6 @@ type t = {
 module FromRequest = {
   @spice
   type t = {
-    userId?: string,
     name?: string,
     active?: bool,
     exercises?: array<Exercise.Type.FromRequest.t>,
