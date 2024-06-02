@@ -1,13 +1,3 @@
-import type { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
- title: "Practice Tool",
-};
-
-export default function Page() {
- return (
-  <>
-   <h1>Welcome to Practice Tool</h1>
-  </>
- );
-}
+export { default } from "../src/home/Home_Page.res.js";
