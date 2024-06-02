@@ -3,9 +3,7 @@
   "packageManager": "yarn@4.2.2",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "build": "next build"
   },
   "dependencies": {
     "@serwist/next": "^9.0.2",
