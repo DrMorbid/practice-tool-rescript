@@ -15,7 +15,8 @@
  "suffix": ".res.js",
  "bs-dependencies": [
   "@rescript/react",
-  "@rescript/core"
+  "@rescript/core",
+  "@rescript-mui/material"
  ],
  "bsc-flags": [
   "-open RescriptCore"
