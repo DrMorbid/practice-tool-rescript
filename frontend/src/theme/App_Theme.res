@@ -38,36 +38,6 @@ let theme = (~prefersDarkMode) => {
   create({
     typography: {
       fontFamily: Typography.fontFamily,
-      h1: Obj.magic({
-        "fontFamily": Typography.h1.fontFamily,
-        "fontSize": Typography.h1.fontSize,
-        "fontWeight": Typography.h1.fontWeight,
-      }),
-      h2: Obj.magic({
-        "fontFamily": Typography.h2.fontFamily,
-        "fontSize": Typography.h2.fontSize,
-        "fontWeight": Typography.h2.fontWeight,
-      }),
-      h3: Obj.magic({
-        "fontFamily": Typography.h3.fontFamily,
-        "fontSize": Typography.h3.fontSize,
-        "fontWeight": Typography.h3.fontWeight,
-      }),
-      h4: Obj.magic({
-        "fontFamily": Typography.h4.fontFamily,
-        "fontSize": Typography.h4.fontSize,
-        "fontWeight": Typography.h4.fontWeight,
-      }),
-      h5: Obj.magic({
-        "fontFamily": Typography.h5.fontFamily,
-        "fontSize": Typography.h5.fontSize,
-        "fontWeight": Typography.h5.fontWeight,
-      }),
-      h6: Obj.magic({
-        "fontFamily": Typography.h6.fontFamily,
-        "fontSize": Typography.h6.fontSize,
-        "fontWeight": Typography.h6.fontWeight,
-      }),
     },
     breakpoints: {
       values: Breakpoint.values,
