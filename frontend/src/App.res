@@ -2,5 +2,5 @@
 
 @react.component
 let make = (~children) => {
-  children
+  <Mui.Container> children </Mui.Container>
 }

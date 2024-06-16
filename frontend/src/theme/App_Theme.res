@@ -46,39 +46,28 @@ let theme = (~prefersDarkMode) => {
       mode: prefersDarkMode ? "dark" : "light",
       primary: {
         main: palette["primary"],
-        light: palette["primaryLight"],
-        dark: palette["primaryDark"],
-        contrastText: palette["primaryContrastText"],
       },
       secondary: {
         main: palette["secondary"],
-        light: palette["secondaryLight"],
-        dark: palette["secondaryDark"],
-        contrastText: palette["secondaryContrastText"],
       },
       error: {
         main: palette["error"],
-        light: palette["errorLight"],
-        dark: palette["errorDark"],
-        contrastText: palette["errorContrastText"],
       },
       warning: {
         main: palette["warning"],
-        light: palette["warningLight"],
-        dark: palette["warningDark"],
-        contrastText: palette["warningContrastText"],
       },
       info: {
         main: palette["info"],
-        light: palette["infoLight"],
-        dark: palette["infoDark"],
-        contrastText: palette["infoContrastText"],
       },
       success: {
         main: palette["success"],
-        light: palette["successLight"],
-        dark: palette["successDark"],
-        contrastText: palette["successContrastText"],
+      },
+      background: {
+        default: palette["background"],
+      },
+      text: {
+        primary: palette["textPrimary"],
+        secondary: palette["textSecondary"],
       },
     },
   })
