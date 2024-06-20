@@ -3,6 +3,7 @@ open Mui.Theme
 
 module Colors = App_Theme_Colors
 module Typography = App_Theme_Typography
+module Classes = App_Theme_Classes
 
 let darkModeMediaQuery = "(prefers-color-scheme: dark)"
 

@@ -1,3 +1,5 @@
+%%raw(`import "./theme/layout.css"`)
+
 %%raw(`
 import { Inter } from "next/font/google";
 `)

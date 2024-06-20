@@ -1,17 +1,21 @@
 module Classes = {
-  let layout = ReactDOM.Style.make(~justifyItems="center", ())
+  let container = Mui.Sx.array(
+    [ReactDOM.Style.make(~justifyItems="center", ())->MuiStyles.styleToSxArray]->Array.concat(
+      App_Theme.Classes.maxHeight,
+    ),
+  )
 }
 
 @react.component
 let default = () => {
   <Mui.Box
     display={String("grid")}
-    gap={Number(4.)}
-    marginTop={Number(3.)}
-    sx={Classes.layout->MuiStyles.styleToSx}>
+    gridAutoRows={String("min-content")}
+    alignContent={String("space-evenly")}
+    sx=Classes.container>
     <Mui.Typography variant={H1} textAlign={Center}>
       {"Welcome to Practice Tool"->Jsx.string}
     </Mui.Typography>
-    <Mui.Button variant={Contained}> {"Sign in"->Jsx.string} </Mui.Button>
+    <Mui.Button variant={Contained} size={Large}> {"Sign in"->Jsx.string} </Mui.Button>
   </Mui.Box>
 }
