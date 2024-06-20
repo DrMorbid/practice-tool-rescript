@@ -35,7 +35,7 @@ module Breakpoint = {
 let theme = (~prefersDarkMode) => {
   let palette = Colors.palette(prefersDarkMode)
 
-  create({
+  let theme = create({
     typography: {
       fontFamily: Typography.fontFamily,
     },
@@ -71,4 +71,6 @@ let theme = (~prefersDarkMode) => {
       },
     },
   })
+
+  MuiStyles.responsiveFontSizes(theme)
 }
