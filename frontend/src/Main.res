@@ -8,8 +8,8 @@ let make = (~children) => {
     Amplify.amplify->Amplify.Configuration.configure({
       auth: {
         cognito: {
-          userPoolClientId: "5l72lsb5di0lrft25llng18vl0",
-          userPoolId: "eu-central-1_NWWCPvxRL",
+          userPoolId: EnvVar.cognitoUserPoolId,
+          userPoolClientId: EnvVar.cognitoUserPoolClientId,
         },
       },
     })

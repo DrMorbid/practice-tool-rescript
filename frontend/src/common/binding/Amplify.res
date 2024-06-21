@@ -10,8 +10,8 @@ module Authenticator = {
 
 module Configuration = {
   type cognitoConfig = {
-    userPoolClientId?: string,
     userPoolId?: string,
+    userPoolClientId?: string,
   }
   type authConfig = {@as("Cognito") cognito?: cognitoConfig}
   type resourceConfig = {@as("Auth") auth?: authConfig}
