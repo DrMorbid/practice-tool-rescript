@@ -12,7 +12,7 @@ const inter = Inter({
 });
 `)
 
-let fontInter: Next.font = %raw(`
+let fontInter: Next.Font.font = %raw(`
   inter
 `)
 

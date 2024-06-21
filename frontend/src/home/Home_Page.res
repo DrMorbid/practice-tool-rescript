@@ -8,6 +8,10 @@ module Classes = {
 
 @react.component
 let default = () => {
+  let router = Next.Navigation.useRouter()
+
+  let routeToSignInPage = _ => router->Next.Navigation.Router.push("/signIn")
+
   <Mui.Box
     display={String("grid")}
     gridAutoRows={String("min-content")}
@@ -16,6 +20,8 @@ let default = () => {
     <Mui.Typography variant={H1} textAlign={Center}>
       {"Welcome to Practice Tool"->Jsx.string}
     </Mui.Typography>
-    <Mui.Button variant={Contained} size={Large}> {"Sign in"->Jsx.string} </Mui.Button>
+    <Mui.Button variant={Contained} size={Large} onClick=routeToSignInPage>
+      {"Sign in"->Jsx.string}
+    </Mui.Button>
   </Mui.Box>
 }
