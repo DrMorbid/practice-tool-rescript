@@ -8,16 +8,16 @@
     "build": "next build"
   },
   "dependencies": {
-    "@aws-amplify/ui-react": "^6.1.12",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@mui/material": "^5.15.20",
     "@mui/material-nextjs": "^5.15.11",
     "@serwist/next": "^9.0.3",
-    "aws-amplify": "^6.3.7",
     "next": "^14.2.4",
+    "oidc-client-ts": "^3.0.1",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-oidc-context": "^3.1.0"
   },
   "devDependencies": {
     "@rescript-mui/material": "^5.0.0-rc.2",
@@ -27,6 +27,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "rescript": "^11.1.1",
+    "rescript-webapi": "^0.9.1",
     "serwist": "^9.0.3",
     "typescript": "^5.5.2"
   }

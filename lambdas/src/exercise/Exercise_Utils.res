@@ -65,6 +65,18 @@ let fromSessionRequest = (
     ->Option.flatMap(name =>
       tempo->Option.map(tempo => Ok({Exercise_Type.name, projectName, tempo}))
     )
-    ->Option.getOr(Error({AWS.Lambda.statusCode: 400, body: "Missing exercise name or tempo"}))
+    ->Option.getOr(
+      Error({
+        AWS.Lambda.statusCode: 400,
+        headers: Utils.Lambda.defaultResponseHeaders,
+        body: "Missing exercise name or tempo",
+      }),
+    )
   )
-  ->Option.getOr(Error({AWS.Lambda.statusCode: 400, body: "Missing project name"}))
+  ->Option.getOr(
+    Error({
+      AWS.Lambda.statusCode: 400,
+      headers: Utils.Lambda.defaultResponseHeaders,
+      body: "Missing project name",
+    }),
+  )

@@ -23,13 +23,23 @@ let getSessionConfiguration = event =>
     })
     ->Option.map(practiceSessionRequest => Ok(practiceSessionRequest))
     ->Option.getOr(
-      Error({statusCode: 400, body: "Project name must be present in path parameters"}),
+      Error({
+        statusCode: 400,
+        headers: Utils.Lambda.defaultResponseHeaders,
+        body: "Project name must be present in path parameters",
+      }),
     )
   )
 
 let validateSessionConfiguration = (~exerciseCount, project: Project.Type.t) => {
   (
-    project.active ? Ok(project) : Error({statusCode: 400, body: "Project is not active"})
+    project.active
+      ? Ok(project)
+      : Error({
+          statusCode: 400,
+          headers: Utils.Lambda.defaultResponseHeaders,
+          body: "Project is not active",
+        })
   )->Result.flatMap(project => {
     let activeTopPriorityExercises =
       project.exercises->Array.filter(({active, topPriority}) => active && topPriority)
@@ -41,7 +51,11 @@ let validateSessionConfiguration = (~exerciseCount, project: Project.Type.t) => 
     ) {
       Ok(project)
     } else {
-      Error({statusCode: 400, body: "Project does not have enough active exercises"})
+      Error({
+        statusCode: 400,
+        headers: Utils.Lambda.defaultResponseHeaders,
+        body: "Project does not have enough active exercises",
+      })
     }
   })
 }
@@ -245,7 +259,12 @@ let fromRequest = (~userId, practiceSession: FromRequest.practiceSession): resul
     ->Array.map(((projectName, exercise)) => exercise->fromSessionRequest(~projectName?))
 
   switch (exercises, exercises->Array.find(Result.isError)) {
-  | ([], _) => Error({statusCode: 400, body: "At least one exercise must have been practiced"})
+  | ([], _) =>
+    Error({
+      statusCode: 400,
+      headers: Utils.Lambda.defaultResponseHeaders,
+      body: "At least one exercise must have been practiced",
+    })
   | (_, Some(Error(exerciseError))) => Error(exerciseError)
   | _ =>
     Ok({

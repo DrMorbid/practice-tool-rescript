@@ -9,7 +9,11 @@ let fromRequest = (
     inputExercises->Option.getOr([])->Array.map(Exercise.Utils.fromRequest)->Array.keepSome
 
   if exercises->Array.length < inputExercises->Option.getOr([])->Array.length {
-    Error({statusCode: 400, body: "Exercise name cannot be empty"})
+    Error({
+      statusCode: 400,
+      headers: Utils.Lambda.defaultResponseHeaders,
+      body: "Exercise name cannot be empty",
+    })
   } else {
     name
     ->Utils.String.toNotBlank
@@ -19,7 +23,13 @@ let fromRequest = (
       active: active->Option.getOr(false),
       exercises,
     }))
-    ->Option.getOr(Error({statusCode: 400, body: "Project name cannot be empty"}))
+    ->Option.getOr(
+      Error({
+        statusCode: 400,
+        headers: Utils.Lambda.defaultResponseHeaders,
+        body: "Project name cannot be empty",
+      }),
+    )
   }
 }
 
@@ -41,7 +51,11 @@ let getProjectTableKey = event =>
     ->optionToProjectTableKey(~userId)
     ->Option.map(projectKey => Ok(projectKey))
     ->Option.getOr(
-      Error({statusCode: 400, body: "Project name must be present in path parameters"}),
+      Error({
+        statusCode: 400,
+        headers: Utils.Lambda.defaultResponseHeaders,
+        body: "Project name must be present in path parameters",
+      }),
     )
   )
 

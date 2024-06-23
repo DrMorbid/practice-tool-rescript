@@ -22,7 +22,11 @@ module DBSaver = (Body: Savable) => {
 
     Console.log2("Put result is %o", result)
 
-    {statusCode: 200, body: "Saved successfully"}
+    {
+      statusCode: 200,
+      headers: Utils_Lambda.defaultResponseHeaders,
+      body: "Saved successfully",
+    }
   }
 }
 
@@ -54,11 +58,21 @@ module DBGetter = (Get: Getable) => {
             key,
             error,
           )
-          Error({statusCode: 500, body: "Invalid response from database"})
+          Error({
+            statusCode: 500,
+            headers: Utils_Lambda.defaultResponseHeaders,
+            body: "Invalid response from database",
+          })
         }
       }
     )
-    ->Option.getOr(Error({statusCode: 404, body: "Not found in database"}))
+    ->Option.getOr(
+      Error({
+        statusCode: 404,
+        headers: Utils_Lambda.defaultResponseHeaders,
+        body: "Not found in database",
+      }),
+    )
   }
 }
 
@@ -79,7 +93,11 @@ module DBDeleter = (Delete: Deletable) => {
 
     Console.log2("Delete result is %o", result)
 
-    {statusCode: 200, body: "Deleted successfully"}
+    {
+      statusCode: 200,
+      headers: Utils_Lambda.defaultResponseHeaders,
+      body: "Deleted successfully",
+    }
   }
 }
 

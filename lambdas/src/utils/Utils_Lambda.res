@@ -1,5 +1,11 @@
 open AWS.Lambda
 
+let defaultResponseHeaders =
+  [
+    ("Access-Control-Allow-Origin", "*"),
+    ("Access-Control-Allow-Credentials", true->string_of_bool),
+  ]->Dict.fromArray
+
 let getUser = ({?requestContext}: Event.t<'a>) =>
   requestContext
   ->Option.flatMap(({?authorizer}) => authorizer)
@@ -7,7 +13,9 @@ let getUser = ({?requestContext}: Event.t<'a>) =>
   ->Option.flatMap(({?claims}) => claims)
   ->Option.flatMap(({?username}) => username)
   ->Option.map(username => Ok(username))
-  ->Option.getOr(Error({statusCode: 403, body: "No authenticated user"}))
+  ->Option.getOr(
+    Error({statusCode: 403, headers: defaultResponseHeaders, body: "No authenticated user"}),
+  )
 
 module type Extractable = {
   type t
@@ -21,10 +29,12 @@ module MakeBodyExtractor = (Body: Extractable) => {
     ->Option.map(extracted => {
       extracted->Result.mapError(error => {
         Console.error2("Invalid request body: %o", error)
-        {statusCode: 400, body: "Invalid request body"}
+        {statusCode: 400, headers: defaultResponseHeaders, body: "Invalid request body"}
       })
     })
-    ->Option.getOr(Error({statusCode: 400, body: "No request body"}))
+    ->Option.getOr(
+      Error({statusCode: 400, headers: defaultResponseHeaders, body: "No request body"}),
+    )
 }
 
 module type Respondable = {
@@ -35,7 +45,11 @@ module MakeBodyResponder = (Body: Respondable) => {
   let create = response =>
     response
     ->Result.map(Body.encode)
-    ->Result.map(bodyEncoded => {statusCode: 200, body: bodyEncoded->JSON.stringify})
+    ->Result.map(bodyEncoded => {
+      statusCode: 200,
+      headers: defaultResponseHeaders,
+      body: bodyEncoded->JSON.stringify,
+    })
 }
 
 let isOk = ({statusCode}) => statusCode >= 200 && statusCode < 300

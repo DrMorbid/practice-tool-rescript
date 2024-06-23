@@ -18,6 +18,6 @@
   "devDependencies": {
     "@greenlabs/rescript-jest": "^28.1.0",
     "jest": "^28.1.3",
-    "serverless": "^4.1.0"
+    "serverless": "^3"
   }
 }

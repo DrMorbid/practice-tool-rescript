@@ -12,6 +12,7 @@ provider:
     TABLE_NAME_PROJECTS: ${self:custom.tableNameProjects}
     TABLE_NAME_HISTORY: ${self:custom.tableNameHistory}
   httpApi:
+    cors: true
     authorizers:
       practiceToolAuthorizer:
         type: jwt
