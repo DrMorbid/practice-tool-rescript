@@ -8,5 +8,5 @@ let default = () => {
     None
   })
 
-  Jsx.null
+  <Spinner />
 }

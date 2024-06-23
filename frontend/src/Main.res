@@ -25,9 +25,9 @@ let make = (~children) => {
     <Mui.ThemeProvider theme={Theme(App_Theme.theme(~prefersDarkMode))}>
       <Mui.CssBaseline />
       <ReactOidcContext.AuthProvider
-        authority="https://cognito-idp.eu-central-1.amazonaws.com/eu-central-1_NWWCPvxRL"
-        client_id="5l72lsb5di0lrft25llng18vl0"
-        redirect_uri="http://localhost:3000/signIn/redirect"
+        authority={`${EnvVar.cognitoUrl}/${EnvVar.cognitoUserPoolId}`}
+        client_id=EnvVar.cognitoUserPoolClientId
+        redirect_uri=EnvVar.cognitoRedirectUrl
         scope="openid profile email"
         onSigninCallback>
         <main>

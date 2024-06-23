@@ -9,8 +9,9 @@ module Classes = {
 @react.component
 let default = () => {
   let router = Next.Navigation.useRouter()
+  let auth = ReactOidcContext.useAuth()
 
-  let routeToSignInPage = _ => router->Next.Navigation.Router.push("/signIn")
+  let routeToSignInPage = _ => router->Route.FrontEnd.push(~route=#"/signIn")
 
   <Mui.Box
     display={String("grid")}
@@ -20,8 +21,12 @@ let default = () => {
     <Mui.Typography variant={H1} textAlign={Center}>
       {"Welcome to Practice Tool"->Jsx.string}
     </Mui.Typography>
-    <Mui.Button variant={Contained} size={Large} onClick=routeToSignInPage>
-      {"Sign in"->Jsx.string}
-    </Mui.Button>
+    {if auth.isAuthenticated {
+      Jsx.null
+    } else {
+      <Mui.Button variant={Contained} size={Large} onClick=routeToSignInPage>
+        {"Sign in"->Jsx.string}
+      </Mui.Button>
+    }}
   </Mui.Box>
 }
