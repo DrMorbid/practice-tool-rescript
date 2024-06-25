@@ -2,5 +2,6 @@
  "editor.formatOnSave": true,
  "rescript.settings.codeLens": true,
  "rescript.settings.incrementalTypechecking.acrossFiles": true,
- "rescript.settings.incrementalTypechecking.enabled": true
+ "rescript.settings.incrementalTypechecking.enabled": true,
+ "terminal.integrated.gpuAcceleration": "off"
 }

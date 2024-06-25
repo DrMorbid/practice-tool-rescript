@@ -65,10 +65,18 @@ let theme = (~prefersDarkMode) => {
       },
       background: {
         default: palette["background"],
+        paper: palette["backgroundPaper"],
       },
       text: {
         primary: palette["textPrimary"],
         secondary: palette["textSecondary"],
+      },
+    },
+    components: {
+      muiSnackbarContent: {
+        styleOverrides: {
+          root: {color: palette["colorSnackbar"], backgroundColor: palette["backgroundSnackbar"]},
+        },
       },
     },
   })
