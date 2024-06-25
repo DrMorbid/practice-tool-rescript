@@ -6,5 +6,5 @@ module Classes = {
 
 @react.component
 let make = (~children) => {
-  <Mui.Container sx=Classes.container> children </Mui.Container>
+  <Mui.Container sx=Classes.container> {children} </Mui.Container>
 }

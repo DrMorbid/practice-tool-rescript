@@ -2,6 +2,10 @@
 
 external dictToState: Dict.t<string> => Webapi.Dom.History.state = "%identity"
 
+module Classes = {
+  let appBar = Mui.Sx.obj({bottom: Number(0.), top: Unset, left: Number(0.), right: Unset})
+}
+
 @react.component
 let make = (~children) => {
   let prefersDarkMode = Mui.Core.useMediaQueryString(App_Theme.darkModeMediaQuery)
@@ -32,6 +36,13 @@ let make = (~children) => {
         onSigninCallback>
         <main>
           <App> {children} </App>
+          <Mui.AppBar position={Fixed} sx=Classes.appBar>
+            <Mui.BottomNavigation showLabels=true value=0 onChange={(_event, _newValue) => {()}}>
+              <Mui.BottomNavigationAction label={"Practice"->Jsx.string} />
+              <Mui.BottomNavigationAction label={"Manage"->Jsx.string} />
+              <Mui.BottomNavigationAction label={"History"->Jsx.string} />
+            </Mui.BottomNavigation>
+          </Mui.AppBar>
         </main>
       </ReactOidcContext.AuthProvider>
     </Mui.ThemeProvider>
