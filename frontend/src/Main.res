@@ -10,8 +10,6 @@ let make = (~children) => {
   let isMdUp = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.mdUp)
 
   React.useEffect(() => {
-    Console.log2("FKR: Main useEffect: menuRef=%o", menuRef)
-
     let menuElement =
       menuRef.current
       ->Nullable.toOption
@@ -22,8 +20,6 @@ let make = (~children) => {
 
     None
   }, (menuRef, isMdUp))
-
-  Console.log2("FKR: Main render: appPadding=%d", appPadding)
 
   let onSigninCallback = _ => {
     Webapi.Dom.window
