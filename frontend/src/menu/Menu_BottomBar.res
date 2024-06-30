@@ -6,8 +6,13 @@ module Classes = {
 let make = (~menuRef) => {
   <Mui.AppBar position={Fixed} sx=Classes.appBar ref={menuRef->ReactDOM.Ref.domRef}>
     <Mui.BottomNavigation showLabels=true value=0 onChange={(_event, _newValue) => {()}}>
-      <Mui.BottomNavigationAction label={"Practice"->Jsx.string} icon={<Icon.MusicNoteTwoTone />} />
-      <Mui.BottomNavigationAction label={"Manage"->Jsx.string} icon={<Icon.BuildTwoTone />} />
+      {Menu_Content.menuContent
+      ->Array.mapWithIndex(({label, icon}, index) =>
+        <Mui.BottomNavigationAction
+          label={label->Jsx.string} icon key={`menu-item-${index->Int.toString}`}
+        />
+      )
+      ->Jsx.array}
     </Mui.BottomNavigation>
   </Mui.AppBar>
 }

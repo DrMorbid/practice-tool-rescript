@@ -2,22 +2,16 @@
 let make = (~menuRef) => {
   <Mui.Drawer variant={Permanent} anchor={Left}>
     <Mui.List ref={menuRef->ReactDOM.Ref.domRef}>
-      <Mui.ListItem>
-        <Mui.ListItemButton>
-          <Mui.ListItemIcon>
-            <Icon.MusicNoteTwoTone />
-          </Mui.ListItemIcon>
-          <Mui.ListItemText primary={"Practice"->Jsx.string} />
-        </Mui.ListItemButton>
-      </Mui.ListItem>
-      <Mui.ListItem>
-        <Mui.ListItemButton>
-          <Mui.ListItemIcon>
-            <Icon.BuildTwoTone />
-          </Mui.ListItemIcon>
-          <Mui.ListItemText primary={"Manage"->Jsx.string} />
-        </Mui.ListItemButton>
-      </Mui.ListItem>
+      {Menu_Content.menuContent
+      ->Array.mapWithIndex(({label, icon}, index) =>
+        <Mui.ListItem key={`menu-item-${index->Int.toString}`}>
+          <Mui.ListItemButton>
+            <Mui.ListItemIcon> icon </Mui.ListItemIcon>
+            <Mui.ListItemText primary={label->Jsx.string} />
+          </Mui.ListItemButton>
+        </Mui.ListItem>
+      )
+      ->Jsx.array}
     </Mui.List>
   </Mui.Drawer>
 }
