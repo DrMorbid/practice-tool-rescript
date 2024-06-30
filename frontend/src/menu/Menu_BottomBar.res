@@ -3,8 +3,8 @@ module Classes = {
 }
 
 @react.component
-let make = (~bottomBarRef) => {
-  <Mui.AppBar position={Fixed} sx=Classes.appBar ref={bottomBarRef->ReactDOM.Ref.domRef}>
+let make = (~menuRef) => {
+  <Mui.AppBar position={Fixed} sx=Classes.appBar ref={menuRef->ReactDOM.Ref.domRef}>
     <Mui.BottomNavigation showLabels=true value=0 onChange={(_event, _newValue) => {()}}>
       <Mui.BottomNavigationAction label={"Practice"->Jsx.string} />
       <Mui.BottomNavigationAction label={"Manage"->Jsx.string} />

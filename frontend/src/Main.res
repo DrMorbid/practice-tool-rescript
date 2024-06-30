@@ -4,22 +4,26 @@ external dictToState: Dict.t<string> => Webapi.Dom.History.state = "%identity"
 
 @react.component
 let make = (~children) => {
-  let (bottomBarHeight, setBottomBarHeight) = React.useState(() => 0)
+  let (appPadding, setAppPadding) = React.useState(() => 0)
   let prefersDarkMode = Mui.Core.useMediaQueryString(App_Theme.darkModeMediaQuery)
-  let bottomBarRef = React.useRef(Nullable.null)
+  let menuRef = React.useRef(Nullable.null)
+  let isMdUp = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.mdUp)
 
   React.useEffect(() => {
-    setBottomBarHeight(_ =>
-      (
-        bottomBarRef.current
-        ->Nullable.toOption
-        ->Option.map(current => current->ReactDOM.domElementToObj)
-        ->Option.getOr(Object.make())
-      )["offsetHeight"]
-    )
+    Console.log2("FKR: Main useEffect: menuRef=%o", menuRef)
+
+    let menuElement =
+      menuRef.current
+      ->Nullable.toOption
+      ->Option.map(current => current->ReactDOM.domElementToObj)
+      ->Option.getOr(Object.make())
+
+    setAppPadding(_ => isMdUp ? menuElement["offsetWidth"] : menuElement["offsetHeight"])
 
     None
-  }, [bottomBarRef])
+  }, (menuRef, isMdUp))
+
+  Console.log2("FKR: Main render: appPadding=%d", appPadding)
 
   let onSigninCallback = _ => {
     Webapi.Dom.window
@@ -46,8 +50,8 @@ let make = (~children) => {
         scope="openid profile email"
         onSigninCallback>
         <main>
-          <App bottomBarHeight> {children} </App>
-          <Menu.BottomBar bottomBarRef />
+          <App appPadding> {children} </App>
+          {isMdUp ? <Menu.Drawer menuRef /> : <Menu.BottomBar menuRef />}
         </main>
       </ReactOidcContext.AuthProvider>
     </Mui.ThemeProvider>
