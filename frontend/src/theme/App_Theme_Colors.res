@@ -7,7 +7,7 @@ let palette = prefersDarkMode =>
     "info": prefersDarkMode ? "#D1E8E2" : "#026670",
     "success": prefersDarkMode ? "#116466" : "#9FEDD7",
     "textPrimary": prefersDarkMode ? "#D1E8E2" : "#000C0E",
-    "textSecondary": prefersDarkMode ? "#FFCB9A" : "#161206",
+    "textSecondary": prefersDarkMode ? "#E1F8FA" : "#161206",
     "background": prefersDarkMode ? "#2C3531" : "#EDEAE5",
     "backgroundPaper": prefersDarkMode ? "#1E2522" : "#FAF9F7",
     "backgroundSnackbar": prefersDarkMode ? "#E8F3F0" : "#002327",
