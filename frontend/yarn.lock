@@ -420,10 +420,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/core-downloads-tracker@npm:^5.15.20":
-  version: 5.15.20
-  resolution: "@mui/core-downloads-tracker@npm:5.15.20"
-  checksum: 10c0/0e1f9aa9c85d5f60fa5937edc22dfbebd512671379e3adb7c99a8ef0928bf42daed98cede41a407e810a225554943675e9d976bc0ae17acdc20445c8d2f121b3
+"@mui/core-downloads-tracker@npm:^5.15.21":
+  version: 5.15.21
+  resolution: "@mui/core-downloads-tracker@npm:5.15.21"
+  checksum: 10c0/986d03f08253c839f142f15d2ec8f0b889eb802cdd0306e6fbc678b50689d42334bb8e1d85ca46fa7ff5c69a76657a91830e672059341dc7c1fd74b1cd134481
   languageName: node
   linkType: hard
 
@@ -450,13 +450,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/material@npm:^5.15.20":
-  version: 5.15.20
-  resolution: "@mui/material@npm:5.15.20"
+"@mui/material@npm:^5.15.21":
+  version: 5.15.21
+  resolution: "@mui/material@npm:5.15.21"
   dependencies:
     "@babel/runtime": "npm:^7.23.9"
     "@mui/base": "npm:5.0.0-beta.40"
-    "@mui/core-downloads-tracker": "npm:^5.15.20"
+    "@mui/core-downloads-tracker": "npm:^5.15.21"
     "@mui/system": "npm:^5.15.20"
     "@mui/types": "npm:^7.2.14"
     "@mui/utils": "npm:^5.15.20"
@@ -479,7 +479,7 @@ __metadata:
       optional: true
     "@types/react":
       optional: true
-  checksum: 10c0/0882661f83f5b73c06d6402ddd9c0f8e471198b838c4a456db03a5256d8febc688abc41645156d155536106a44bd28798efcfdaec00b665ab91dbd5c9dee83eb
+  checksum: 10c0/005f8ec036f0742e35c7cf6e3bd6280cd996b416bfdc6ee05ba625d1a62a41bbc077a5244b71eba01016fa0df2b1ba115ef7028c962eed1bdd98108fab024a6e
   languageName: node
   linkType: hard
 
@@ -716,12 +716,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rescript/core@npm:^1.5.0":
-  version: 1.5.0
-  resolution: "@rescript/core@npm:1.5.0"
+"@rescript/core@npm:^1.5.2":
+  version: 1.5.2
+  resolution: "@rescript/core@npm:1.5.2"
   peerDependencies:
     rescript: ^11.1.0-rc.7
-  checksum: 10c0/fa088f3dc18cec6116a6d7bf4350d4ebded63997cb88fc7db8d47f831693adb64493c222be20341cd7ebb6792bcf3908ee541d380d57e965b7b8870640fc6ca0
+  checksum: 10c0/0745586f33b13b1dc5512fc1d3bb596794c82622d28a7775b4f9329772e2ca355dd44d44082e1a6eb8db4dbb8d54c4271e2df3f4b2b845d89c00b590297e6837
   languageName: node
   linkType: hard
 
@@ -949,12 +949,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^20.14.8":
-  version: 20.14.8
-  resolution: "@types/node@npm:20.14.8"
+"@types/node@npm:^20.14.9":
+  version: 20.14.9
+  resolution: "@types/node@npm:20.14.9"
   dependencies:
     undici-types: "npm:~5.26.4"
-  checksum: 10c0/06d4643fa3b179b41fe19f9c75c240278ca1f7a313b3b837bc36ea119499c7ad77f06bbe72694ac04aa91ec77fe747baa09b889f4c435450c1724a26bd55f160
+  checksum: 10c0/911ffa444dc032897f4a23ed580c67903bd38ea1c5ec99b1d00fa10b83537a3adddef8e1f29710cbdd8e556a61407ed008e06537d834e48caf449ce59f87d387
   languageName: node
   linkType: hard
 
@@ -2102,13 +2102,13 @@ __metadata:
   dependencies:
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.5"
-    "@mui/material": "npm:^5.15.20"
+    "@mui/material": "npm:^5.15.21"
     "@mui/material-nextjs": "npm:^5.15.11"
     "@rescript-mui/material": "npm:^5.0.0-rc.2"
-    "@rescript/core": "npm:^1.5.0"
+    "@rescript/core": "npm:^1.5.2"
     "@rescript/react": "npm:^0.12.2"
     "@serwist/next": "npm:^9.0.3"
-    "@types/node": "npm:^20.14.8"
+    "@types/node": "npm:^20.14.9"
     "@types/react": "npm:^18.3.3"
     "@types/react-dom": "npm:^18.3.0"
     next: "npm:^14.2.4"
