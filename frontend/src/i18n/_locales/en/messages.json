@@ -1,0 +1,18 @@
+{
+    "2d5ed12d-12d1-49f7-959e-fb553cea149b": {
+        "message": "Practice",
+        "description": "Main menu - the Practice button"
+    },
+    "385321bf-8b66-4ea1-8c79-7df3bbd5afbc": {
+        "message": "Manage",
+        "description": "Main menu - the Manage button"
+    },
+    "3951d0b9-1865-4733-952e-bdcb46a87289": {
+        "message": "Welcome to Practice Tool",
+        "description": "Home page - the welcome text"
+    },
+    "a5f98475-54c7-4977-bee4-c97379882b2b": {
+        "message": "Sign in",
+        "description": "Home page - the Sign In button"
+    }
+}

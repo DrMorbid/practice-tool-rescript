@@ -4,12 +4,16 @@ module Classes = {
 
 @react.component
 let make = (~menuRef) => {
+  let intl = ReactIntl.useIntl()
+
   <Mui.AppBar position={Fixed} sx=Classes.appBar ref={menuRef->ReactDOM.Ref.domRef}>
     <Mui.BottomNavigation showLabels=true value=0 onChange={(_event, _newValue) => {()}}>
       {Menu_Content.menuContent
       ->Array.mapWithIndex(({label, icon}, index) =>
         <Mui.BottomNavigationAction
-          label={label->Jsx.string} icon key={`menu-item-${index->Int.toString}`}
+          label={intl->ReactIntl.Intl.formatMessage(label)->Jsx.string}
+          icon
+          key={`menu-item-${index->Int.toString}`}
         />
       )
       ->Jsx.array}

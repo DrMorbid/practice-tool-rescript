@@ -1,9 +1,9 @@
 type t = {
-  label: string,
+  label: ReactIntl.message,
   icon: Jsx.element,
 }
 
 let menuContent = [
-  {label: "Practice", icon: <Icon.MusicNoteTwoTone />},
-  {label: "Manage", icon: <Icon.BuildTwoTone />},
+  {label: Message.Menu.practice, icon: <Icon.MusicNoteTwoTone />},
+  {label: Message.Menu.manage, icon: <Icon.BuildTwoTone />},
 ]

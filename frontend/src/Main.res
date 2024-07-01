@@ -36,20 +36,22 @@ let make = (~children) => {
     )
   }
 
-  <MuiNext.AppRouterCacheProvider>
-    <Mui.ThemeProvider theme={Theme(App_Theme.theme(~prefersDarkMode))}>
-      <Mui.CssBaseline />
-      <ReactOidcContext.AuthProvider
-        authority={`${EnvVar.cognitoUrl}/${EnvVar.cognitoUserPoolId}`}
-        client_id=EnvVar.cognitoUserPoolClientId
-        redirect_uri=EnvVar.cognitoRedirectUrl
-        scope="openid profile email"
-        onSigninCallback>
-        <main>
-          <App appPadding> {children} </App>
-          {isMdUp ? <Menu.Drawer menuRef /> : <Menu.BottomBar menuRef />}
-        </main>
-      </ReactOidcContext.AuthProvider>
-    </Mui.ThemeProvider>
-  </MuiNext.AppRouterCacheProvider>
+  <IntlProvider>
+    <MuiNext.AppRouterCacheProvider>
+      <Mui.ThemeProvider theme={Theme(App_Theme.theme(~prefersDarkMode))}>
+        <Mui.CssBaseline />
+        <ReactOidcContext.AuthProvider
+          authority={`${EnvVar.cognitoUrl}/${EnvVar.cognitoUserPoolId}`}
+          client_id=EnvVar.cognitoUserPoolClientId
+          redirect_uri=EnvVar.cognitoRedirectUrl
+          scope="openid profile email"
+          onSigninCallback>
+          <main>
+            <App appPadding> {children} </App>
+            {isMdUp ? <Menu.Drawer menuRef /> : <Menu.BottomBar menuRef />}
+          </main>
+        </ReactOidcContext.AuthProvider>
+      </Mui.ThemeProvider>
+    </MuiNext.AppRouterCacheProvider>
+  </IntlProvider>
 }

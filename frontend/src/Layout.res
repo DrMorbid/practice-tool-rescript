@@ -18,7 +18,7 @@ let fontInter: Next.Font.font = %raw(`
 
 @react.component
 let default = (~children) => {
-  <html lang="cs" className=fontInter.className>
+  <html className=fontInter.className>
     <body>
       <Main> {children} </Main>
     </body>

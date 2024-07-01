@@ -5,7 +5,8 @@
     "res:build": "rescript clean && rescript",
     "res:dev": "rescript clean && rescript build -w",
     "dev": "next dev",
-    "build": "next build"
+    "build": "next build",
+    "intl:extract-messages": "node ./scripts/intlExtractor.js"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -18,6 +19,7 @@
     "oidc-client-ts": "^3.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-intl": "^6.6.8",
     "react-oidc-context": "^3.1.0"
   },
   "devDependencies": {
@@ -28,6 +30,8 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "rescript": "^11.1.2",
+    "rescript-react-intl": "^3.0.0",
+    "rescript-react-intl-extractor-bin": "^0.14.0",
     "rescript-webapi": "^0.9.1",
     "serwist": "^9.0.3",
     "typescript": "^5.5.2"
