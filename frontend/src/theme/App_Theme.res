@@ -47,21 +47,27 @@ let theme = (~prefersDarkMode) => {
       mode: prefersDarkMode ? "dark" : "light",
       primary: {
         main: palette["primary"],
+        contrastText: palette["onPrimary"],
       },
       secondary: {
         main: palette["secondary"],
+        contrastText: palette["onSecondary"],
       },
       error: {
         main: palette["error"],
+        contrastText: palette["onError"],
       },
       warning: {
         main: palette["warning"],
+        contrastText: palette["onWarning"],
       },
       info: {
         main: palette["info"],
+        contrastText: palette["onInfo"],
       },
       success: {
         main: palette["success"],
+        contrastText: palette["onSuccess"],
       },
       background: {
         default: palette["background"],
@@ -75,7 +81,7 @@ let theme = (~prefersDarkMode) => {
     components: {
       muiSnackbarContent: {
         styleOverrides: {
-          root: {color: palette["colorSnackbar"], backgroundColor: palette["backgroundSnackbar"]},
+          root: {backgroundColor: palette["backgroundSnackbar"]},
         },
       },
     },
