@@ -433,6 +433,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@greenlabs/ppx-spice@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "@greenlabs/ppx-spice@npm:0.2.1"
+  checksum: 10c0/dafa73ed10fa2e2159e3da49817a0a8caa8fbd8d20c43f0c6cdef7f0e5e31099bae32c162d815c1143535810f547f65fe7c1bd66f69857a3d8378f79ab0c17b0
+  languageName: node
+  linkType: hard
+
 "@isaacs/cliui@npm:^8.0.2":
   version: 8.0.2
   resolution: "@isaacs/cliui@npm:8.0.2"
@@ -2231,6 +2238,7 @@ __metadata:
   dependencies:
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.5"
+    "@greenlabs/ppx-spice": "npm:^0.2.1"
     "@mui/icons-material": "npm:^5.15.21"
     "@mui/material": "npm:^5.15.21"
     "@mui/material-nextjs": "npm:^5.15.11"

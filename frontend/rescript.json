@@ -18,7 +18,8 @@
   "@rescript/core",
   "@rescript-mui/material",
   "rescript-webapi",
-  "rescript-react-intl"
+  "rescript-react-intl",
+  "@greenlabs/ppx-spice"
  ],
  "bsc-flags": [
   "-open RescriptCore"
@@ -26,5 +27,11 @@
  "jsx": {
   "version": 4,
   "mode": "automatic"
- }
+ },
+ "ppx-flags": [
+  [
+   "@greenlabs/ppx-spice/ppx",
+   "-uncurried"
+  ]
+ ]
 }
