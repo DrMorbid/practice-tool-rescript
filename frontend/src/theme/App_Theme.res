@@ -81,8 +81,53 @@ let theme = (~prefersDarkMode) => {
     components: {
       muiSnackbarContent: {
         styleOverrides: {
-          root: {backgroundColor: palette["backgroundSnackbar"]},
+          root: {color: palette["onSecondary"], backgroundColor: palette["backgroundSnackbar"]},
         },
+      },
+      muiListItemIcon: {
+        styleOverrides: {
+          root: {color: palette["textPrimary"]},
+        },
+      },
+      muiButton: {
+        styleOverrides: ?(
+          if prefersDarkMode {
+            Some({
+              contained: {
+                backgroundColor: palette["info"],
+              },
+              outlined: {
+                borderColor: palette["info"],
+              },
+              outlinedPrimary: {
+                color: palette["info"],
+                borderColor: palette["info"],
+              },
+              textPrimary: {
+                color: palette["info"],
+              },
+            })
+          } else {
+            None
+          }
+        ),
+      },
+      muiChip: {
+        styleOverrides: ?(
+          if prefersDarkMode {
+            Some({
+              outlinedPrimary: {
+                color: palette["info"],
+                borderColor: palette["info"],
+              },
+              deleteIconOutlinedColorPrimary: {
+                color: palette["info"],
+              },
+            })
+          } else {
+            None
+          }
+        ),
       },
     },
   })

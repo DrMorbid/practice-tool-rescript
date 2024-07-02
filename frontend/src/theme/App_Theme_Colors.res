@@ -15,7 +15,7 @@ let palette = prefersDarkMode =>
     "textPrimary": prefersDarkMode ? "#DBF8F9" : "#01262A",
     "textSecondary": prefersDarkMode ? "#FFF8F1" : "#2A2601",
     "background": prefersDarkMode ? "#2C3531" : "#EDEAE5",
-    "backgroundPaper": prefersDarkMode ? "#1E2522" : "#FAF9F7",
+    "backgroundPaper": prefersDarkMode ? "#171C1A" : "#FAF9F7",
     "backgroundSnackbar": prefersDarkMode ? "#E8F3F0" : "#002327",
   }
 

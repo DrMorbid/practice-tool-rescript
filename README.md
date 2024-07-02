@@ -1,2 +1,2 @@
-# practice-tool-rescript
-Practice Tool - Implement in ReScript
+# Practice Tool
+[front end documentation](/frontend/README.md)

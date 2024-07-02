@@ -7,7 +7,7 @@ let make = (~menuRef) => {
       {Menu_Content.menuContent
       ->Array.mapWithIndex(({label, icon}, index) =>
         <Mui.ListItem key={`menu-item-${index->Int.toString}`}>
-          <Mui.ListItemButton>
+          <Mui.ListItemButton selected={index == 0 ? true : false}>
             <Mui.ListItemIcon> icon </Mui.ListItemIcon>
             <Mui.ListItemText primary={intl->ReactIntl.Intl.formatMessage(label)->Jsx.string} />
           </Mui.ListItemButton>

@@ -22,5 +22,7 @@ module Classes = {
 let make = (~appPadding, ~children) => {
   let isMdUp = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.mdUp)
 
-  <Mui.Container sx={Classes.container(isMdUp, ~appPadding)}> {children} </Mui.Container>
+  <Mui.Container maxWidth={False} sx={Classes.container(isMdUp, ~appPadding)}>
+    {children}
+  </Mui.Container>
 }
