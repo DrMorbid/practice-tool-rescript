@@ -14,10 +14,21 @@ module Classes = {
 
 @react.component
 let make = (~menuRef) => {
+  let (activeItem, setActiveItem) = React.useState(() => 0)
   let intl = ReactIntl.useIntl()
+  let router = Next.Navigation.useRouter()
+
+  let onChange = (_, index) => {
+    setActiveItem(_ => index)
+
+    Menu_Content.menuContent
+    ->Array.get(index)
+    ->Option.map(({route}) => route)
+    ->Option.forEach(Route.FrontEnd.push(router, ~route=_))
+  }
 
   <Mui.AppBar position={Fixed} sx=Classes.appBar ref={menuRef->ReactDOM.Ref.domRef}>
-    <Mui.BottomNavigation showLabels=true value=0 onChange={(_event, _newValue) => {()}}>
+    <Mui.BottomNavigation showLabels=true value=activeItem onChange>
       {Menu_Content.menuContent
       ->Array.mapWithIndex(({label, icon}, index) =>
         <Mui.BottomNavigationAction

@@ -2,6 +2,13 @@ open ReactIntl
 
 @@intl.messages
 
+let home =
+  @intl.description("Main menu - the Home button")
+  {
+    id: "6d3cea0f-8f33-4baf-bb82-3c4e4a906b04",
+    defaultMessage: "Home",
+  }
+
 let practice =
   @intl.description("Main menu - the Practice button")
   {
