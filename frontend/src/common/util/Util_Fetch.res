@@ -15,35 +15,48 @@ let fetch = async (
     ->Option.map(accessToken => headers->Array.concat([("Authorization", `Bearer ${accessToken}`)]))
     ->Option.getOr(headers)
 
-  let response = await Webapi.Fetch.fetchWithInit(
-    `${EnvVar.backEndUrl}${(path :> string)}`,
-    Webapi.Fetch.RequestInit.make(
-      ~method_=method,
-      ~headers=Webapi.Fetch.HeadersInit.makeWithArray(headers),
-      (),
-    ),
-  )
+  try {
+    let response = await Webapi.Fetch.fetchWithInit(
+      `${EnvVar.backEndUrl}${(path :> string)}`,
+      Webapi.Fetch.RequestInit.make(
+        ~method_=method,
+        ~headers=Webapi.Fetch.HeadersInit.makeWithArray(headers),
+        (),
+      ),
+    )
 
-  let responseBody = await response->Webapi.Fetch.Response.json
+    let responseBody = await response->Webapi.Fetch.Response.json
 
-  let decodeErrorToError = ({path, message, value}: Spice.decodeError) => {
-    message: `${path}, ${message}, ${value->JSON.stringify(~space=2)}`,
-  }
+    let decodeErrorToError = ({path, message, value}: Spice.decodeError) => {
+      message: `${path}, ${message}, ${value->JSON.stringify(~space=2)}`,
+    }
 
-  if response->Webapi.Fetch.Response.ok {
-    responseBody
-    ->responseDecoder
-    ->Result.mapError(decodeError => decodeError->decodeErrorToError)
-  } else {
-    Error({
-      let error = switch responseBody->error_decode {
-      | Ok(error) => error
-      | Error(decodeError) => decodeError->decodeErrorToError
-      }
+    if response->Webapi.Fetch.Response.ok {
+      responseBody
+      ->responseDecoder
+      ->Result.mapError(decodeError => decodeError->decodeErrorToError)
+    } else {
+      Error({
+        let error = switch responseBody->error_decode {
+        | Ok(error) => error
+        | Error(decodeError) => decodeError->decodeErrorToError
+        }
 
+        Console.error2("Fetch returned error response: %o", error)
+
+        error
+      })
+    }
+  } catch {
+  | Exn.Error(error) => {
       Console.error2("Fetch failed: %o", error)
 
-      error
-    })
+      Error({
+        message: error
+        ->Exn.name
+        ->Option.flatMap(name => error->Exn.message->Option.map(message => `${name}: ${message}`))
+        ->Option.getOr("Unexpected error occurred"),
+      })
+    }
   }
 }
