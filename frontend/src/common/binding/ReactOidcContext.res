@@ -19,7 +19,7 @@ module Auth = {
     isLoading: bool,
     error?: error,
     isAuthenticated: bool,
-    user?: user,
+    user: Nullable.t<user>,
   }
 
   @send external removeUser: (t, unit) => unit = "removeUser"

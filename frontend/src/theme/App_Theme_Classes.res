@@ -3,3 +3,4 @@ let maxHeight = [
     height: String("100%"),
   }),
 ]
+let maxWidth = [Mui.Sx.Array.obj({width: String("100%")})]

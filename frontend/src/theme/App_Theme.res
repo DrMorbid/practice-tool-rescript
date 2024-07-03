@@ -79,9 +79,12 @@ let theme = (~prefersDarkMode) => {
       },
     },
     components: {
-      muiSnackbarContent: {
+      muiAlert: {
         styleOverrides: {
-          root: {color: palette["onSecondary"], backgroundColor: palette["backgroundSnackbar"]},
+          filledSuccess: {color: palette["onSuccess"], backgroundColor: palette["success"]},
+          filledInfo: {color: palette["onInfo"], backgroundColor: palette["info"]},
+          filledWarning: {color: palette["onWarning"], backgroundColor: palette["warning"]},
+          filledError: {color: palette["onError"], backgroundColor: palette["error"]},
         },
       },
       muiListItemIcon: {
@@ -95,6 +98,9 @@ let theme = (~prefersDarkMode) => {
             Some({
               contained: {
                 backgroundColor: palette["info"],
+              },
+              containedPrimary: {
+                backgroundColor: palette["primary"],
               },
               outlined: {
                 borderColor: palette["info"],
