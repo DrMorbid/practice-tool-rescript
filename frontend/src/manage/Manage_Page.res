@@ -3,12 +3,6 @@ let default = () => {
   let (projects, setProjects) = React.useState(() => Util.Fetch.Response.NotStarted)
   let auth = ReactOidcContext.useAuth()
 
-  let {dispatch, subscribe, getState} = Store.api
-  let unsubscribe = subscribe(state => Console.log2("FKR: from subscription: %s", state))
-  dispatch(Increment) // calls subscriptions
-  getState()->ignore // 1
-  unsubscribe()
-
   React.useEffect(() => {
     setProjects(_ => Pending)
 
