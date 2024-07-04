@@ -1,3 +1,5 @@
+open Restorative
+
 module Classes = {
   let appBar = Mui.Sx.obj({bottom: Number(0.), top: Unset, left: Number(0.), right: Unset})
   let button = Mui.Sx.array([
@@ -12,14 +14,20 @@ module Classes = {
   ])
 }
 
+let {useStore, dispatch} = Store.api
+
 @react.component
 let make = (~menuRef) => {
   let (activeItem, setActiveItem) = React.useState(() => 0)
   let intl = ReactIntl.useIntl()
   let router = Next.Navigation.useRouter()
+  let state = useStore()
+
+  Console.log2("FKR: state is %s", state)
 
   let onChange = (_, index) => {
     setActiveItem(_ => index)
+    dispatch(Increment)
 
     Menu_Content.menuContent
     ->Array.get(index)
