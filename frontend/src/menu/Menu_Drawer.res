@@ -1,11 +1,11 @@
 @react.component
 let make = (~menuRef) => {
-  let (activeItem, setActiveItem) = React.useState(() => 0)
   let intl = ReactIntl.useIntl()
   let router = Next.Navigation.useRouter()
+  let activeItem = Store.useStoreWithSelector(({menuItemIndex}) => menuItemIndex)
 
   let onClick = (route, index, _) => {
-    setActiveItem(_ => index)
+    Store.dispatch(StoreMenuItemIndex(index))
 
     router->Route.FrontEnd.push(~route)
   }

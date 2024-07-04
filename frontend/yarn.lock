@@ -158,6 +158,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@dck/restorative@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@dck/restorative@npm:1.1.0"
+  peerDependencies:
+    "@rescript/react": ">=0.12.0"
+    react: ">=16.8"
+    rescript: ">=11.0.0"
+  checksum: 10c0/8d06e39cd865344cad408f07e9f24716ef79873799660b4482c466877f6de136f30ff8f06646f9eb807dc87ddbe8ae2965a4018e9991894248c161d9d0f57fcb
+  languageName: node
+  linkType: hard
+
 "@emotion/babel-plugin@npm:^11.11.0":
   version: 11.11.0
   resolution: "@emotion/babel-plugin@npm:11.11.0"
@@ -2236,6 +2247,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "practice-tool-rescript-frontend@workspace:."
   dependencies:
+    "@dck/restorative": "npm:^1.1.0"
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.5"
     "@greenlabs/ppx-spice": "npm:^0.2.1"
