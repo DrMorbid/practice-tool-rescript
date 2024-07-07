@@ -23,7 +23,6 @@ let make = (~children) => {
   let isMdUp = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.mdUp)
   let bottomBarHeight = Store.useStoreWithSelector(({bottomBarHeight}) => bottomBarHeight)
   let drawerWidth = Store.useStoreWithSelector(({drawerWidth}) => drawerWidth)
-  let state = Store.useStoreWithSelector(state => state)
 
   <Mui.Container maxWidth={False} sx={Classes.container(isMdUp, ~bottomBarHeight, ~drawerWidth)}>
     {children}
