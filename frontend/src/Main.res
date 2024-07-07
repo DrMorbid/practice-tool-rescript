@@ -4,7 +4,6 @@ external dictToState: Dict.t<string> => Webapi.Dom.History.state = "%identity"
 
 @react.component
 let make = (~children) => {
-  let (appPadding, setAppPadding) = React.useState(() => 0)
   let prefersDarkMode = Mui.Core.useMediaQueryString(App_Theme.darkModeMediaQuery)
   let menuRef = React.useRef(Nullable.null)
   let isMdUp = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.mdUp)
@@ -16,7 +15,13 @@ let make = (~children) => {
       ->Option.map(current => current->ReactDOM.domElementToObj)
       ->Option.getOr(Object.make())
 
-    setAppPadding(_ => isMdUp ? menuElement["offsetWidth"] : menuElement["offsetHeight"])
+    if isMdUp {
+      Store.dispatch(StoreDrawerWidth(menuElement["offsetWidth"]))
+      Store.dispatch(ResetBottomBarHeight)
+    } else {
+      Store.dispatch(StoreBottomBarHeight(menuElement["offsetHeight"]))
+      Store.dispatch(ResetDrawerWidth)
+    }
 
     None
   }, (menuRef, isMdUp))
@@ -47,7 +52,7 @@ let make = (~children) => {
           scope="openid profile email"
           onSigninCallback>
           <main>
-            <App appPadding> {children} </App>
+            <App> {children} </App>
             {isMdUp ? <Menu.Drawer menuRef /> : <Menu.BottomBar menuRef />}
           </main>
         </ReactOidcContext.AuthProvider>
