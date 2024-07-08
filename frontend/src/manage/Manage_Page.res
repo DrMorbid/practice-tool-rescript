@@ -1,3 +1,5 @@
+module AddProjectDialog = Manage_AddProjectDialog
+
 module Classes = {
   let addButton = bottomBarHeight =>
     Mui.Sx.obj({
@@ -10,6 +12,7 @@ module Classes = {
 @react.component
 let default = () => {
   let (projects, setProjects) = React.useState(() => Util.Fetch.Response.NotStarted)
+  let (addProjectDialogOpen, setAddProjectDialogOpen) = React.useState(() => false)
   let auth = ReactOidcContext.useAuth()
   let bottomBarHeight = Store.useStoreWithSelector(({bottomBarHeight}) => bottomBarHeight)
 
@@ -28,12 +31,17 @@ let default = () => {
     None
   }, [])
 
+  let onAddProject = _ => setAddProjectDialogOpen(_ => true)
+
   <>
+    <AddProjectDialog
+      isOpen=addProjectDialogOpen onClose={() => setAddProjectDialogOpen(_ => false)}
+    />
     {switch projects {
     | NotStarted => Jsx.null
     | Pending => <Mui.Skeleton />
     | Ok(_) =>
-      <Mui.Fab color=Primary sx={Classes.addButton(bottomBarHeight)}>
+      <Mui.Fab onClick=onAddProject color=Primary sx={Classes.addButton(bottomBarHeight)}>
         <Icon.AddTwoTone />
       </Mui.Fab>
     | Error({message}) =>

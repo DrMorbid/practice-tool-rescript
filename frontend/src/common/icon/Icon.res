@@ -17,3 +17,8 @@ module AddTwoTone = {
   @react.component @module("@mui/icons-material/AddTwoTone")
   external make: unit => React.element = "default"
 }
+
+module CloseTwoTone = {
+  @react.component @module("@mui/icons-material/CloseTwoTone")
+  external make: unit => React.element = "default"
+}
