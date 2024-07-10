@@ -33,7 +33,7 @@ module Classes = {
 @react.component
 let default = () => {
   let (actionButtonsHeight, setActionButtonsHeight) = React.useState(() => 0)
-
+  let (addExerciseDialogOpen, setAddExerciseDialogOpen) = React.useState(() => false)
   let form = Form.use(
     ~config={
       defaultValues: {name: "", active: true, exercises: []},
@@ -64,9 +64,12 @@ let default = () => {
 
   let onCancel = _ => router->Route.FrontEnd.push(~route=#"/manage")
 
-  let onAddExercise = _ => ()
+  let onAddExercise = _ => setAddExerciseDialogOpen(_ => true)
+
+  let onAddExerciseDialogClosed = _ => setAddExerciseDialogOpen(_ => false)
 
   <Page alignContent={Stretch} spaceOnTop=true spaceOnBottom=true justifyItems="stretch">
+    <Exercise.Add.Dialog isOpen=addExerciseDialogOpen onClose=onAddExerciseDialogClosed />
     <form onSubmit>
       <Mui.Box
         display={String("grid")}
