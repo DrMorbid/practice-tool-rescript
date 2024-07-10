@@ -20,7 +20,8 @@
   "rescript-webapi",
   "rescript-react-intl",
   "@greenlabs/ppx-spice",
-  "@dck/restorative"
+  "@dck/restorative",
+  "@greenlabs/rescript-react-hook-form"
  ],
  "bsc-flags": [
   "-open RescriptCore"

@@ -1,5 +1,3 @@
-module AddProjectDialog = Manage_AddProjectDialog
-
 module Classes = {
   let addButton = bottomBarHeight =>
     Mui.Sx.obj({
@@ -12,14 +10,14 @@ module Classes = {
 @react.component
 let default = () => {
   let (projects, setProjects) = React.useState(() => Util.Fetch.Response.NotStarted)
-  let (addProjectDialogOpen, setAddProjectDialogOpen) = React.useState(() => false)
   let auth = ReactOidcContext.useAuth()
   let bottomBarHeight = Store.useStoreWithSelector(({bottomBarHeight}) => bottomBarHeight)
+  let router = Next.Navigation.useRouter()
 
   React.useEffect(() => {
     setProjects(_ => Pending)
 
-    Util.Fetch.fetch(#"/project", ~method=Get, ~auth, ~responseDecoder=Project.Type.projects_decode)
+    Util.Fetch.fetch(#"/project", ~method=Get, ~auth, ~responseDecoder=Project_Type.projects_decode)
     ->Promise.thenResolve(result =>
       switch result {
       | Ok(projects) => setProjects(_ => Ok(projects))
@@ -31,12 +29,9 @@ let default = () => {
     None
   }, [])
 
-  let onAddProject = _ => setAddProjectDialogOpen(_ => true)
+  let onAddProject = _ => router->Route.FrontEnd.push(~route=#"/manage/projectAdd")
 
   <>
-    <AddProjectDialog
-      isOpen=addProjectDialogOpen onClose={() => setAddProjectDialogOpen(_ => false)}
-    />
     {switch projects {
     | NotStarted => Jsx.null
     | Pending => <Mui.Skeleton />

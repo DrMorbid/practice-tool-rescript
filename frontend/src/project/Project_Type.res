@@ -1,6 +1,5 @@
 @spice
 type t = {
-  userId: string,
   name: string,
   active: bool,
   exercises: array<Exercise.Type.t>,

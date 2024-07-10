@@ -13,22 +13,24 @@
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@greenlabs/ppx-spice": "^0.2.1",
-    "@mui/icons-material": "^5.15.21",
-    "@mui/material": "^5.15.21",
+    "@mui/icons-material": "^5.16.0",
+    "@mui/material": "^5.16.0",
     "@mui/material-nextjs": "^5.15.11",
     "@serwist/next": "^9.0.3",
     "next": "^14.2.4",
     "oidc-client-ts": "^3.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.52.1",
     "react-intl": "^6.6.8",
     "react-oidc-context": "^3.1.0"
   },
   "devDependencies": {
+    "@greenlabs/rescript-react-hook-form": "^7.31.0",
     "@rescript-mui/material": "^5.0.0-rc.2",
     "@rescript/core": "^1.5.2",
     "@rescript/react": "^0.12.2",
-    "@types/node": "^20.14.9",
+    "@types/node": "^20.14.10",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "rescript": "^11.1.2",
@@ -36,6 +38,6 @@
     "rescript-react-intl-extractor-bin": "^0.14.0",
     "rescript-webapi": "^0.9.1",
     "serwist": "^9.0.3",
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.3"
   }
 }

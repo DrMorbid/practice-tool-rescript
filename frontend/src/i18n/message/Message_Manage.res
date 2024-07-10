@@ -9,9 +9,9 @@ let couldNotLoadProject =
     defaultMessage: "Could not load projects",
   }
 
-let addProjectTitle =
-  @intl.description("Manage page - add project dialog - header")
+let createProjectTitle =
+  @intl.description("Manage page - create project section - header")
   {
     id: "d82b3bdd-d062-4969-a6bb-3caf93bd9d87",
-    defaultMessage: "Add a Project",
+    defaultMessage: "Create a project",
   }

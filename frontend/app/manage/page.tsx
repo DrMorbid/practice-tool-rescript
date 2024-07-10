@@ -1,3 +1,3 @@
 "use client";
 
-export { default } from "../../src/manage/Manage_Page.res.js";
+export { default } from "../../src/project/Project_List_Page.res.js";

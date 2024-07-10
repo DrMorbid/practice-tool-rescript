@@ -1,11 +1,3 @@
-module Classes = {
-  let container = Mui.Sx.array(
-    [ReactDOM.Style.make(~justifyItems="center", ())->MuiStyles.styleToSxArray]->Array.concat(
-      App_Theme.Classes.maxHeight,
-    ),
-  )
-}
-
 @react.component
 let default = () => {
   let router = Next.Navigation.useRouter()
@@ -14,11 +6,7 @@ let default = () => {
 
   let routeToSignInPage = _ => router->Route.FrontEnd.push(~route=#"/signIn")
 
-  <Mui.Box
-    display={String("grid")}
-    gridAutoRows={String("min-content")}
-    alignContent={String("space-evenly")}
-    sx=Classes.container>
+  <Page gridAutoRows=String("min-content")>
     <Mui.Typography variant={H1} textAlign={Center}>
       {intl->ReactIntl.Intl.formatMessage(Message.Home.welcome)->Jsx.string}
     </Mui.Typography>
@@ -29,5 +17,5 @@ let default = () => {
         {intl->ReactIntl.Intl.formatMessage(Message.Home.signIn)->Jsx.string}
       </Mui.Button>
     }}
-  </Mui.Box>
+  </Page>
 }
