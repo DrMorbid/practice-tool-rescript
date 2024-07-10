@@ -1,5 +1,7 @@
 module Classes = {
-  let container = (~spaceOnTop, ~spaceOnBottom, ~justifyItems) =>
+  let container = (~spaceOnTop, ~spaceOnBottom, ~justifyItems) => {
+    let applyPadding = theme => theme->MuiSpacingFix.spacing(3)
+
     Mui.Sx.array(
       [ReactDOM.Style.make(~justifyItems, ())->MuiStyles.styleToSxArray]
       ->Array.concat(App_Theme.Classes.maxHeight)
@@ -7,7 +9,7 @@ module Classes = {
         spaceOnTop
           ? [
               Mui.Sx.Array.func(theme =>
-                Mui.Sx.Array.obj({paddingTop: Number(theme.spacing(3)->Int.toFloat)})
+                Mui.Sx.Array.obj({paddingTop: String(theme->applyPadding)})
               ),
             ]
           : [],
@@ -16,12 +18,13 @@ module Classes = {
         spaceOnBottom
           ? [
               Mui.Sx.Array.func(theme =>
-                Mui.Sx.Array.obj({paddingBottom: Number(theme.spacing(3)->Int.toFloat)})
+                Mui.Sx.Array.obj({paddingBottom: String(theme->applyPadding)})
               ),
             ]
           : [],
       ),
     )
+  }
 }
 
 @react.component

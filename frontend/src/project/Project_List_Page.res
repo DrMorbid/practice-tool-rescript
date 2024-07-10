@@ -1,17 +1,7 @@
-module Classes = {
-  let addButton = bottomBarHeight =>
-    Mui.Sx.obj({
-      position: String("absolute"),
-      bottom: String(`${(bottomBarHeight + 16)->Int.toString}px`),
-      right: String("16px"),
-    })
-}
-
 @react.component
 let default = () => {
   let (projects, setProjects) = React.useState(() => Util.Fetch.Response.NotStarted)
   let auth = ReactOidcContext.useAuth()
-  let bottomBarHeight = Store.useStoreWithSelector(({bottomBarHeight}) => bottomBarHeight)
   let router = Next.Navigation.useRouter()
 
   React.useEffect(() => {
@@ -35,10 +25,7 @@ let default = () => {
     {switch projects {
     | NotStarted => Jsx.null
     | Pending => <Mui.Skeleton />
-    | Ok(_) =>
-      <Mui.Fab onClick=onAddProject color=Primary sx={Classes.addButton(bottomBarHeight)}>
-        <Icon.AddTwoTone />
-      </Mui.Fab>
+    | Ok(_) => <AddButton onClick=onAddProject />
     | Error({message}) =>
       <Snackbar
         isOpen={projects->Util.Fetch.Response.isError}

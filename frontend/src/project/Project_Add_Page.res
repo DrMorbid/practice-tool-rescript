@@ -32,6 +32,8 @@ module Classes = {
 
 @react.component
 let default = () => {
+  let (actionButtonsHeight, setActionButtonsHeight) = React.useState(() => 0)
+
   let form = Form.use(
     ~config={
       defaultValues: {name: "", active: true, exercises: []},
@@ -39,6 +41,21 @@ let default = () => {
   )
   let intl = ReactIntl.useIntl()
   let router = Next.Navigation.useRouter()
+  let actionButtonsRef = React.useRef(Nullable.null)
+
+  React.useEffect(() => {
+    let actionButtonsElement =
+      actionButtonsRef.current
+      ->Nullable.toOption
+      ->Option.map(current => current->ReactDOM.domElementToObj)
+      ->Option.getOr(Object.make())
+
+    Console.log(actionButtonsElement["getBoundingClientRect()"])
+
+    setActionButtonsHeight(_ => actionButtonsElement["offsetHeight"])
+
+    None
+  }, [actionButtonsRef])
 
   let onSubmit =
     form->Form.handleSubmit((project, _event) =>
@@ -46,6 +63,8 @@ let default = () => {
     )
 
   let onCancel = _ => router->Route.FrontEnd.push(~route=#"/manage")
+
+  let onAddExercise = _ => ()
 
   <Page alignContent={Stretch} spaceOnTop=true spaceOnBottom=true justifyItems="stretch">
     <form onSubmit>
@@ -75,7 +94,8 @@ let default = () => {
           display={String("grid")}
           gridAutoFlow={String("column")}
           gridAutoColumns={String("1fr")}
-          gridAutoRows={String("1fr")}>
+          gridAutoRows={String("1fr")}
+          ref={actionButtonsRef->ReactDOM.Ref.domRef}>
           <Mui.Button onClick=onCancel variant={Outlined}>
             {intl->ReactIntl.Intl.formatMessage(Message.Button.cancel)->Jsx.string}
           </Mui.Button>
@@ -85,5 +105,10 @@ let default = () => {
         </Mui.Box>
       </Mui.Box>
     </form>
+    <AddButton
+      onClick=onAddExercise
+      bottomPosition={`${actionButtonsHeight->Int.toString}px`}
+      bottomSpacing=5
+    />
   </Page>
 }
