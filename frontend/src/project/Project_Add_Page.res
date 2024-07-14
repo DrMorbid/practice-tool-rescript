@@ -1,9 +1,9 @@
-module Form = ReactHookForm.Make({
+module FormContent = ReactHookForm.Make({
   type t = Project_Type.t
 })
 
 module FormInput = {
-  module Name = Form.MakeInput({
+  module Name = FormContent.MakeInput({
     type t = string
     let name = "name"
     let config = ReactHookForm.Rules.make({
@@ -11,7 +11,7 @@ module FormInput = {
     })
   })
 
-  module Active = Form.MakeInput({
+  module Active = FormContent.MakeInput({
     type t = bool
     let name = "active"
     let config = ReactHookForm.Rules.make({
@@ -19,26 +19,18 @@ module FormInput = {
     })
   })
 
-  module Exercises = Form.MakeInputArray({
+  module Exercises = FormContent.MakeInputArray({
     type t = Exercise.Type.t
     let name = "exercises"
     let config = ReactHookForm.Rules.empty()
   })
 }
 
-module Classes = {
-  let form = Mui.Sx.array([
-    Mui.Sx.Array.func(theme =>
-      ReactDOM.Style.make(~gridRowGap=theme->MuiSpacingFix.spacing(2), ())->MuiStyles.styleToSxArray
-    ),
-  ])
-}
-
 @react.component
 let default = () => {
   let (actionButtonsHeight, setActionButtonsHeight) = React.useState(() => 0)
   let (addExerciseDialogOpen, setAddExerciseDialogOpen) = React.useState(() => false)
-  let form = Form.use(
+  let form = FormContent.use(
     ~config={
       defaultValues: {name: "", active: true, exercises: []},
     },
@@ -61,10 +53,7 @@ let default = () => {
     None
   }, [actionButtonsRef])
 
-  let onSubmit =
-    form->Form.handleSubmit((project, _event) =>
-      Console.log2("FKR: project submit: project=%o", project)
-    )
+  let onSubmit = project => Console.log2("FKR: project submit: project=%o", project)
 
   let onCancel = _ => router->Route.FrontEnd.push(~route=#"/manage")
 
@@ -81,45 +70,28 @@ let default = () => {
     <Exercise.Add.Dialog
       isOpen=addExerciseDialogOpen onClose=onAddExerciseDialogClosed onExerciseAdded
     />
-    <form onSubmit>
-      <Mui.Box
-        display={String("grid")}
-        alignContent={String("space-between")}
-        sx={App_Theme.Classes.maxHeight->Mui.Sx.array}>
-        <Mui.Box display={String("grid")} sx=Classes.form>
-          <FormHeader message=Message.Manage.createProjectTitle />
-          {form->FormInput.Name.renderWithRegister(
-            <Mui.TextField
-              required=true
-              label={intl->ReactIntl.Intl.formatMessage(Message.Project.name)->Jsx.string}
-              error={form->FormInput.Name.error->Option.isSome}
-            />,
-            ~config=FormInput.Active.makeRule({required: true}),
-            (),
-          )}
-          {form->FormInput.Active.renderWithRegister(
-            <Mui.FormControlLabel
-              control={<Mui.Switch defaultChecked=true />}
-              label={intl->ReactIntl.Intl.formatMessage(Message.Project.active)->Jsx.string}
-            />,
-            (),
-          )}
-        </Mui.Box>
-        <Mui.Box
-          display={String("grid")}
-          gridAutoFlow={String("column")}
-          gridAutoColumns={String("1fr")}
-          gridAutoRows={String("1fr")}
-          ref={actionButtonsRef->ReactDOM.Ref.domRef}>
-          <Mui.Button onClick=onCancel variant={Outlined}>
-            {intl->ReactIntl.Intl.formatMessage(Message.Button.cancel)->Jsx.string}
-          </Mui.Button>
-          <Mui.Button type_=Submit variant={Contained}>
-            {intl->ReactIntl.Intl.formatMessage(Message.Button.save)->Jsx.string}
-          </Mui.Button>
-        </Mui.Box>
-      </Mui.Box>
-    </form>
+    <Form
+      onSubmit={form->FormContent.handleSubmit((project, _event) => onSubmit(project))}
+      onCancel
+      actionButtonsRef>
+      <FormHeader message=Message.Manage.createProjectTitle />
+      {form->FormInput.Name.renderWithRegister(
+        <Mui.TextField
+          required=true
+          label={intl->ReactIntl.Intl.formatMessage(Message.Project.name)->Jsx.string}
+          error={form->FormInput.Name.error->Option.isSome}
+        />,
+        ~config=FormInput.Active.makeRule({required: true}),
+        (),
+      )}
+      {form->FormInput.Active.renderWithRegister(
+        <Mui.FormControlLabel
+          control={<Mui.Switch defaultChecked=true />}
+          label={intl->ReactIntl.Intl.formatMessage(Message.Project.active)->Jsx.string}
+        />,
+        (),
+      )}
+    </Form>
     <AddButton
       onClick=onAddExercise
       bottomPosition={`${actionButtonsHeight->Int.toString}px`}
