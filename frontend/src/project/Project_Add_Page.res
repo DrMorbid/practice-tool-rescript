@@ -27,7 +27,11 @@ module FormInput = {
 }
 
 module Classes = {
-  let form = ReactDOM.Style.make(~gridRowGap="16px", ())->MuiStyles.styleToSx
+  let form = Mui.Sx.array([
+    Mui.Sx.Array.func(theme =>
+      ReactDOM.Style.make(~gridRowGap=theme->MuiSpacingFix.spacing(2), ())->MuiStyles.styleToSxArray
+    ),
+  ])
 }
 
 @react.component
@@ -68,8 +72,15 @@ let default = () => {
 
   let onAddExerciseDialogClosed = _ => setAddExerciseDialogOpen(_ => false)
 
+  let onExerciseAdded = exercise =>
+    form->FormInput.Exercises.setValue(form->FormInput.Exercises.getValue->Array.concat([exercise]))
+
+  Console.log2("FKR: project add page render: exercises=%o", form->FormInput.Exercises.getValue)
+
   <Page alignContent={Stretch} spaceOnTop=true spaceOnBottom=true justifyItems="stretch">
-    <Exercise.Add.Dialog isOpen=addExerciseDialogOpen onClose=onAddExerciseDialogClosed />
+    <Exercise.Add.Dialog
+      isOpen=addExerciseDialogOpen onClose=onAddExerciseDialogClosed onExerciseAdded
+    />
     <form onSubmit>
       <Mui.Box
         display={String("grid")}
@@ -81,6 +92,7 @@ let default = () => {
             <Mui.TextField
               required=true
               label={intl->ReactIntl.Intl.formatMessage(Message.Project.name)->Jsx.string}
+              error={form->FormInput.Name.error->Option.isSome}
             />,
             ~config=FormInput.Active.makeRule({required: true}),
             (),
