@@ -22,3 +22,8 @@ module CloseTwoTone = {
   @react.component @module("@mui/icons-material/CloseTwoTone")
   external make: unit => React.element = "default"
 }
+
+module ArrowForwardIosTwoTone = {
+  @react.component @module("@mui/icons-material/ArrowForwardIosTwoTone")
+  external make: unit => React.element = "default"
+}

@@ -91,6 +91,27 @@ let default = () => {
         />,
         (),
       )}
+      <Mui.List>
+        {form
+        ->FormInput.Exercises.getValue
+        ->Array.mapWithIndex(({name, slowTempo, fastTempo}, index) =>
+          <Mui.ListItemButton key={`exercise-${index->Int.toString}`}>
+            <Mui.ListItemText
+              primary={name->Jsx.string}
+              secondary={<Mui.Box
+                display={String("grid")}
+                gridAutoFlow={String("column")}
+                gridAutoColumns={String("1fr")}
+                gridAutoRows={String("1fr")}>
+                <Mui.Box> {`${slowTempo->Util.Exercise.formatTempo}`->Jsx.string} </Mui.Box>
+                <Mui.Box> {`${fastTempo->Util.Exercise.formatTempo}`->Jsx.string} </Mui.Box>
+              </Mui.Box>}
+            />
+            <Icon.ArrowForwardIosTwoTone />
+          </Mui.ListItemButton>
+        )
+        ->Jsx.array}
+      </Mui.List>
     </Form>
     <AddButton
       onClick=onAddExercise

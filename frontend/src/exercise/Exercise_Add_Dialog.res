@@ -138,7 +138,7 @@ let make = (~isOpen as open_, ~onClose, ~onExerciseAdded) => {
               error={form->FormInput.SlowTempo.error->Option.isSome}
               inputProps_={{
                 endAdornment: <Mui.InputAdornment position={End}>
-                  {"%"->Jsx.string}
+                  {Util.Exercise.unitOfTempo->Jsx.string}
                 </Mui.InputAdornment>,
               }}
             />,
@@ -153,7 +153,7 @@ let make = (~isOpen as open_, ~onClose, ~onExerciseAdded) => {
               error={form->FormInput.FastTempo.error->Option.isSome}
               inputProps_={{
                 endAdornment: <Mui.InputAdornment position={End}>
-                  {"%"->Jsx.string}
+                  {Util.Exercise.unitOfTempo->Jsx.string}
                 </Mui.InputAdornment>,
               }}
             />,
