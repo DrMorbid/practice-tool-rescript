@@ -88,7 +88,7 @@ let make = (~isOpen as open_, ~onClose, ~onExerciseAdded) => {
       <Mui.AppBar position={Relative}>
         <Mui.Toolbar>
           <Mui.IconButton onClick={_ => onClose()} color={Inherit}>
-            <Icon.CloseTwoTone />
+            <Icon.Close />
           </Mui.IconButton>
           <Mui.DialogTitle>
             {intl->ReactIntl.Intl.formatMessage(Message.Manage.createExerciseTitle)->Jsx.string}
@@ -138,7 +138,7 @@ let make = (~isOpen as open_, ~onClose, ~onExerciseAdded) => {
               error={form->FormInput.SlowTempo.error->Option.isSome}
               inputProps_={{
                 endAdornment: <Mui.InputAdornment position={End}>
-                  {Util.Exercise.unitOfTempo->Jsx.string}
+                  {Exercise_Util.unitOfTempo->Jsx.string}
                 </Mui.InputAdornment>,
               }}
             />,
@@ -153,7 +153,7 @@ let make = (~isOpen as open_, ~onClose, ~onExerciseAdded) => {
               error={form->FormInput.FastTempo.error->Option.isSome}
               inputProps_={{
                 endAdornment: <Mui.InputAdornment position={End}>
-                  {Util.Exercise.unitOfTempo->Jsx.string}
+                  {Exercise_Util.unitOfTempo->Jsx.string}
                 </Mui.InputAdornment>,
               }}
             />,

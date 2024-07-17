@@ -26,10 +26,26 @@ module FormInput = {
   })
 }
 
+module Classes = {
+  let list = (~listElementTopPosition, ~bottomBarHeight, ~actionButtonsHeight) =>
+    Mui.Sx.array([
+      Mui.Sx.Array.func(theme =>
+        ReactDOM.Style.make(
+          ~overflow="auto",
+          ~height=`calc(100vh - ${listElementTopPosition->Int.toString}px - ${bottomBarHeight->Int.toString}px - ${actionButtonsHeight->Int.toString}px - ${theme->MuiSpacingFix.spacing(
+              5,
+            )})`,
+          (),
+        )->MuiStyles.styleToSxArray
+      ),
+    ])
+}
+
 @react.component
 let default = () => {
   let (actionButtonsHeight, setActionButtonsHeight) = React.useState(() => 0)
   let (addExerciseDialogOpen, setAddExerciseDialogOpen) = React.useState(() => false)
+  let (listElementTopPosition, setListElementTopPosition) = React.useState(() => 0)
   let form = FormContent.use(
     ~config={
       defaultValues: {name: "", active: true, exercises: []},
@@ -38,6 +54,8 @@ let default = () => {
   let intl = ReactIntl.useIntl()
   let router = Next.Navigation.useRouter()
   let actionButtonsRef = React.useRef(Nullable.null)
+  let listRef = React.useRef(Nullable.null)
+  let bottomBarHeight = Store.useStoreWithSelector(({bottomBarHeight}) => bottomBarHeight)
 
   React.useEffect(() => {
     let actionButtonsElement =
@@ -46,12 +64,22 @@ let default = () => {
       ->Option.map(current => current->ReactDOM.domElementToObj)
       ->Option.getOr(Object.make())
 
-    Console.log(actionButtonsElement["getBoundingClientRect()"])
-
     setActionButtonsHeight(_ => actionButtonsElement["offsetHeight"])
 
     None
   }, [actionButtonsRef])
+
+  React.useEffect(() => {
+    let listElement =
+      listRef.current
+      ->Nullable.toOption
+      ->Option.map(current => current->ReactDOM.domElementToObj)
+      ->Option.getOr(Object.make())
+
+    setListElementTopPosition(_ => listElement["offsetTop"])
+
+    None
+  }, [listRef])
 
   let onSubmit = project => Console.log2("FKR: project submit: project=%o", project)
 
@@ -91,23 +119,31 @@ let default = () => {
         />,
         (),
       )}
-      <Mui.List>
+      <Mui.List
+        sx={Classes.list(~listElementTopPosition, ~bottomBarHeight, ~actionButtonsHeight)}
+        ref={listRef->ReactDOM.Ref.domRef}>
         {form
         ->FormInput.Exercises.getValue
-        ->Array.mapWithIndex(({name, slowTempo, fastTempo}, index) =>
-          <Mui.ListItemButton key={`exercise-${index->Int.toString}`}>
+        ->Array.toSorted(Exercise.Util.getOrdering)
+        ->Array.mapWithIndex((exercise, index) =>
+          <Mui.ListItemButton key={`exercise-${index->Int.toString}`} divider=true>
+            <Mui.ListItemIcon> {exercise->Exercise.Util.getStateIcon} </Mui.ListItemIcon>
             <Mui.ListItemText
-              primary={name->Jsx.string}
+              primary={exercise.name->Jsx.string}
               secondary={<Mui.Box
                 display={String("grid")}
                 gridAutoFlow={String("column")}
                 gridAutoColumns={String("1fr")}
                 gridAutoRows={String("1fr")}>
-                <Mui.Box> {`${slowTempo->Util.Exercise.formatTempo}`->Jsx.string} </Mui.Box>
-                <Mui.Box> {`${fastTempo->Util.Exercise.formatTempo}`->Jsx.string} </Mui.Box>
+                <Mui.Box>
+                  {`${exercise.slowTempo->Exercise.Util.formatTempo}`->Jsx.string}
+                </Mui.Box>
+                <Mui.Box>
+                  {`${exercise.fastTempo->Exercise.Util.formatTempo}`->Jsx.string}
+                </Mui.Box>
               </Mui.Box>}
             />
-            <Icon.ArrowForwardIosTwoTone />
+            <Icon.ArrowForwardIos />
           </Mui.ListItemButton>
         )
         ->Jsx.array}

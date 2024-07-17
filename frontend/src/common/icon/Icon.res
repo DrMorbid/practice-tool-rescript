@@ -1,29 +1,39 @@
-module BuildTwoTone = {
+module Build = {
   @react.component @module("@mui/icons-material/BuildTwoTone")
   external make: unit => React.element = "default"
 }
 
-module MusicNoteTwoTone = {
+module MusicNote = {
   @react.component @module("@mui/icons-material/MusicNoteTwoTone")
   external make: unit => React.element = "default"
 }
 
-module HomeTwoTone = {
+module Home = {
   @react.component @module("@mui/icons-material/HomeTwoTone")
   external make: unit => React.element = "default"
 }
 
-module AddTwoTone = {
+module Add = {
   @react.component @module("@mui/icons-material/AddTwoTone")
   external make: unit => React.element = "default"
 }
 
-module CloseTwoTone = {
+module Close = {
   @react.component @module("@mui/icons-material/CloseTwoTone")
   external make: unit => React.element = "default"
 }
 
-module ArrowForwardIosTwoTone = {
+module ArrowForwardIos = {
   @react.component @module("@mui/icons-material/ArrowForwardIosTwoTone")
+  external make: unit => React.element = "default"
+}
+
+module PriorityHigh = {
+  @react.component @module("@mui/icons-material/PriorityHighTwoTone")
+  external make: unit => React.element = "default"
+}
+
+module NotInterested = {
+  @react.component @module("@mui/icons-material/NotInterestedTwoTone")
   external make: unit => React.element = "default"
 }

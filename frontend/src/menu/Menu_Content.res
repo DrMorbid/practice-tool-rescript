@@ -5,6 +5,6 @@ type t = {
 }
 
 let menuContent = [
-  {label: Message.Menu.home, icon: <Icon.HomeTwoTone />, route: #"/"},
-  {label: Message.Menu.manage, icon: <Icon.BuildTwoTone />, route: #"/manage"},
+  {label: Message.Menu.home, icon: <Icon.Home />, route: #"/"},
+  {label: Message.Menu.manage, icon: <Icon.Build />, route: #"/manage"},
 ]

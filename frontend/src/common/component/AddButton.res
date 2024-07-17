@@ -3,7 +3,7 @@ module Classes = {
     Mui.Sx.array([
       Mui.Sx.Array.func(theme => {
         Mui.Sx.Array.obj({
-          position: String("absolute"),
+          position: String("fixed"),
           bottom: String(
             `calc(${bottomBarHeight->Int.toString}px + ${theme->MuiSpacingFix.spacing(
                 bottomSpacing,
@@ -21,6 +21,6 @@ let make = (~onClick, ~bottomPosition="0px", ~bottomSpacing=2) => {
 
   <Mui.Fab
     onClick color=Primary sx={Classes.addButton(~bottomBarHeight, ~bottomPosition, ~bottomSpacing)}>
-    <Icon.AddTwoTone />
+    <Icon.Add />
   </Mui.Fab>
 }
