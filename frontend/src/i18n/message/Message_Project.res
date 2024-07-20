@@ -22,3 +22,10 @@ let exercises =
     id: "9599952f-8f1b-416d-b069-b5035cd20ed9",
     defaultMessage: "Exercises",
   }
+
+let couldNotSaveProject =
+  @intl.description("Project - error title - could not save a project")
+  {
+    id: "b380aa54-e021-46fc-ad27-d30186a6e326",
+    defaultMessage: "Could not save the project",
+  }

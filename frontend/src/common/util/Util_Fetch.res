@@ -2,6 +2,7 @@ module Response = Util_Fetch_Response
 open Response
 
 let fetch = async (
+  ~body: option<JSON.t>=?,
   ~auth: ReactOidcContext.Auth.t,
   ~method,
   ~responseDecoder: JSON.t => result<'a, Spice.decodeError>,
@@ -21,6 +22,7 @@ let fetch = async (
       Webapi.Fetch.RequestInit.make(
         ~method_=method,
         ~headers=Webapi.Fetch.HeadersInit.makeWithArray(headers),
+        ~body=?body->Option.map(body => Webapi.Fetch.BodyInit.make(body->JSON.stringify)),
         (),
       ),
     )

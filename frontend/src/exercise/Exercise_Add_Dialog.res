@@ -1,5 +1,5 @@
 module FormContent = ReactHookForm.Make({
-  type t = Exercise_Type.t
+  type t = Exercise_Type.FromForm.t
 })
 
 module FormInput = {
@@ -28,7 +28,7 @@ module FormInput = {
   })
 
   module SlowTempo = FormContent.MakeInput({
-    type t = int
+    type t = string
     let name = "slowTempo"
     let config = ReactHookForm.Rules.make({
       required: true,
@@ -38,7 +38,7 @@ module FormInput = {
   })
 
   module FastTempo = FormContent.MakeInput({
-    type t = int
+    type t = string
     let name = "fastTempo"
     let config = ReactHookForm.Rules.make({
       required: true,
@@ -58,14 +58,12 @@ let make = (
   let fullScreen = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.smDown)
   let intl = ReactIntl.useIntl()
 
-  Console.log2("FKR: exercise add dialog render: exercise=%o", exercise)
-
-  let defaultValues: Exercise_Type.t = {
+  let defaultValues: Exercise_Type.FromForm.t = {
     name: "",
     active: true,
     topPriority: false,
-    slowTempo: 75,
-    fastTempo: 100,
+    slowTempo: "75",
+    fastTempo: "100",
   }
 
   let form = FormContent.use(
@@ -83,27 +81,39 @@ let make = (
   }, (form->FormContent.formState, defaultValues))
 
   React.useEffect(() => {
-    exercise->Option.forEach(({name, active, topPriority, slowTempo, fastTempo}) => {
+    exercise->Option.forEach(({name, active, topPriority, ?slowTempo, ?fastTempo}) => {
       form->FormInput.Name.setValue(name)
       form->FormInput.Active.setValue(active)
       form->FormInput.TopPriority.setValue(topPriority)
-      form->FormInput.SlowTempo.setValue(slowTempo)
-      form->FormInput.FastTempo.setValue(fastTempo)
+      slowTempo
+      ->Option.map(slowTempo => slowTempo->Int.toString)
+      ->Option.forEach(slowTempo => form->FormInput.SlowTempo.setValue(slowTempo))
+      form->FormInput.TopPriority.setValue(topPriority)
+      fastTempo
+      ->Option.map(fastTempo => fastTempo->Int.toString)
+      ->Option.forEach(fastTempo => form->FormInput.FastTempo.setValue(fastTempo))
     })
 
     None
   }, [exercise])
 
-  let onSubmit = exerciseFromForm => {
-    onExerciseSubmited(exerciseFromForm, ~isNew=exercise->Option.isNone)
+  let onSubmit = ({name, active, topPriority, slowTempo, fastTempo}: Exercise_Type.FromForm.t) => {
+    onExerciseSubmited(
+      (
+        {
+          name,
+          active,
+          topPriority,
+          slowTempo: ?slowTempo->Int.fromString,
+          fastTempo: ?fastTempo->Int.fromString,
+        }: Exercise_Type.t
+      ),
+      ~isNew=exercise->Option.isNone,
+    )
     onClose()
   }
 
   let onCancel = _ => onClose()
-
-  Console.log2("FKR: exercise add dialog render: form=%o", form->FormContent.getValues)
-
-  Console.log2("FKR: exercise add dialog render: exercise=%o", exercise)
 
   <Mui.Dialog open_ fullScreen onClose={(_, _) => onClose()}>
     {if fullScreen {

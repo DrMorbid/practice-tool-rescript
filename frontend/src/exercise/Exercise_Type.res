@@ -12,7 +12,18 @@ type t = {
   name: string,
   active: bool,
   topPriority: bool,
-  slowTempo: int,
-  fastTempo: int,
+  slowTempo?: int,
+  fastTempo?: int,
   lastPracticed?: lastPracticed,
+}
+
+module FromForm = {
+  type t = {
+    name: string,
+    active: bool,
+    topPriority: bool,
+    slowTempo: string,
+    fastTempo: string,
+    lastPracticed?: lastPracticed,
+  }
 }

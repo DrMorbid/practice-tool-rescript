@@ -48,6 +48,7 @@ let default = () => {
   let (selectedExercise, setSelectedExrecise) = React.useState(() => None)
   let (selectedExerciseIndex, setSelectedExreciseIndex) = React.useState(() => None)
   let (listElementTopPosition, setListElementTopPosition) = React.useState(() => 0)
+  let (saveError, setSaveError) = React.useState(() => None)
   let form = FormContent.use(
     ~config={
       defaultValues: {name: "", active: true, exercises: []},
@@ -58,6 +59,7 @@ let default = () => {
   let actionButtonsRef = React.useRef(Nullable.null)
   let listRef = React.useRef(Nullable.null)
   let bottomBarHeight = Store.useStoreWithSelector(({bottomBarHeight}) => bottomBarHeight)
+  let auth = ReactOidcContext.useAuth()
 
   React.useEffect(() => {
     let actionButtonsElement =
@@ -83,7 +85,22 @@ let default = () => {
     None
   }, [listRef])
 
-  let onSubmit = project => Console.log2("FKR: project submit: project=%o", project)
+  let onSubmit = project => {
+    Util.Fetch.fetch(
+      #"/project",
+      ~method=Post,
+      ~auth,
+      ~responseDecoder=Spice.stringFromJson,
+      ~body=project->Project_Type.t_encode,
+    )
+    ->Promise.thenResolve(result =>
+      switch result {
+      | Ok(_) => router->Route.FrontEnd.push(~route=#"/manage")
+      | Error(error) => setSaveError(_ => Some(error))
+      }
+    )
+    ->ignore
+  }
 
   let onCancel = _ => router->Route.FrontEnd.push(~route=#"/manage")
 
@@ -121,8 +138,6 @@ let default = () => {
     setAddExerciseDialogOpen(_ => true)
   }
 
-  Console.log2("FKR: project add page render: exercises=%o", form->FormInput.Exercises.getValue)
-
   <Page alignContent={Stretch} spaceOnTop=true spaceOnBottom=true justifyItems="stretch">
     <Exercise.Add.Dialog
       isOpen=addExerciseDialogOpen
@@ -130,6 +145,16 @@ let default = () => {
       onExerciseSubmited
       exercise=?selectedExercise
     />
+    {saveError
+    ->Option.map(({message}) =>
+      <Snackbar
+        isOpen={saveError->Option.isSome}
+        severity={Error}
+        title={Message(Message.Project.couldNotSaveProject)}
+        body={String(message)}
+      />
+    )
+    ->Option.getOr(Jsx.null)}
     <Form
       onSubmit={form->FormContent.handleSubmit((project, _event) => onSubmit(project))}
       onCancel
@@ -171,10 +196,16 @@ let default = () => {
                 gridAutoColumns={String("1fr")}
                 gridAutoRows={String("1fr")}>
                 <Mui.Box>
-                  {`${exercise.slowTempo->Exercise.Util.formatTempo}`->Jsx.string}
+                  {exercise.slowTempo
+                  ->Option.map(Exercise.Util.formatTempo)
+                  ->Option.map(Jsx.string)
+                  ->Option.getOr(Jsx.null)}
                 </Mui.Box>
                 <Mui.Box>
-                  {`${exercise.fastTempo->Exercise.Util.formatTempo}`->Jsx.string}
+                  {exercise.fastTempo
+                  ->Option.map(Exercise.Util.formatTempo)
+                  ->Option.map(Jsx.string)
+                  ->Option.getOr(Jsx.null)}
                 </Mui.Box>
               </Mui.Box>}
             />

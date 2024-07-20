@@ -25,7 +25,7 @@ module DBSaver = (Body: Savable) => {
     {
       statusCode: 200,
       headers: Utils_Lambda.defaultResponseHeaders,
-      body: "Saved successfully",
+      body: "\"Saved successfully\"",
     }
   }
 }
