@@ -45,6 +45,8 @@ module Classes = {
 let default = () => {
   let (actionButtonsHeight, setActionButtonsHeight) = React.useState(() => 0)
   let (addExerciseDialogOpen, setAddExerciseDialogOpen) = React.useState(() => false)
+  let (selectedExercise, setSelectedExrecise) = React.useState(() => None)
+  let (selectedExerciseIndex, setSelectedExreciseIndex) = React.useState(() => None)
   let (listElementTopPosition, setListElementTopPosition) = React.useState(() => 0)
   let form = FormContent.use(
     ~config={
@@ -85,18 +87,48 @@ let default = () => {
 
   let onCancel = _ => router->Route.FrontEnd.push(~route=#"/manage")
 
-  let onAddExercise = _ => setAddExerciseDialogOpen(_ => true)
+  let onAddExercise = _ => {
+    setSelectedExrecise(_ => None)
+    setSelectedExreciseIndex(_ => None)
+    setAddExerciseDialogOpen(_ => true)
+  }
 
   let onAddExerciseDialogClosed = _ => setAddExerciseDialogOpen(_ => false)
 
-  let onExerciseAdded = exercise =>
-    form->FormInput.Exercises.setValue(form->FormInput.Exercises.getValue->Array.concat([exercise]))
+  let onExerciseSubmited = (exercise, ~isNew) =>
+    form->FormInput.Exercises.setValue(
+      if isNew {
+        form->FormInput.Exercises.getValue->Array.concat([exercise])
+      } else {
+        form
+        ->FormInput.Exercises.getValue
+        ->Array.toSorted(Exercise.Util.getOrdering)
+        ->Array.mapWithIndex((existingExercise, index) =>
+          if (
+            selectedExerciseIndex->Option.equal(Some(index), (index1, index2) => index1 == index2)
+          ) {
+            exercise
+          } else {
+            existingExercise
+          }
+        )
+      },
+    )
+
+  let onExerciseClick = (~index, exercise) => {
+    setSelectedExrecise(_ => Some(exercise))
+    setSelectedExreciseIndex(_ => Some(index))
+    setAddExerciseDialogOpen(_ => true)
+  }
 
   Console.log2("FKR: project add page render: exercises=%o", form->FormInput.Exercises.getValue)
 
   <Page alignContent={Stretch} spaceOnTop=true spaceOnBottom=true justifyItems="stretch">
     <Exercise.Add.Dialog
-      isOpen=addExerciseDialogOpen onClose=onAddExerciseDialogClosed onExerciseAdded
+      isOpen=addExerciseDialogOpen
+      onClose=onAddExerciseDialogClosed
+      onExerciseSubmited
+      exercise=?selectedExercise
     />
     <Form
       onSubmit={form->FormContent.handleSubmit((project, _event) => onSubmit(project))}
@@ -126,7 +158,10 @@ let default = () => {
         ->FormInput.Exercises.getValue
         ->Array.toSorted(Exercise.Util.getOrdering)
         ->Array.mapWithIndex((exercise, index) =>
-          <Mui.ListItemButton key={`exercise-${index->Int.toString}`} divider=true>
+          <Mui.ListItemButton
+            key={`exercise-${index->Int.toString}`}
+            divider=true
+            onClick={_ => onExerciseClick(exercise, ~index)}>
             <Mui.ListItemIcon> {exercise->Exercise.Util.getStateIcon} </Mui.ListItemIcon>
             <Mui.ListItemText
               primary={exercise.name->Jsx.string}
