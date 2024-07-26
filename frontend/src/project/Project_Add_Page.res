@@ -11,6 +11,17 @@ module FormInput = {
     })
   })
 
+  let renderName = (~intl, form) =>
+    form->Name.renderWithRegister(
+      <Mui.TextField
+        required=true
+        label={intl->ReactIntl.Intl.formatMessage(Message.Project.name)->Jsx.string}
+        error={form->Name.error->Option.isSome}
+      />,
+      ~config=Name.makeRule({required: true}),
+      (),
+    )
+
   module Active = FormContent.MakeInput({
     type t = bool
     let name = "active"
@@ -18,6 +29,15 @@ module FormInput = {
       required: true,
     })
   })
+
+  let renderActive = (~intl, form) =>
+    form->Active.renderWithRegister(
+      <Mui.FormControlLabel
+        control={<Mui.Switch defaultChecked=true />}
+        label={intl->ReactIntl.Intl.formatMessage(Message.Project.active)->Jsx.string}
+      />,
+      (),
+    )
 
   module Exercises = FormContent.MakeInputArray({
     type t = Exercise.Type.t
@@ -27,6 +47,14 @@ module FormInput = {
 }
 
 module Classes = {
+  let nameAndActive = Mui.Sx.array([
+    Mui.Sx.Array.func(theme =>
+      ReactDOM.Style.make(
+        ~gridColumnGap=theme->MuiSpacingFix.spacing(2),
+        (),
+      )->MuiStyles.styleToSxArray
+    ),
+  ])
   let list = (~listElementTopPosition, ~bottomBarHeight, ~actionButtonsHeight) =>
     Mui.Sx.array([
       Mui.Sx.Array.func(theme =>
@@ -60,6 +88,7 @@ let default = () => {
   let listRef = React.useRef(Nullable.null)
   let bottomBarHeight = Store.useStoreWithSelector(({bottomBarHeight}) => bottomBarHeight)
   let auth = ReactOidcContext.useAuth()
+  let smDown = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.smDown)
 
   React.useEffect(() => {
     let actionButtonsElement =
@@ -160,23 +189,35 @@ let default = () => {
       onCancel
       actionButtonsRef>
       <FormHeader message=Message.Manage.createProjectTitle />
-      {form->FormInput.Name.renderWithRegister(
-        <Mui.TextField
-          required=true
-          label={intl->ReactIntl.Intl.formatMessage(Message.Project.name)->Jsx.string}
-          error={form->FormInput.Name.error->Option.isSome}
-        />,
-        ~config=FormInput.Active.makeRule({required: true}),
-        (),
-      )}
-      {form->FormInput.Active.renderWithRegister(
-        <Mui.FormControlLabel
-          control={<Mui.Switch defaultChecked=true />}
-          label={intl->ReactIntl.Intl.formatMessage(Message.Project.active)->Jsx.string}
-        />,
-        (),
-      )}
+      {if smDown {
+        [form->FormInput.renderName(~intl), form->FormInput.renderActive(~intl)]
+      } else {
+        [
+          <Mui.Box
+            display={String("grid")}
+            gridAutoFlow={String("column")}
+            gridAutoColumns={String("3fr 1fr")}
+            gridAutoRows={String("1fr")}
+            sx=Classes.nameAndActive>
+            {form->FormInput.renderName(~intl)}
+            {form->FormInput.renderActive(~intl)}
+          </Mui.Box>,
+        ]
+      }->Jsx.array}
       <Mui.List
+        component={Mui.OverridableComponent.componentWithUnknownProps(component =>
+          if smDown {
+            <Mui.Box {...component} />
+          } else {
+            <Mui.Box
+              {...component}
+              display={String("grid")}
+              gridAutoRows={String("max-content")}
+              gridTemplateColumns={String("1fr 1fr")}
+              alignItems={String("baseline")}
+            />
+          }
+        )}
         sx={Classes.list(~listElementTopPosition, ~bottomBarHeight, ~actionButtonsHeight)}
         ref={listRef->ReactDOM.Ref.domRef}>
         {form

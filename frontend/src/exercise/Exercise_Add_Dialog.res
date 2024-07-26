@@ -3,6 +3,14 @@ module FormContent = ReactHookForm.Make({
 })
 
 module FormInput = {
+  let defaultValues: Exercise_Type.FromForm.t = {
+    name: "",
+    active: true,
+    topPriority: false,
+    slowTempo: "75",
+    fastTempo: "100",
+  }
+
   module Name = FormContent.MakeInput({
     type t = string
     let name = "name"
@@ -11,6 +19,17 @@ module FormInput = {
     })
   })
 
+  let renderName = (~intl, form) =>
+    form->Name.renderWithRegister(
+      <Mui.TextField
+        required=true
+        label={intl->ReactIntl.Intl.formatMessage(Message.Exercise.name)->Jsx.string}
+        error={form->Name.error->Option.isSome}
+      />,
+      ~config=Name.makeRule({required: true}),
+      (),
+    )
+
   module Active = FormContent.MakeInput({
     type t = bool
     let name = "active"
@@ -18,6 +37,19 @@ module FormInput = {
       required: true,
     })
   })
+
+  let renderActive = (~exercise: option<Exercise_Type.t>=?, ~intl, form) =>
+    form->Active.renderWithRegister(
+      <Mui.FormControlLabel
+        control={<Mui.Switch
+          defaultChecked={exercise
+          ->Option.map(({active}) => active)
+          ->Option.getOr(defaultValues.active)}
+        />}
+        label={intl->ReactIntl.Intl.formatMessage(Message.Exercise.active)->Jsx.string}
+      />,
+      (),
+    )
 
   module TopPriority = FormContent.MakeInput({
     type t = bool
@@ -55,30 +87,22 @@ let make = (
   ~onExerciseSubmited,
   ~exercise: option<Exercise_Type.t>=?,
 ) => {
-  let fullScreen = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.smDown)
+  let smDown = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.smDown)
   let intl = ReactIntl.useIntl()
-
-  let defaultValues: Exercise_Type.FromForm.t = {
-    name: "",
-    active: true,
-    topPriority: false,
-    slowTempo: "75",
-    fastTempo: "100",
-  }
 
   let form = FormContent.use(
     ~config={
-      defaultValues: defaultValues,
+      defaultValues: FormInput.defaultValues,
     },
   )
 
   React.useEffect(() => {
     if (form->FormContent.formState).isSubmitSuccessful {
-      form->FormContent.reset(defaultValues)
+      form->FormContent.reset(FormInput.defaultValues)
     }
 
     None
-  }, (form->FormContent.formState, defaultValues))
+  }, (form->FormContent.formState, FormInput.defaultValues))
 
   React.useEffect(() => {
     exercise->Option.forEach(({name, active, topPriority, ?slowTempo, ?fastTempo}) => {
@@ -115,8 +139,8 @@ let make = (
 
   let onCancel = _ => onClose()
 
-  <Mui.Dialog open_ fullScreen onClose={(_, _) => onClose()}>
-    {if fullScreen {
+  <Mui.Dialog open_ fullScreen=smDown onClose={(_, _) => onClose()}>
+    {if smDown {
       <Mui.AppBar position={Relative}>
         <Mui.Toolbar>
           <Mui.IconButton onClick={_ => onClose()} color={Inherit}>
@@ -133,36 +157,18 @@ let make = (
       </Mui.DialogTitle>
     }}
     <Mui.DialogContent>
-      <Page alignContent={Stretch} justifyItems="stretch">
+      <Page alignContent={Stretch} justifyItems=?{smDown ? Some("stretch") : None}>
         <Form
           onSubmit={form->FormContent.handleSubmit((exercise, _event) => onSubmit(exercise))}
           onCancel>
-          {form->FormInput.Name.renderWithRegister(
-            <Mui.TextField
-              required=true
-              label={intl->ReactIntl.Intl.formatMessage(Message.Exercise.name)->Jsx.string}
-              error={form->FormInput.Name.error->Option.isSome}
-            />,
-            ~config=FormInput.Active.makeRule({required: true}),
-            (),
-          )}
-          {form->FormInput.Active.renderWithRegister(
-            <Mui.FormControlLabel
-              control={<Mui.Switch
-                defaultChecked={exercise
-                ->Option.map(({active}) => active)
-                ->Option.getOr(defaultValues.active)}
-              />}
-              label={intl->ReactIntl.Intl.formatMessage(Message.Exercise.active)->Jsx.string}
-            />,
-            (),
-          )}
+          {form->FormInput.renderName(~intl)}
+          {form->FormInput.renderActive(~exercise?, ~intl)}
           {form->FormInput.TopPriority.renderWithRegister(
             <Mui.FormControlLabel
               control={<Mui.Switch
                 defaultChecked={exercise
                 ->Option.map(({topPriority}) => topPriority)
-                ->Option.getOr(defaultValues.topPriority)}
+                ->Option.getOr(FormInput.defaultValues.topPriority)}
               />}
               label={intl
               ->ReactIntl.Intl.formatMessage(Message.Exercise.topPriority)

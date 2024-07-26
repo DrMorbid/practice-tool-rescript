@@ -1,9 +1,9 @@
 module Classes = {
-  let form = Mui.Sx.array([
+  let form = [
     Mui.Sx.Array.func(theme =>
       ReactDOM.Style.make(~gridRowGap=theme->MuiSpacingFix.spacing(2), ())->MuiStyles.styleToSxArray
     ),
-  ])
+  ]
 }
 
 @react.component
@@ -14,8 +14,8 @@ let make = (~onSubmit, ~onCancel, ~actionButtonsRef=?, ~children) => {
     <Mui.Box
       display={String("grid")}
       alignContent={String("space-between")}
-      sx={App_Theme.Classes.maxHeight->Mui.Sx.array}>
-      <Mui.Box display={String("grid")} sx={Classes.form}> children </Mui.Box>
+      sx={App_Theme.Classes.maxHeight->Array.concat(Classes.form)->Mui.Sx.array}>
+      <Mui.Box display={String("grid")} sx={Classes.form->Mui.Sx.array}> children </Mui.Box>
       <Mui.Box
         display={String("grid")}
         gridAutoFlow={String("column")}
