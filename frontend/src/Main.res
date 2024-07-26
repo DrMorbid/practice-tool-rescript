@@ -13,13 +13,18 @@ let make = (~children) => {
       menuRef.current
       ->Nullable.toOption
       ->Option.map(current => current->ReactDOM.domElementToObj)
-      ->Option.getOr(Object.make())
 
     if isMdUp {
-      Store.dispatch(StoreDrawerWidth(menuElement["offsetWidth"]))
+      menuElement
+      ->Option.map(menuElement => menuElement["offsetWidth"])
+      ->Option.forEach(width => Store.dispatch(StoreDrawerWidth(width)))
+
       Store.dispatch(ResetBottomBarHeight)
     } else {
-      Store.dispatch(StoreBottomBarHeight(menuElement["offsetHeight"]))
+      menuElement
+      ->Option.map(menuElement => menuElement["offsetHeight"])
+      ->Option.forEach(height => Store.dispatch(StoreBottomBarHeight(height)))
+
       Store.dispatch(ResetDrawerWidth)
     }
 

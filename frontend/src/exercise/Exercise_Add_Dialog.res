@@ -1,84 +1,4 @@
-module FormContent = ReactHookForm.Make({
-  type t = Exercise_Type.FromForm.t
-})
-
-module FormInput = {
-  let defaultValues: Exercise_Type.FromForm.t = {
-    name: "",
-    active: true,
-    topPriority: false,
-    slowTempo: "75",
-    fastTempo: "100",
-  }
-
-  module Name = FormContent.MakeInput({
-    type t = string
-    let name = "name"
-    let config = ReactHookForm.Rules.make({
-      required: true,
-    })
-  })
-
-  let renderName = (~intl, form) =>
-    form->Name.renderWithRegister(
-      <Mui.TextField
-        required=true
-        label={intl->ReactIntl.Intl.formatMessage(Message.Exercise.name)->Jsx.string}
-        error={form->Name.error->Option.isSome}
-      />,
-      ~config=Name.makeRule({required: true}),
-      (),
-    )
-
-  module Active = FormContent.MakeInput({
-    type t = bool
-    let name = "active"
-    let config = ReactHookForm.Rules.make({
-      required: true,
-    })
-  })
-
-  let renderActive = (~exercise: option<Exercise_Type.t>=?, ~intl, form) =>
-    form->Active.renderWithRegister(
-      <Mui.FormControlLabel
-        control={<Mui.Switch
-          defaultChecked={exercise
-          ->Option.map(({active}) => active)
-          ->Option.getOr(defaultValues.active)}
-        />}
-        label={intl->ReactIntl.Intl.formatMessage(Message.Exercise.active)->Jsx.string}
-      />,
-      (),
-    )
-
-  module TopPriority = FormContent.MakeInput({
-    type t = bool
-    let name = "topPriority"
-    let config = ReactHookForm.Rules.make({
-      required: true,
-    })
-  })
-
-  module SlowTempo = FormContent.MakeInput({
-    type t = string
-    let name = "slowTempo"
-    let config = ReactHookForm.Rules.make({
-      required: true,
-      min: 0,
-      max: 100,
-    })
-  })
-
-  module FastTempo = FormContent.MakeInput({
-    type t = string
-    let name = "fastTempo"
-    let config = ReactHookForm.Rules.make({
-      required: true,
-      min: 0,
-      max: 100,
-    })
-  })
-}
+module Form = Exercise_Add_Dialog_Form
 
 @react.component
 let make = (
@@ -90,32 +10,32 @@ let make = (
   let smDown = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.smDown)
   let intl = ReactIntl.useIntl()
 
-  let form = FormContent.use(
+  let form = Form.Content.use(
     ~config={
-      defaultValues: FormInput.defaultValues,
+      defaultValues: Form.Input.defaultValues,
     },
   )
 
   React.useEffect(() => {
-    if (form->FormContent.formState).isSubmitSuccessful {
-      form->FormContent.reset(FormInput.defaultValues)
+    if (form->Form.Content.formState).isSubmitSuccessful {
+      form->Form.Content.reset(Form.Input.defaultValues)
     }
 
     None
-  }, (form->FormContent.formState, FormInput.defaultValues))
+  }, (form->Form.Content.formState, Form.Input.defaultValues))
 
   React.useEffect(() => {
     exercise->Option.forEach(({name, active, topPriority, ?slowTempo, ?fastTempo}) => {
-      form->FormInput.Name.setValue(name)
-      form->FormInput.Active.setValue(active)
-      form->FormInput.TopPriority.setValue(topPriority)
+      form->Form.Input.Name.setValue(name)
+      form->Form.Input.Active.setValue(active)
+      form->Form.Input.TopPriority.setValue(topPriority)
       slowTempo
       ->Option.map(slowTempo => slowTempo->Int.toString)
-      ->Option.forEach(slowTempo => form->FormInput.SlowTempo.setValue(slowTempo))
-      form->FormInput.TopPriority.setValue(topPriority)
+      ->Option.forEach(slowTempo => form->Form.Input.SlowTempo.setValue(slowTempo))
+      form->Form.Input.TopPriority.setValue(topPriority)
       fastTempo
       ->Option.map(fastTempo => fastTempo->Int.toString)
-      ->Option.forEach(fastTempo => form->FormInput.FastTempo.setValue(fastTempo))
+      ->Option.forEach(fastTempo => form->Form.Input.FastTempo.setValue(fastTempo))
     })
 
     None
@@ -158,55 +78,15 @@ let make = (
     }}
     <Mui.DialogContent>
       <Page alignContent={Stretch} justifyItems=?{smDown ? Some("stretch") : None}>
-        <Form
-          onSubmit={form->FormContent.handleSubmit((exercise, _event) => onSubmit(exercise))}
+        <Common.Form
+          onSubmit={form->Form.Content.handleSubmit((exercise, _event) => onSubmit(exercise))}
           onCancel>
-          {form->FormInput.renderName(~intl)}
-          {form->FormInput.renderActive(~exercise?, ~intl)}
-          {form->FormInput.TopPriority.renderWithRegister(
-            <Mui.FormControlLabel
-              control={<Mui.Switch
-                defaultChecked={exercise
-                ->Option.map(({topPriority}) => topPriority)
-                ->Option.getOr(FormInput.defaultValues.topPriority)}
-              />}
-              label={intl
-              ->ReactIntl.Intl.formatMessage(Message.Exercise.topPriority)
-              ->Jsx.string}
-            />,
-            (),
-          )}
-          {form->FormInput.SlowTempo.renderWithRegister(
-            <Mui.TextField
-              required=true
-              label={intl->ReactIntl.Intl.formatMessage(Message.Exercise.slowTempo)->Jsx.string}
-              type_="number"
-              error={form->FormInput.SlowTempo.error->Option.isSome}
-              inputProps_={{
-                endAdornment: <Mui.InputAdornment position={End}>
-                  {Exercise_Util.unitOfTempo->Jsx.string}
-                </Mui.InputAdornment>,
-              }}
-            />,
-            ~config=FormInput.Active.makeRule({min: 0, max: 100}),
-            (),
-          )}
-          {form->FormInput.FastTempo.renderWithRegister(
-            <Mui.TextField
-              required=true
-              label={intl->ReactIntl.Intl.formatMessage(Message.Exercise.fastTempo)->Jsx.string}
-              type_="number"
-              error={form->FormInput.FastTempo.error->Option.isSome}
-              inputProps_={{
-                endAdornment: <Mui.InputAdornment position={End}>
-                  {Exercise_Util.unitOfTempo->Jsx.string}
-                </Mui.InputAdornment>,
-              }}
-            />,
-            ~config=FormInput.Active.makeRule({min: 0, max: 100}),
-            (),
-          )}
-        </Form>
+          {form->Form.Input.renderName(~intl)}
+          {form->Form.Input.renderActive(~exercise?, ~intl)}
+          {form->Form.Input.renderTopPriority(~exercise?, ~intl)}
+          {form->Form.Input.renderSlowTempo(~intl)}
+          {form->Form.Input.renderFastTempo(~intl)}
+        </Common.Form>
       </Page>
     </Mui.DialogContent>
   </Mui.Dialog>

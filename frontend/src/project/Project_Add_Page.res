@@ -1,83 +1,15 @@
-module FormContent = ReactHookForm.Make({
-  type t = Project_Type.t
-})
-
-module FormInput = {
-  module Name = FormContent.MakeInput({
-    type t = string
-    let name = "name"
-    let config = ReactHookForm.Rules.make({
-      required: true,
-    })
-  })
-
-  let renderName = (~intl, form) =>
-    form->Name.renderWithRegister(
-      <Mui.TextField
-        required=true
-        label={intl->ReactIntl.Intl.formatMessage(Message.Project.name)->Jsx.string}
-        error={form->Name.error->Option.isSome}
-      />,
-      ~config=Name.makeRule({required: true}),
-      (),
-    )
-
-  module Active = FormContent.MakeInput({
-    type t = bool
-    let name = "active"
-    let config = ReactHookForm.Rules.make({
-      required: true,
-    })
-  })
-
-  let renderActive = (~intl, form) =>
-    form->Active.renderWithRegister(
-      <Mui.FormControlLabel
-        control={<Mui.Switch defaultChecked=true />}
-        label={intl->ReactIntl.Intl.formatMessage(Message.Project.active)->Jsx.string}
-      />,
-      (),
-    )
-
-  module Exercises = FormContent.MakeInputArray({
-    type t = Exercise.Type.t
-    let name = "exercises"
-    let config = ReactHookForm.Rules.empty()
-  })
-}
-
-module Classes = {
-  let nameAndActive = Mui.Sx.array([
-    Mui.Sx.Array.func(theme =>
-      ReactDOM.Style.make(
-        ~gridColumnGap=theme->MuiSpacingFix.spacing(2),
-        (),
-      )->MuiStyles.styleToSxArray
-    ),
-  ])
-  let list = (~listElementTopPosition, ~bottomBarHeight, ~actionButtonsHeight) =>
-    Mui.Sx.array([
-      Mui.Sx.Array.func(theme =>
-        ReactDOM.Style.make(
-          ~overflow="auto",
-          ~height=`calc(100vh - ${listElementTopPosition->Int.toString}px - ${bottomBarHeight->Int.toString}px - ${actionButtonsHeight->Int.toString}px - ${theme->MuiSpacingFix.spacing(
-              5,
-            )})`,
-          (),
-        )->MuiStyles.styleToSxArray
-      ),
-    ])
-}
+module Classes = Project_Add_Page_Classes
+module Form = Project_Add_Page_Form
 
 @react.component
 let default = () => {
-  let (actionButtonsHeight, setActionButtonsHeight) = React.useState(() => 0)
+  let (actionButtonsHeight, setActionButtonsHeight) = React.useState(() => None)
   let (addExerciseDialogOpen, setAddExerciseDialogOpen) = React.useState(() => false)
   let (selectedExercise, setSelectedExrecise) = React.useState(() => None)
   let (selectedExerciseIndex, setSelectedExreciseIndex) = React.useState(() => None)
-  let (listElementTopPosition, setListElementTopPosition) = React.useState(() => 0)
+  let (listElementTopPosition, setListElementTopPosition) = React.useState(() => None)
   let (saveError, setSaveError) = React.useState(() => None)
-  let form = FormContent.use(
+  let form = Form.Content.use(
     ~config={
       defaultValues: {name: "", active: true, exercises: []},
     },
@@ -86,7 +18,7 @@ let default = () => {
   let router = Next.Navigation.useRouter()
   let actionButtonsRef = React.useRef(Nullable.null)
   let listRef = React.useRef(Nullable.null)
-  let bottomBarHeight = Store.useStoreWithSelector(({bottomBarHeight}) => bottomBarHeight)
+  let bottomBarHeight = Store.useStoreWithSelector(({?bottomBarHeight}) => bottomBarHeight)
   let auth = ReactOidcContext.useAuth()
   let smDown = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.smDown)
 
@@ -95,9 +27,10 @@ let default = () => {
       actionButtonsRef.current
       ->Nullable.toOption
       ->Option.map(current => current->ReactDOM.domElementToObj)
-      ->Option.getOr(Object.make())
 
-    setActionButtonsHeight(_ => actionButtonsElement["offsetHeight"])
+    setActionButtonsHeight(_ =>
+      actionButtonsElement->Option.map(actionButtonsElement => actionButtonsElement["offsetHeight"])
+    )
 
     None
   }, [actionButtonsRef])
@@ -107,9 +40,8 @@ let default = () => {
       listRef.current
       ->Nullable.toOption
       ->Option.map(current => current->ReactDOM.domElementToObj)
-      ->Option.getOr(Object.make())
 
-    setListElementTopPosition(_ => listElement["offsetTop"])
+    setListElementTopPosition(_ => listElement->Option.map(listElement => listElement["offsetTop"]))
 
     None
   }, [listRef])
@@ -142,12 +74,12 @@ let default = () => {
   let onAddExerciseDialogClosed = _ => setAddExerciseDialogOpen(_ => false)
 
   let onExerciseSubmited = (exercise, ~isNew) =>
-    form->FormInput.Exercises.setValue(
+    form->Form.Input.Exercises.setValue(
       if isNew {
-        form->FormInput.Exercises.getValue->Array.concat([exercise])
+        form->Form.Input.Exercises.getValue->Array.concat([exercise])
       } else {
         form
-        ->FormInput.Exercises.getValue
+        ->Form.Input.Exercises.getValue
         ->Array.toSorted(Exercise.Util.getOrdering)
         ->Array.mapWithIndex((existingExercise, index) =>
           if (
@@ -184,13 +116,13 @@ let default = () => {
       />
     )
     ->Option.getOr(Jsx.null)}
-    <Form
-      onSubmit={form->FormContent.handleSubmit((project, _event) => onSubmit(project))}
+    <Common.Form
+      onSubmit={form->Form.Content.handleSubmit((project, _event) => onSubmit(project))}
       onCancel
       actionButtonsRef>
       <FormHeader message=Message.Manage.createProjectTitle />
       {if smDown {
-        [form->FormInput.renderName(~intl), form->FormInput.renderActive(~intl)]
+        [form->Form.Input.renderName(~intl), form->Form.Input.renderActive(~intl)]
       } else {
         [
           <Mui.Box
@@ -199,66 +131,23 @@ let default = () => {
             gridAutoColumns={String("3fr 1fr")}
             gridAutoRows={String("1fr")}
             sx=Classes.nameAndActive>
-            {form->FormInput.renderName(~intl)}
-            {form->FormInput.renderActive(~intl)}
+            {form->Form.Input.renderName(~intl)}
+            {form->Form.Input.renderActive(~intl)}
           </Mui.Box>,
         ]
       }->Jsx.array}
-      <Mui.List
-        component={Mui.OverridableComponent.componentWithUnknownProps(component =>
-          if smDown {
-            <Mui.Box {...component} />
-          } else {
-            <Mui.Box
-              {...component}
-              display={String("grid")}
-              gridAutoRows={String("max-content")}
-              gridTemplateColumns={String("1fr 1fr")}
-              alignItems={String("baseline")}
-            />
-          }
-        )}
-        sx={Classes.list(~listElementTopPosition, ~bottomBarHeight, ~actionButtonsHeight)}
-        ref={listRef->ReactDOM.Ref.domRef}>
-        {form
-        ->FormInput.Exercises.getValue
-        ->Array.toSorted(Exercise.Util.getOrdering)
-        ->Array.mapWithIndex((exercise, index) =>
-          <Mui.ListItemButton
-            key={`exercise-${index->Int.toString}`}
-            divider=true
-            onClick={_ => onExerciseClick(exercise, ~index)}>
-            <Mui.ListItemIcon> {exercise->Exercise.Util.getStateIcon} </Mui.ListItemIcon>
-            <Mui.ListItemText
-              primary={exercise.name->Jsx.string}
-              secondary={<Mui.Box
-                display={String("grid")}
-                gridAutoFlow={String("column")}
-                gridAutoColumns={String("1fr")}
-                gridAutoRows={String("1fr")}>
-                <Mui.Box>
-                  {exercise.slowTempo
-                  ->Option.map(Exercise.Util.formatTempo)
-                  ->Option.map(Jsx.string)
-                  ->Option.getOr(Jsx.null)}
-                </Mui.Box>
-                <Mui.Box>
-                  {exercise.fastTempo
-                  ->Option.map(Exercise.Util.formatTempo)
-                  ->Option.map(Jsx.string)
-                  ->Option.getOr(Jsx.null)}
-                </Mui.Box>
-              </Mui.Box>}
-            />
-            <Icon.ArrowForwardIos />
-          </Mui.ListItemButton>
-        )
-        ->Jsx.array}
-      </Mui.List>
-    </Form>
+      {form->Form.Input.renderExercises(
+        ~smDown,
+        ~onExerciseClick,
+        ~actionButtonsHeight?,
+        ~bottomBarHeight?,
+        ~listElementTopPosition?,
+        ~listRef,
+      )}
+    </Common.Form>
     <AddButton
       onClick=onAddExercise
-      bottomPosition={`${actionButtonsHeight->Int.toString}px`}
+      bottomPosition={`${actionButtonsHeight->Option.map(Int.toString(_))->Option.getOr("0")}px`}
       bottomSpacing=5
     />
   </Page>

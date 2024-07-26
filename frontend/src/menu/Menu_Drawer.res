@@ -2,7 +2,7 @@
 let make = (~menuRef) => {
   let intl = ReactIntl.useIntl()
   let router = Next.Navigation.useRouter()
-  let activeItem = Store.useStoreWithSelector(({menuItemIndex}) => menuItemIndex)
+  let activeItem = Store.useStoreWithSelector(({?menuItemIndex}) => menuItemIndex)
 
   let onClick = (route, index, _) => {
     Store.dispatch(StoreMenuItemIndex(index))
@@ -16,7 +16,8 @@ let make = (~menuRef) => {
       ->Array.mapWithIndex(({label, icon, route}, index) =>
         <Mui.ListItem key={`menu-item-${index->Int.toString}`}>
           <Mui.ListItemButton
-            selected={index == activeItem ? true : false} onClick={onClick(route, index, _)}>
+            selected={index == activeItem->Option.getOr(0) ? true : false}
+            onClick={onClick(route, index, _)}>
             <Mui.ListItemIcon> icon </Mui.ListItemIcon>
             <Mui.ListItemText primary={intl->ReactIntl.Intl.formatMessage(label)->Jsx.string} />
           </Mui.ListItemButton>

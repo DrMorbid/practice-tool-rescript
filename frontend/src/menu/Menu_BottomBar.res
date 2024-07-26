@@ -16,7 +16,7 @@ module Classes = {
 let make = (~menuRef) => {
   let intl = ReactIntl.useIntl()
   let router = Next.Navigation.useRouter()
-  let activeItem = Store.useStoreWithSelector(({menuItemIndex}) => menuItemIndex)
+  let activeItem = Store.useStoreWithSelector(({?menuItemIndex}) => menuItemIndex)
 
   let onChange = (_, index) => {
     Store.dispatch(StoreMenuItemIndex(index))
@@ -28,7 +28,7 @@ let make = (~menuRef) => {
   }
 
   <Mui.AppBar position={Fixed} sx=Classes.appBar ref={menuRef->ReactDOM.Ref.domRef}>
-    <Mui.BottomNavigation showLabels=true value=activeItem onChange>
+    <Mui.BottomNavigation showLabels=true value=?activeItem onChange>
       {Menu_Content.menuContent
       ->Array.mapWithIndex(({label, icon}, index) =>
         <Mui.BottomNavigationAction
