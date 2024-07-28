@@ -18,9 +18,12 @@ let default = () => {
   let router = Next.Navigation.useRouter()
   let actionButtonsRef = React.useRef(Nullable.null)
   let listRef = React.useRef(Nullable.null)
-  let bottomBarHeight = Store.useStoreWithSelector(({?bottomBarHeight}) => bottomBarHeight)
   let auth = ReactOidcContext.useAuth()
   let smDown = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.smDown)
+  let (bottomBarHeight, selectedProjectForManagement) = Store.useStoreWithSelector(({
+    ?bottomBarHeight,
+    ?selectedProjectForManagement,
+  }) => (bottomBarHeight, selectedProjectForManagement))
 
   React.useEffect(() => {
     let actionButtonsElement =
@@ -45,6 +48,16 @@ let default = () => {
 
     None
   }, [listRef])
+
+  React.useEffect(() => {
+    selectedProjectForManagement->Option.forEach(({name, active, exercises}) => {
+      form->Form.Input.Name.setValue(name)
+      form->Form.Input.Active.setValue(active)
+      form->Form.Input.Exercises.setValue(exercises)
+    })
+
+    None
+  }, [selectedProjectForManagement])
 
   let onSubmit = project => {
     Util.Fetch.fetch(

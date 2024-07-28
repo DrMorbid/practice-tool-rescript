@@ -4,3 +4,4 @@ type action =
   | ResetBottomBarHeight
   | StoreDrawerWidth(int)
   | ResetDrawerWidth
+  | StoreSelectedProjectForManagement(Project_Type.t)

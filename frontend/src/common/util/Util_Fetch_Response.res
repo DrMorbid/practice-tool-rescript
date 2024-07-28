@@ -8,3 +8,9 @@ let isError = response =>
   | NotStarted | Pending | Ok(_) => false
   | Error(_) => true
   }
+
+let forSuccess = (response, onSuccess) =>
+  switch response {
+  | Ok(response) => response->onSuccess
+  | NotStarted | Pending | Error(_) => ()
+  }

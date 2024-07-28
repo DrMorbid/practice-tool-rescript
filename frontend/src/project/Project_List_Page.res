@@ -22,6 +22,15 @@ let default = () => {
 
   let onAddProject = _ => router->Route.FrontEnd.push(~route=#"/manage/projectAdd")
 
+  let onSelectProject = index => {
+    projects->Util.Fetch.Response.forSuccess(projects =>
+      projects
+      ->Array.get(index)
+      ->Option.forEach(project => Store.dispatch(StoreSelectedProjectForManagement(project)))
+    )
+    router->Route.FrontEnd.push(~route=#"/manage/projectAdd")
+  }
+
   <>
     {switch projects {
     | NotStarted => Jsx.null
@@ -45,7 +54,9 @@ let default = () => {
           {projects
           ->Array.mapWithIndex(({name, active}, index) =>
             <Mui.ListItemButton
-              key={`project-${index->Int.toString}`} divider=true onClick={_ => ()}>
+              key={`project-${index->Int.toString}`}
+              divider=true
+              onClick={_ => onSelectProject(index)}>
               <Mui.ListItemIcon> {Project_Util.getStateIcon(~active)} </Mui.ListItemIcon>
               <Mui.ListItemText primary={name->Jsx.string} />
               <Icon.ArrowForwardIos />
