@@ -16,6 +16,7 @@ module Input = {
   let renderName = (~intl, form) =>
     form->Name.renderWithRegister(
       <Mui.TextField
+        variant={Standard}
         required=true
         label={intl->ReactIntl.Intl.formatMessage(Message.Project.name)->Jsx.string}
         error={form->Name.error->Option.isSome}

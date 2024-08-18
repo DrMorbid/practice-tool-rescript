@@ -1,3 +1,7 @@
+module Classes = {
+  let listSmUp = Mui.Sx.obj({alignItems: Unset})
+}
+
 @react.component
 let default = () => {
   let (projects, setProjects) = React.useState(() => Util.Fetch.Response.NotStarted)
@@ -50,7 +54,12 @@ let default = () => {
                 alignItems={String("baseline")}
               />
             }
-          )}>
+          )}
+          sx=?{if smDown {
+            None
+          } else {
+            Some(Classes.listSmUp)
+          }}>
           {projects
           ->Array.mapWithIndex(({name, active}, index) =>
             <Mui.ListItemButton

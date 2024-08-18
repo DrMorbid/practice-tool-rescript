@@ -22,6 +22,7 @@ module Input = {
   let renderName = (~intl, form) =>
     form->Name.renderWithRegister(
       <Mui.TextField
+        variant={Standard}
         required=true
         label={intl->ReactIntl.Intl.formatMessage(Message.Exercise.name)->Jsx.string}
         error={form->Name.error->Option.isSome}
@@ -87,6 +88,7 @@ module Input = {
   let renderSlowTempo = (~intl, form) =>
     form->SlowTempo.renderWithRegister(
       <Mui.TextField
+        variant={Standard}
         required=true
         label={intl->ReactIntl.Intl.formatMessage(Message.Exercise.slowTempo)->Jsx.string}
         type_="number"
@@ -114,6 +116,7 @@ module Input = {
   let renderFastTempo = (~intl, form) =>
     form->FastTempo.renderWithRegister(
       <Mui.TextField
+        variant={Standard}
         required=true
         label={intl->ReactIntl.Intl.formatMessage(Message.Exercise.fastTempo)->Jsx.string}
         type_="number"

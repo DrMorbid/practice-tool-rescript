@@ -34,13 +34,15 @@ let make = (
   ~gridAutoRows: option<Mui.System.Value.t>=?,
   ~spaceOnTop=false,
   ~spaceOnBottom=false,
+  ~pageRef=?,
   ~children,
 ) => {
   <Mui.Box
     display={String("grid")}
     ?gridAutoRows
     alignContent
-    sx={Classes.container(~spaceOnTop, ~spaceOnBottom, ~justifyItems)}>
+    sx={Classes.container(~spaceOnTop, ~spaceOnBottom, ~justifyItems)}
+    ref=?{pageRef->Option.map(ReactDOM.Ref.domRef)}>
     {children}
   </Mui.Box>
 }

@@ -135,6 +135,11 @@ let theme = (~prefersDarkMode) => {
           }
         ),
       },
+      muiFormControlLabel: {
+        styleOverrides: {
+          root: {marginLeft: "unset"},
+        },
+      },
     },
   })
 

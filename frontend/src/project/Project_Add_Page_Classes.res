@@ -8,22 +8,14 @@ let nameAndActive = Mui.Sx.array([
 ])
 
 let list = (
-  ~listElementTopPosition: option<int>=?,
-  ~bottomBarHeight: option<int>=?,
-  ~actionButtonsHeight: option<int>=?,
+  ~listElementTopPosition as _: option<int>=?,
+  ~bottomBarHeight as _: option<int>=?,
+  ~actionButtonsHeight as _: option<int>=?,
 ) =>
   Mui.Sx.array([
-    Mui.Sx.Array.func(theme =>
-      ReactDOM.Style.make(
-        ~overflow="auto",
-        ~height=`calc(100vh - ${listElementTopPosition
-          ->Option.map(Int.toString(_))
-          ->Option.getOr("0")}px - ${bottomBarHeight
-          ->Option.map(Int.toString(_))
-          ->Option.getOr("0")}px - ${actionButtonsHeight
-          ->Option.map(Int.toString(_))
-          ->Option.getOr("0")}px - ${theme->MuiSpacingFix.spacing(5)})`,
-        (),
-      )->MuiStyles.styleToSxArray
+    Mui.Sx.Array.func(_theme =>
+      ReactDOM.Style.make(~overflow="auto", ())->MuiStyles.styleToSxArray
     ),
   ])
+
+let exercisesScrolling = [ReactDOM.Style.make(~overflow="auto", ())->MuiStyles.styleToSxArray]

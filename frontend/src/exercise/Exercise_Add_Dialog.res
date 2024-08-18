@@ -79,6 +79,8 @@ let make = (
     <Mui.DialogContent>
       <Page alignContent={Stretch} justifyItems=?{smDown ? Some("stretch") : None}>
         <Common.Form
+          header=Jsx.null
+          gridTemplateRows="auto auto auto auto 1fr auto"
           onSubmit={form->Form.Content.handleSubmit((exercise, _event) => onSubmit(exercise))}
           onCancel>
           {form->Form.Input.renderName(~intl)}
