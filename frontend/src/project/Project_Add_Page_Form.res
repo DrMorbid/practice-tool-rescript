@@ -13,13 +13,14 @@ module Input = {
     })
   })
 
-  let renderName = (~intl, form) =>
+  let renderName = (~intl, ~key=?, form) =>
     form->Name.renderWithRegister(
       <Mui.TextField
         variant={Standard}
         required=true
         label={intl->ReactIntl.Intl.formatMessage(Message.Project.name)->Jsx.string}
         error={form->Name.error->Option.isSome}
+        ?key
       />,
       ~config=Name.makeRule({required: true}),
       (),
@@ -33,11 +34,12 @@ module Input = {
     })
   })
 
-  let renderActive = (~intl, form) =>
+  let renderActive = (~intl, ~key=?, form) =>
     form->Active.renderWithRegister(
       <Mui.FormControlLabel
         control={<Mui.Switch defaultChecked=true />}
         label={intl->ReactIntl.Intl.formatMessage(Message.Project.active)->Jsx.string}
+        ?key
       />,
       (),
     )

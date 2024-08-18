@@ -27,6 +27,8 @@ let default = () => {
     ?selectedProjectForManagement,
   }) => (bottomBarHeight, selectedProjectForManagement))
 
+  let viewportDimensions = Hook.WindowDimensions.useWindowDimensions()
+
   React.useEffect(() => {
     let actionButtonsElement =
       actionButtonsRef.current
@@ -60,7 +62,7 @@ let default = () => {
         pageElement => {
           let style = Webapi.Dom.window->Webapi.Dom.Window.getComputedStyle(pageElement)
 
-          (
+          let result = (
             (pageElement->ReactDOM.domElementToObj)["offsetHeight"],
             style
             ->Webapi.Dom.CssStyleDeclaration.paddingTop
@@ -69,6 +71,8 @@ let default = () => {
             ->Webapi.Dom.CssStyleDeclaration.paddingBottom
             ->Float.parseFloat,
           )
+
+          result
         },
       )
       ->Option.map(
@@ -77,7 +81,7 @@ let default = () => {
     )
 
     None
-  }, [pageRef])
+  }, (pageRef, viewportDimensions, bottomBarHeight))
 
   React.useEffect(() => {
     selectedProjectForManagement->Option.forEach(({name, active, exercises}) => {
@@ -177,7 +181,10 @@ let default = () => {
         gridTemplateRows={String("auto auto 1fr")}
         sx={Common.Form.Classes.formGaps->Array.concat(Classes.exercisesScrolling)->Mui.Sx.array}>
         {if smDown {
-          [form->Form.Input.renderName(~intl), form->Form.Input.renderActive(~intl)]
+          [
+            form->Form.Input.renderName(~intl, ~key="project-add-form-1"),
+            form->Form.Input.renderActive(~intl, ~key="project-add-form-2"),
+          ]
         } else {
           [
             <Mui.Box
@@ -185,7 +192,8 @@ let default = () => {
               gridAutoFlow={String("column")}
               gridAutoColumns={String("3fr 1fr")}
               gridAutoRows={String("1fr")}
-              sx=Classes.nameAndActive>
+              sx=Classes.nameAndActive
+              key="project-add-form-1">
               {form->Form.Input.renderName(~intl)}
               {form->Form.Input.renderActive(~intl)}
             </Mui.Box>,
