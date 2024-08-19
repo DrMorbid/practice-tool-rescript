@@ -209,10 +209,11 @@ let default = () => {
         )}
       </Mui.Box>
     </Common.Form>
-    <AddButton
-      onClick=onAddExercise
-      bottomPosition={`${actionButtonsHeight->Option.map(Int.toString(_))->Option.getOr("0")}px`}
-      bottomSpacing=5
-    />
+    {actionButtonsHeight
+    ->Option.map(Int.toString(_))
+    ->Option.map(bottomPosition =>
+      <AddButton onClick=onAddExercise bottomPosition={`${bottomPosition}px`} bottomSpacing=5 />
+    )
+    ->Option.getOr(Jsx.null)}
   </Page>
 }
