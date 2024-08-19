@@ -12,7 +12,7 @@ let default = () => {
   let (saveError, setSaveError) = React.useState(() => None)
   let form = Form.Content.use(
     ~config={
-      defaultValues: {name: "", active: true, exercises: []},
+      defaultValues: Form.Input.defaultValues,
     },
   )
   let intl = ReactIntl.useIntl()
@@ -183,7 +183,11 @@ let default = () => {
         {if smDown {
           [
             form->Form.Input.renderName(~intl, ~key="project-add-form-1"),
-            form->Form.Input.renderActive(~intl, ~key="project-add-form-2"),
+            form->Form.Input.renderActive(
+              ~project=?selectedProjectForManagement,
+              ~intl,
+              ~key="project-add-form-2",
+            ),
           ]
         } else {
           [
@@ -195,7 +199,7 @@ let default = () => {
               sx=Classes.nameAndActive
               key="project-add-form-1">
               {form->Form.Input.renderName(~intl)}
-              {form->Form.Input.renderActive(~intl)}
+              {form->Form.Input.renderActive(~project=?selectedProjectForManagement, ~intl)}
             </Mui.Box>,
           ]
         }->Jsx.array}

@@ -5,6 +5,12 @@ module Content = ReactHookForm.Make({
 })
 
 module Input = {
+  let defaultValues: Project_Type.t = {
+    name: "",
+    active: true,
+    exercises: [],
+  }
+
   module Name = Content.MakeInput({
     type t = string
     let name = "name"
@@ -34,10 +40,14 @@ module Input = {
     })
   })
 
-  let renderActive = (~intl, ~key=?, form) =>
+  let renderActive = (~intl, ~project: option<Project_Type.t>=?, ~key=?, form) =>
     form->Active.renderWithRegister(
       <Mui.FormControlLabel
-        control={<Mui.Switch defaultChecked=true />}
+        control={<Mui.Switch
+          defaultChecked={project
+          ->Option.map(({active}) => active)
+          ->Option.getOr(defaultValues.active)}
+        />}
         label={intl->ReactIntl.Intl.formatMessage(Message.Project.active)->Jsx.string}
         ?key
       />,
