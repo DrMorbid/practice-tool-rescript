@@ -24,6 +24,7 @@ module Input = {
       <Mui.TextField
         variant={Standard}
         required=true
+        disabled=true
         label={intl->ReactIntl.Intl.formatMessage(Message.Project.name)->Jsx.string}
         error={form->Name.error->Option.isSome}
         ?key
