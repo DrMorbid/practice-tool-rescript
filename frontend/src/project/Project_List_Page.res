@@ -2,12 +2,40 @@ module Classes = {
   let listSmUp = Mui.Sx.obj({alignItems: Unset})
 }
 
+module ListWrapper = {
+  @react.component
+  let make = (~children) => {
+    let smDown = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.smDown)
+
+    <Mui.List
+      component={Mui.OverridableComponent.componentWithUnknownProps(component =>
+        if smDown {
+          <Mui.Box {...component} />
+        } else {
+          <Mui.Box
+            {...component}
+            display={String("grid")}
+            gridAutoRows={String("max-content")}
+            gridTemplateColumns={String("1fr 1fr")}
+            alignItems={String("baseline")}
+          />
+        }
+      )}
+      sx=?{if smDown {
+        None
+      } else {
+        Some(Classes.listSmUp)
+      }}>
+      {children}
+    </Mui.List>
+  }
+}
+
 @react.component
 let default = () => {
   let (projects, setProjects) = React.useState(() => Util.Fetch.Response.NotStarted)
   let auth = ReactOidcContext.useAuth()
   let router = Next.Navigation.useRouter()
-  let smDown = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.smDown)
 
   React.useEffect(() => {
     setProjects(_ => Pending)
@@ -38,28 +66,15 @@ let default = () => {
   <>
     {switch projects {
     | NotStarted => Jsx.null
-    | Pending => <Mui.Skeleton />
+    | Pending =>
+      <ListWrapper>
+        <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
+        <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
+        <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
+      </ListWrapper>
     | Ok(projects) =>
       <>
-        <Mui.List
-          component={Mui.OverridableComponent.componentWithUnknownProps(component =>
-            if smDown {
-              <Mui.Box {...component} />
-            } else {
-              <Mui.Box
-                {...component}
-                display={String("grid")}
-                gridAutoRows={String("max-content")}
-                gridTemplateColumns={String("1fr 1fr")}
-                alignItems={String("baseline")}
-              />
-            }
-          )}
-          sx=?{if smDown {
-            None
-          } else {
-            Some(Classes.listSmUp)
-          }}>
+        <ListWrapper>
           {projects
           ->Array.mapWithIndex(({name, active}, index) =>
             <Mui.ListItemButton
@@ -72,7 +87,7 @@ let default = () => {
             </Mui.ListItemButton>
           )
           ->Jsx.array}
-        </Mui.List>
+        </ListWrapper>
         <AddButton onClick=onAddProject />
       </>
     | Error({message}) =>
