@@ -10,6 +10,7 @@ let default = () => {
   let (listElementTopPosition, setListElementTopPosition) = React.useState(() => None)
   let (pageHeight, setPageHeight) = React.useState(() => None)
   let (saveError, setSaveError) = React.useState(() => None)
+  let (submitPending, setSubmitPending) = React.useState(() => false)
   let form = Form.Content.use(
     ~config={
       defaultValues: Form.Input.defaultValues,
@@ -94,6 +95,8 @@ let default = () => {
   }, [selectedProjectForManagement])
 
   let onSubmit = project => {
+    setSubmitPending(_ => true)
+
     Util.Fetch.fetch(
       #"/project",
       ~method=Post,
@@ -101,12 +104,14 @@ let default = () => {
       ~responseDecoder=Spice.stringFromJson,
       ~body=project->Project_Type.t_encode,
     )
-    ->Promise.thenResolve(result =>
+    ->Promise.thenResolve(result => {
+      setSubmitPending(_ => false)
+
       switch result {
       | Ok(_) => router->Route.FrontEnd.push(~route=#"/manage")
       | Error(error) => setSaveError(_ => Some(error))
       }
-    )
+    })
     ->ignore
   }
 
@@ -173,6 +178,7 @@ let default = () => {
       gridTemplateRows="auto 1fr auto"
       onSubmit={form->Form.Content.handleSubmit((project, _event) => onSubmit(project))}
       onCancel
+      submitPending
       fixedHeight=?pageHeight
       actionButtonsRef>
       <Mui.Box
@@ -182,7 +188,11 @@ let default = () => {
         sx={Common.Form.Classes.formGaps->Array.concat(Classes.exercisesScrolling)->Mui.Sx.array}>
         {if smDown {
           [
-            form->Form.Input.renderName(~intl, ~key="project-add-form-1"),
+            form->Form.Input.renderName(
+              ~intl,
+              ~disabled=selectedProjectForManagement->Option.isSome,
+              ~key="project-add-form-1",
+            ),
             form->Form.Input.renderActive(
               ~project=?selectedProjectForManagement,
               ~intl,
@@ -198,7 +208,10 @@ let default = () => {
               gridAutoRows={String("1fr")}
               sx=Classes.nameAndActive
               key="project-add-form-1">
-              {form->Form.Input.renderName(~intl)}
+              {form->Form.Input.renderName(
+                ~intl,
+                ~disabled=selectedProjectForManagement->Option.isSome,
+              )}
               {form->Form.Input.renderActive(~project=?selectedProjectForManagement, ~intl)}
             </Mui.Box>,
           ]
@@ -216,7 +229,12 @@ let default = () => {
     {actionButtonsHeight
     ->Option.map(Int.toString(_))
     ->Option.map(bottomPosition =>
-      <AddButton onClick=onAddExercise bottomPosition={`${bottomPosition}px`} bottomSpacing=5 />
+      <AddButton
+        onClick=onAddExercise
+        bottomPosition={`${bottomPosition}px`}
+        bottomSpacing=5
+        disabled=submitPending
+      />
     )
     ->Option.getOr(Jsx.null)}
   </Page>

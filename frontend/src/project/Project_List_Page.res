@@ -52,7 +52,10 @@ let default = () => {
     None
   }, [])
 
-  let onAddProject = _ => router->Route.FrontEnd.push(~route=#"/manage/projectAdd")
+  let onAddProject = _ => {
+    Store.dispatch(ResetProjectForManagement)
+    router->Route.FrontEnd.push(~route=#"/manage/projectAdd")
+  }
 
   let onSelectProject = index => {
     projects->Util.Fetch.Response.forSuccess(projects =>

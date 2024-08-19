@@ -19,12 +19,12 @@ module Input = {
     })
   })
 
-  let renderName = (~intl, ~key=?, form) =>
+  let renderName = (~intl, ~disabled, ~key=?, form) =>
     form->Name.renderWithRegister(
       <Mui.TextField
         variant={Standard}
         required=true
-        disabled=true
+        disabled
         label={intl->ReactIntl.Intl.formatMessage(Message.Project.name)->Jsx.string}
         error={form->Name.error->Option.isSome}
         ?key

@@ -18,12 +18,17 @@ module Classes = {
 }
 
 @react.component
-let make = (~onClick, ~bottomPosition="0px", ~bottomSpacing=2) => {
+let make = (~onClick, ~bottomPosition="0px", ~bottomSpacing=2, ~disabled=false) => {
   let bottomBarHeight = Store.useStoreWithSelector(({?bottomBarHeight}) => bottomBarHeight)
 
   <Mui.Fab
-    onClick
+    onClick={if disabled {
+      _ => ()
+    } else {
+      onClick
+    }}
     color=Primary
+    disabled
     sx={Classes.addButton(~bottomBarHeight?, ~bottomPosition, ~bottomSpacing)}>
     <Icon.Add />
   </Mui.Fab>

@@ -12,6 +12,7 @@ let make = (
   ~onCancel,
   ~header,
   ~gridTemplateRows,
+  ~submitPending=false,
   ~actionButtonsRef=?,
   ~fixedHeight=?,
   ~children,
@@ -41,10 +42,10 @@ let make = (
           gridAutoColumns={String("1fr")}
           gridAutoRows={String("1fr")}
           ref=?{actionButtonsRef->Option.map(ReactDOM.Ref.domRef)}>
-          <Mui.Button onClick=onCancel variant={Outlined}>
+          <Mui.Button onClick=onCancel variant={Outlined} disabled=submitPending>
             {intl->ReactIntl.Intl.formatMessage(Message.Button.cancel)->Jsx.string}
           </Mui.Button>
-          <Mui.Button type_=Submit variant={Contained}>
+          <Mui.Button type_=Submit variant={Contained} disabled=submitPending>
             {intl->ReactIntl.Intl.formatMessage(Message.Button.save)->Jsx.string}
           </Mui.Button>
         </Mui.Box>

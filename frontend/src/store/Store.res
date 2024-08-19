@@ -20,5 +20,9 @@ let {useStoreWithSelector, dispatch} = createStore(State.initialState, (
       ...state,
       selectedProjectForManagement,
     }
+  | ResetProjectForManagement => {
+      ...state,
+      selectedProjectForManagement: ?State.initialState.selectedProjectForManagement,
+    }
   }
 )

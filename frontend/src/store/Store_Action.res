@@ -5,3 +5,4 @@ type action =
   | StoreDrawerWidth(int)
   | ResetDrawerWidth
   | StoreSelectedProjectForManagement(Project_Type.t)
+  | ResetProjectForManagement
