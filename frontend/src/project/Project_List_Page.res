@@ -79,6 +79,7 @@ let default = () => {
       <>
         <ListWrapper>
           {projects
+          ->Array.toSorted(Project_Util.getOrdering)
           ->Array.mapWithIndex(({name, active}, index) =>
             <Mui.ListItemButton
               key={`project-${index->Int.toString}`}
