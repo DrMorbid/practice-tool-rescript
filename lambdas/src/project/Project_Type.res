@@ -10,6 +10,7 @@ module FromRequest = {
   @spice
   type t = {
     name?: string,
+    originalName?: string,
     active?: bool,
     exercises?: array<Exercise.Type.FromRequest.t>,
   }

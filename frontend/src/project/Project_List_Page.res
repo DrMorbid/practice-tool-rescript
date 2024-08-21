@@ -60,6 +60,7 @@ let default = () => {
   let onSelectProject = index => {
     projects->Util.Fetch.Response.forSuccess(projects =>
       projects
+      ->Array.toSorted(Project_Util.getOrdering)
       ->Array.get(index)
       ->Option.forEach(project => Store.dispatch(StoreSelectedProjectForManagement(project)))
     )

@@ -94,7 +94,7 @@ let default = () => {
     None
   }, [selectedProjectForManagement])
 
-  let onSubmit = project => {
+  let onSubmit = (project: Project_Type.t) => {
     setSubmitPending(_ => true)
 
     Util.Fetch.fetch(
@@ -102,7 +102,11 @@ let default = () => {
       ~method=Post,
       ~auth,
       ~responseDecoder=Spice.stringFromJson,
-      ~body=project->Project_Type.t_encode,
+      ~body=project
+      ->Project_Util.toProjectForRequest(
+        ~originalName=?selectedProjectForManagement->Option.map(({name}) => name),
+      )
+      ->Project_Type.projectForRequest_encode,
     )
     ->Promise.thenResolve(result => {
       setSubmitPending(_ => false)
@@ -188,11 +192,7 @@ let default = () => {
         sx={Common.Form.Classes.formGaps->Array.concat(Classes.exercisesScrolling)->Mui.Sx.array}>
         {if smDown {
           [
-            form->Form.Input.renderName(
-              ~intl,
-              ~disabled=selectedProjectForManagement->Option.isSome,
-              ~key="project-add-form-1",
-            ),
+            form->Form.Input.renderName(~intl, ~key="project-add-form-1"),
             form->Form.Input.renderActive(
               ~project=?selectedProjectForManagement,
               ~intl,
@@ -208,10 +208,7 @@ let default = () => {
               gridAutoRows={String("1fr")}
               sx=Classes.nameAndActive
               key="project-add-form-1">
-              {form->Form.Input.renderName(
-                ~intl,
-                ~disabled=selectedProjectForManagement->Option.isSome,
-              )}
+              {form->Form.Input.renderName(~intl)}
               {form->Form.Input.renderActive(~project=?selectedProjectForManagement, ~intl)}
             </Mui.Box>,
           ]

@@ -3,8 +3,8 @@ open Utils.Lambda
 
 let fromRequest = (
   ~userId,
-  {?name, ?active, exercises: ?inputExercises}: Project_Type.FromRequest.t,
-): result<Project_Type.t, response> => {
+  {?name, ?originalName, ?active, exercises: ?inputExercises}: Project_Type.FromRequest.t,
+): result<(Project_Type.t, option<string>), response> => {
   let exercises =
     inputExercises->Option.getOr([])->Array.map(Exercise.Utils.fromRequest)->Array.keepSome
 
@@ -17,12 +17,15 @@ let fromRequest = (
   } else {
     name
     ->Utils.String.toNotBlank
-    ->Option.map((name): result<Project_Type.t, 'a> => Ok({
-      userId,
-      name,
-      active: active->Option.getOr(false),
-      exercises,
-    }))
+    ->Option.map((name): result<(Project_Type.t, option<string>), 'a> => Ok((
+      {
+        userId,
+        name,
+        active: active->Option.getOr(false),
+        exercises,
+      },
+      originalName,
+    )))
     ->Option.getOr(
       Error({
         statusCode: 400,

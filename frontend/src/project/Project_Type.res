@@ -7,3 +7,11 @@ type t = {
 
 @spice
 type projects = array<t>
+
+@spice
+type projectForRequest = {
+  name: string,
+  originalName?: string,
+  active: bool,
+  exercises: array<Exercise.Type.t>,
+}
