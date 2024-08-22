@@ -19,7 +19,7 @@ let getOrdering = (
 
 let toProjectForRequest = (~originalName=?, {name, active, exercises}: t) => {
   name,
-  ?originalName,
+  originalName: ?originalName->Option.filter(originalName => originalName != name),
   active,
   exercises,
 }

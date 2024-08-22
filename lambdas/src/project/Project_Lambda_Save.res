@@ -13,13 +13,30 @@ module DBItem = {
 }
 module DBSaver = Utils.DynamoDB.DBSaver(DBItem)
 
+module DBKey = {
+  type t = Project_Type.dbKey
+  let encode = Project_Type.dbKey_encode
+  let tableName = Global.EnvVar.tableNameProjects
+}
+module DBDeleter = Utils.DynamoDB.DBDeleter(DBKey)
+
 let handler: AWS.Lambda.handler<'a> = async event =>
   switch event
   ->getUser
   ->Result.flatMap(userId =>
     event->Body.extract->Result.flatMap(Project_Utils.fromRequest(_, ~userId))
   )
-  ->Result.map(project => project->DBSaver.save) {
+  ->Result.map(async ((project, originalName)) => {
+    let saveResult = await project->DBSaver.save
+
+    switch originalName {
+    | Some(name) if project.name != name => {
+        let _ = await {userId: project.userId, name}->DBDeleter.delete
+        saveResult
+      }
+    | Some(_) | None => saveResult
+    }
+  }) {
   | Ok(result) => await result
   | Error(result) => result
   }
