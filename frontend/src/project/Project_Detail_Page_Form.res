@@ -1,4 +1,4 @@
-open Project_Add_Page_Classes
+open Project_Detail_Page_Classes
 
 module Content = ReactHookForm.Make({
   type t = Project_Type.t

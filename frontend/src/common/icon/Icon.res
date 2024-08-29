@@ -37,3 +37,8 @@ module NotInterested = {
   @react.component @module("@mui/icons-material/NotInterestedTwoTone")
   external make: unit => React.element = "default"
 }
+
+module Delete = {
+  @react.component @module("@mui/icons-material/DeleteTwoTone")
+  external make: unit => React.element = "default"
+}

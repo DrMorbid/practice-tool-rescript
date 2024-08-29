@@ -1,5 +1,5 @@
-module Classes = Project_Add_Page_Classes
-module Form = Project_Add_Page_Form
+module Classes = Project_Detail_Page_Classes
+module Form = Project_Detail_Page_Form
 
 @react.component
 let default = () => {
@@ -9,7 +9,7 @@ let default = () => {
   let (selectedExerciseIndex, setSelectedExreciseIndex) = React.useState(() => None)
   let (listElementTopPosition, setListElementTopPosition) = React.useState(() => None)
   let (pageHeight, setPageHeight) = React.useState(() => None)
-  let (saveError, setSaveError) = React.useState(() => None)
+  let (error, setError) = React.useState(() => None)
   let (submitPending, setSubmitPending) = React.useState(() => false)
   let form = Form.Content.use(
     ~config={
@@ -98,7 +98,7 @@ let default = () => {
     setSubmitPending(_ => true)
 
     Util.Fetch.fetch(
-      #"/project",
+      Project,
       ~method=Post,
       ~auth,
       ~responseDecoder=Spice.stringFromJson,
@@ -113,7 +113,7 @@ let default = () => {
 
       switch result {
       | Ok(_) => router->Route.FrontEnd.push(~route=#"/manage")
-      | Error(error) => setSaveError(_ => Some(error))
+      | Error(error) => setError(_ => Some((error, Message.Project.couldNotSaveProject)))
       }
     })
     ->ignore
@@ -155,6 +155,26 @@ let default = () => {
     setAddExerciseDialogOpen(_ => true)
   }
 
+  let onDeleteProjectClick = (name, _) => {
+    setSubmitPending(_ => true)
+
+    Util.Fetch.fetch(
+      ProjectWithName(name),
+      ~method=Delete,
+      ~auth,
+      ~responseDecoder=Spice.stringFromJson,
+    )
+    ->Promise.thenResolve(result => {
+      setSubmitPending(_ => false)
+
+      switch result {
+      | Ok(_) => router->Route.FrontEnd.push(~route=#"/manage")
+      | Error(error) => setError(_ => Some((error, Message.Project.couldNotDeleteProject)))
+      }
+    })
+    ->ignore
+  }
+
   <Page
     alignContent={Stretch}
     spaceOnTop=true
@@ -167,13 +187,13 @@ let default = () => {
       onExerciseSubmited
       exercise=?selectedExercise
     />
-    {saveError
-    ->Option.map(({message}) =>
+    {selectedProjectForManagement
+    ->Option.map(({name}) => <DeleteButton onClick={onDeleteProjectClick(name, _)} />)
+    ->Option.getOr(Jsx.null)}
+    {error
+    ->Option.map((({message}, title)) =>
       <Snackbar
-        isOpen={saveError->Option.isSome}
-        severity={Error}
-        title={Message(Message.Project.couldNotSaveProject)}
-        body={String(message)}
+        isOpen={error->Option.isSome} severity={Error} title={Message(title)} body={String(message)}
       />
     )
     ->Option.getOr(Jsx.null)}

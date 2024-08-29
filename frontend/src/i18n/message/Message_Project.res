@@ -29,3 +29,10 @@ let couldNotSaveProject =
     id: "b380aa54-e021-46fc-ad27-d30186a6e326",
     defaultMessage: "Could not save the project",
   }
+
+let couldNotDeleteProject =
+  @intl.description("Project - error title - could not delete a project")
+  {
+    id: "b7b9555f-15be-40c3-8ef1-027cb59d00f4",
+    defaultMessage: "Could not delete the project",
+  }

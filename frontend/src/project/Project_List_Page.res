@@ -40,7 +40,7 @@ let default = () => {
   React.useEffect(() => {
     setProjects(_ => Pending)
 
-    Util.Fetch.fetch(#"/project", ~method=Get, ~auth, ~responseDecoder=Project_Type.projects_decode)
+    Util.Fetch.fetch(Project, ~method=Get, ~auth, ~responseDecoder=Project_Type.projects_decode)
     ->Promise.thenResolve(result =>
       switch result {
       | Ok(projects) => setProjects(_ => Ok(projects))
@@ -54,7 +54,7 @@ let default = () => {
 
   let onAddProject = _ => {
     Store.dispatch(ResetProjectForManagement)
-    router->Route.FrontEnd.push(~route=#"/manage/projectAdd")
+    router->Route.FrontEnd.push(~route=#"/manage/projectDetail")
   }
 
   let onSelectProject = index => {
@@ -64,7 +64,7 @@ let default = () => {
       ->Array.get(index)
       ->Option.forEach(project => Store.dispatch(StoreSelectedProjectForManagement(project)))
     )
-    router->Route.FrontEnd.push(~route=#"/manage/projectAdd")
+    router->Route.FrontEnd.push(~route=#"/manage/projectDetail")
   }
 
   <>

@@ -96,7 +96,7 @@ module DBDeleter = (Delete: Deletable) => {
     {
       statusCode: 200,
       headers: Utils_Lambda.defaultResponseHeaders,
-      body: "Deleted successfully",
+      body: "\"Deleted successfully\"",
     }
   }
 }

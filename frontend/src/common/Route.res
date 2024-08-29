@@ -1,11 +1,15 @@
 module FrontEnd = {
-  type t = [#"/" | #"/signIn" | #"/signIn/redirect" | #"/manage" | #"/manage/projectAdd"]
+  type t = [#"/" | #"/signIn" | #"/signIn/redirect" | #"/manage" | #"/manage/projectDetail"]
 
   let push = (router, ~route: t) => router->Next.Navigation.Router.push((route :> string))
 }
 
 module BackEnd = {
-  type t = [#"/project"]
+  type t = Project | ProjectWithName(string)
 
-  let project: t = #"/project"
+  let toString = project =>
+    switch project {
+    | Project => "/project"
+    | ProjectWithName(name) => `/project/${name}`
+    }
 }

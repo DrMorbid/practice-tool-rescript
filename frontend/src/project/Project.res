@@ -1,5 +1,5 @@
-module Add = {
-  module Page = Project_Add_Page
+module Detail = {
+  module Page = Project_Detail_Page
 }
 module List = {
   module Page = Project_List_Page

@@ -18,7 +18,7 @@ let fetch = async (
 
   try {
     let response = await Webapi.Fetch.fetchWithInit(
-      `${EnvVar.backEndUrl}${(path :> string)}`,
+      `${EnvVar.backEndUrl}${path->Route.BackEnd.toString}`,
       Webapi.Fetch.RequestInit.make(
         ~method_=method,
         ~headers=Webapi.Fetch.HeadersInit.makeWithArray(headers),
