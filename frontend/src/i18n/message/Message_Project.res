@@ -36,3 +36,17 @@ let couldNotDeleteProject =
     id: "b7b9555f-15be-40c3-8ef1-027cb59d00f4",
     defaultMessage: "Could not delete the project",
   }
+
+let projectSavedSuccessfully =
+  @intl.description("Project - success title - project saved successfully")
+  {
+    id: "13a33a8f-200b-4677-807f-8495594c8733",
+    defaultMessage: "Project {projectName} saved",
+  }
+
+let projectDeletedSuccessfully =
+  @intl.description("Project - success title - project deleted successfully")
+  {
+    id: "bcebc4a4-0cbd-4e35-91d8-d2e46d9bf09a",
+    defaultMessage: "Project {projectName} deleted",
+  }

@@ -24,5 +24,13 @@ let {useStoreWithSelector, dispatch} = createStore(State.initialState, (
       ...state,
       selectedProjectForManagement: ?State.initialState.selectedProjectForManagement,
     }
+  | StoreProcessFinishedSuccessfullyMessage(processFinishedSuccessfullyMessage) => {
+      ...state,
+      processFinishedSuccessfullyMessage,
+    }
+  | ResetProcessFinishedSuccessfullyMessage => {
+      ...state,
+      processFinishedSuccessfullyMessage: ?State.initialState.processFinishedSuccessfullyMessage,
+    }
   }
 )

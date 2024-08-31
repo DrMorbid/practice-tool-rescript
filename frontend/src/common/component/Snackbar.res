@@ -6,6 +6,8 @@ let make = (
   ~severity: Mui.Alert.severity=Error,
   ~title: option<Text.t>=?,
   ~body: option<Text.t>=?,
+  ~autoHideDuration: option<int>=?,
+  ~onClose: option<unit => unit>=?,
 ) => {
   let (open_, setOpen_) = React.useState(() => isOpen)
   let isSmUp = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.smUp)
@@ -22,12 +24,22 @@ let make = (
       {vertical: Top, horizontal: Right}
     } else {
       {vertical: Bottom, horizontal: Center}
-    }}>
+    }}
+    onClose={(_, _) => {
+      onClose->Option.forEach(onClose => onClose())
+      setOpen_(_ => false)
+    }}
+    autoHideDuration=?{autoHideDuration->Option.map(number => Mui.Snackbar.Number(
+      number->Int.toFloat,
+    ))}>
     <Mui.Alert
       variant={Filled}
       severity
-      onClose={_ => setOpen_(_ => false)}
-      sx={Mui.Sx.array(isSmUp ? [] : App_Theme.Classes.maxWidth)}>
+      sx={Mui.Sx.array(isSmUp ? [] : App_Theme.Classes.maxWidth)}
+      onClose={_ => {
+        onClose->Option.forEach(onClose => onClose())
+        setOpen_(_ => false)
+      }}>
       <Mui.AlertTitle>
         <Text
           text={title->Option.getOr(

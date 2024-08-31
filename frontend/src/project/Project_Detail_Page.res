@@ -112,7 +112,19 @@ let default = () => {
       setSubmitPending(_ => false)
 
       switch result {
-      | Ok(_) => router->Route.FrontEnd.push(~route=#"/manage")
+      | Ok(_) => {
+          Store.dispatch(
+            StoreProcessFinishedSuccessfullyMessage(
+              String(
+                intl->ReactIntl.Intl.formatMessageWithValues(
+                  Message.Project.projectSavedSuccessfully,
+                  {"projectName": project.name},
+                ),
+              ),
+            ),
+          )
+          router->Route.FrontEnd.push(~route=#"/manage")
+        }
       | Error(error) => setError(_ => Some((error, Message.Project.couldNotSaveProject)))
       }
     })
@@ -168,7 +180,19 @@ let default = () => {
       setSubmitPending(_ => false)
 
       switch result {
-      | Ok(_) => router->Route.FrontEnd.push(~route=#"/manage")
+      | Ok(_) => {
+          Store.dispatch(
+            StoreProcessFinishedSuccessfullyMessage(
+              String(
+                intl->ReactIntl.Intl.formatMessageWithValues(
+                  Message.Project.projectDeletedSuccessfully,
+                  {"projectName": name},
+                ),
+              ),
+            ),
+          )
+          router->Route.FrontEnd.push(~route=#"/manage")
+        }
       | Error(error) => setError(_ => Some((error, Message.Project.couldNotDeleteProject)))
       }
     })

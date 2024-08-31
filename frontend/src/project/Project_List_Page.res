@@ -36,6 +36,9 @@ let default = () => {
   let (projects, setProjects) = React.useState(() => Util.Fetch.Response.NotStarted)
   let auth = ReactOidcContext.useAuth()
   let router = Next.Navigation.useRouter()
+  let processFinishedSuccessfullyMessage = Store.useStoreWithSelector(({
+    ?processFinishedSuccessfullyMessage,
+  }) => processFinishedSuccessfullyMessage)
 
   React.useEffect(() => {
     setProjects(_ => Pending)
@@ -68,6 +71,14 @@ let default = () => {
   }
 
   <>
+    <Snackbar
+      isOpen={processFinishedSuccessfullyMessage->Option.isSome}
+      severity={Success}
+      title={Message(Message.Alert.defaultTitleSuccess)}
+      body=?{processFinishedSuccessfullyMessage}
+      autoHideDuration=5_000
+      onClose={() => Store.dispatch(ResetProcessFinishedSuccessfullyMessage)}
+    />
     {switch projects {
     | NotStarted => Jsx.null
     | Pending =>

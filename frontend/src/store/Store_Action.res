@@ -6,3 +6,5 @@ type action =
   | ResetDrawerWidth
   | StoreSelectedProjectForManagement(Project_Type.t)
   | ResetProjectForManagement
+  | StoreProcessFinishedSuccessfullyMessage(Text.t)
+  | ResetProcessFinishedSuccessfullyMessage

@@ -1,7 +1,31 @@
 {
+    "13a33a8f-200b-4677-807f-8495594c8733": {
+        "message": "Project {projectName} saved",
+        "description": "Project - success title - project saved successfully"
+    },
+    "168394c0-94ea-4797-acd2-3c67574dc8ac": {
+        "message": "Top Priority",
+        "description": "Message - field: top priority"
+    },
+    "1e34c39f-e95e-484f-9e9d-fda158f8cab6": {
+        "message": "The operation failed",
+        "description": "Snackbar alert - title - error"
+    },
+    "275226d4-b668-4736-a5e8-091d53b19ca7": {
+        "message": "Could not load projects",
+        "description": "Manage page - error title - could not load projects"
+    },
+    "29c9a002-5ff0-44d1-a630-a331c9be4db5": {
+        "message": "Cancel",
+        "description": "Button label - cancel"
+    },
     "2d5ed12d-12d1-49f7-959e-fb553cea149b": {
         "message": "Practice",
         "description": "Main menu - the Practice button"
+    },
+    "2da32407-1777-49e1-b921-69581f50d59d": {
+        "message": "Active",
+        "description": "Project - field: active"
     },
     "385321bf-8b66-4ea1-8c79-7df3bbd5afbc": {
         "message": "Manage",
@@ -11,8 +35,72 @@
         "message": "Welcome to Practice Tool",
         "description": "Home page - the welcome text"
     },
+    "5791b606-2e73-4c71-9b7c-f3b1426009e8": {
+        "message": "Slow Tempo",
+        "description": "Message - field: slow tempo"
+    },
+    "68bd7e01-8aa2-42e0-b757-2729fb3f301c": {
+        "message": "Name",
+        "description": "Project - field: name"
+    },
+    "6d3cea0f-8f33-4baf-bb82-3c4e4a906b04": {
+        "message": "Home",
+        "description": "Main menu - the Home button"
+    },
+    "73a9a36b-fec7-4d62-bc05-a5c76a754002": {
+        "message": "Name",
+        "description": "Message - field: name"
+    },
+    "7939528c-703a-469d-a0d5-eee3a5389cbd": {
+        "message": "Warning",
+        "description": "Snackbar alert - title - warning"
+    },
+    "8a807ced-8e83-4839-a25e-f3c69664b6d8": {
+        "message": "Create an exercise",
+        "description": "Manage page - create exercise dialog - header"
+    },
+    "9599952f-8f1b-416d-b069-b5035cd20ed9": {
+        "message": "Exercises",
+        "description": "Project - field: exercises"
+    },
     "a5f98475-54c7-4977-bee4-c97379882b2b": {
         "message": "Sign in",
         "description": "Home page - the Sign In button"
+    },
+    "b380aa54-e021-46fc-ad27-d30186a6e326": {
+        "message": "Could not save the project",
+        "description": "Project - error title - could not save a project"
+    },
+    "b7b9555f-15be-40c3-8ef1-027cb59d00f4": {
+        "message": "Could not delete the project",
+        "description": "Project - error title - could not delete a project"
+    },
+    "bbb6abaf-0664-435a-a4cc-1046b0d01e95": {
+        "message": "Important announcement",
+        "description": "Snackbar alert - title - info"
+    },
+    "bcebc4a4-0cbd-4e35-91d8-d2e46d9bf09a": {
+        "message": "Project {projectName} deleted",
+        "description": "Project - success title - project deleted successfully"
+    },
+    "ce65c783-7dd4-4489-b497-5575659c0050": {
+        "message": "Fast Tempo",
+        "description": "Message - field: fast tempo"
+    },
+    "d22bdc2a-0d4a-4c45-97d6-ac1713c72c6e": {
+        "message": "Active",
+        "description": "Message - field: active"
+    },
+    "d3c0fd82-1ce9-4fe9-b5f9-0c3709bd8b75": {
+        "message": "Save",
+        "description": "Button label - save"
+    },
+    "d82b3bdd-d062-4969-a6bb-3caf93bd9d87": {
+        "message": "Create a project",
+        "description": "Manage page - create project section - header"
+    },
+    "ec7b8b06-dc31-474f-8cc5-eae538691754": {
+        "message": "The operation was successful",
+        "description": "Snackbar alert - title - success"
     }
 }
