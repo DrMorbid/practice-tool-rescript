@@ -28,10 +28,41 @@ module Classes = {
 @react.component
 let make = (~children) => {
   let isMdUp = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.mdUp)
+  let menuRef = React.useRef(Nullable.null)
+  let auth = ReactOidcContext.useAuth()
   let bottomBarHeight = Store.useStoreWithSelector(({?bottomBarHeight}) => bottomBarHeight)
   let drawerWidth = Store.useStoreWithSelector(({?drawerWidth}) => drawerWidth)
 
-  <Mui.Container maxWidth={False} sx={Classes.container(isMdUp, ~bottomBarHeight?, ~drawerWidth?)}>
-    {children}
-  </Mui.Container>
+  React.useEffect(() => {
+    let menuElement =
+      menuRef.current
+      ->Nullable.toOption
+      ->Option.map(current => current->ReactDOM.domElementToObj)
+
+    if isMdUp {
+      menuElement
+      ->Option.map(menuElement => menuElement["offsetWidth"])
+      ->Option.forEach(width => Store.dispatch(StoreDrawerWidth(width)))
+
+      Store.dispatch(ResetBottomBarHeight)
+    } else {
+      menuElement
+      ->Option.map(menuElement => menuElement["offsetHeight"])
+      ->Option.forEach(height => Store.dispatch(StoreBottomBarHeight(height)))
+
+      Store.dispatch(ResetDrawerWidth)
+    }
+
+    None
+  }, (menuRef, isMdUp))
+
+  <>
+    <Mui.Container
+      maxWidth={False} sx={Classes.container(isMdUp, ~bottomBarHeight?, ~drawerWidth?)}>
+      {children}
+    </Mui.Container>
+    {auth.isAuthenticated
+      ? isMdUp ? <Menu.Drawer menuRef /> : <Menu.BottomBar menuRef />
+      : Jsx.null}
+  </>
 }

@@ -5,31 +5,6 @@ external dictToState: Dict.t<string> => Webapi.Dom.History.state = "%identity"
 @react.component
 let make = (~children) => {
   let prefersDarkMode = Mui.Core.useMediaQueryString(App_Theme.darkModeMediaQuery)
-  let menuRef = React.useRef(Nullable.null)
-  let isMdUp = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.mdUp)
-
-  React.useEffect(() => {
-    let menuElement =
-      menuRef.current
-      ->Nullable.toOption
-      ->Option.map(current => current->ReactDOM.domElementToObj)
-
-    if isMdUp {
-      menuElement
-      ->Option.map(menuElement => menuElement["offsetWidth"])
-      ->Option.forEach(width => Store.dispatch(StoreDrawerWidth(width)))
-
-      Store.dispatch(ResetBottomBarHeight)
-    } else {
-      menuElement
-      ->Option.map(menuElement => menuElement["offsetHeight"])
-      ->Option.forEach(height => Store.dispatch(StoreBottomBarHeight(height)))
-
-      Store.dispatch(ResetDrawerWidth)
-    }
-
-    None
-  }, (menuRef, isMdUp))
 
   let onSigninCallback = _ => {
     Webapi.Dom.window
@@ -58,7 +33,6 @@ let make = (~children) => {
           onSigninCallback>
           <main>
             <App> {children} </App>
-            {isMdUp ? <Menu.Drawer menuRef /> : <Menu.BottomBar menuRef />}
           </main>
         </ReactOidcContext.AuthProvider>
       </Mui.ThemeProvider>
