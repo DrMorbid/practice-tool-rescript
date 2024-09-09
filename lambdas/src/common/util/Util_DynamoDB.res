@@ -24,7 +24,7 @@ module DBSaver = (Body: Savable) => {
 
     {
       statusCode: 200,
-      headers: Utils_Lambda.defaultResponseHeaders,
+      headers: Util_Lambda.defaultResponseHeaders,
       body: "\"Saved successfully\"",
     }
   }
@@ -60,7 +60,7 @@ module DBGetter = (Get: Getable) => {
           )
           Error({
             statusCode: 500,
-            headers: Utils_Lambda.defaultResponseHeaders,
+            headers: Util_Lambda.defaultResponseHeaders,
             body: "Invalid response from database",
           })
         }
@@ -69,7 +69,7 @@ module DBGetter = (Get: Getable) => {
     ->Option.getOr(
       Error({
         statusCode: 404,
-        headers: Utils_Lambda.defaultResponseHeaders,
+        headers: Util_Lambda.defaultResponseHeaders,
         body: "Not found in database",
       }),
     )
@@ -95,7 +95,7 @@ module DBDeleter = (Delete: Deletable) => {
 
     {
       statusCode: 200,
-      headers: Utils_Lambda.defaultResponseHeaders,
+      headers: Util_Lambda.defaultResponseHeaders,
       body: "\"Deleted successfully\"",
     }
   }

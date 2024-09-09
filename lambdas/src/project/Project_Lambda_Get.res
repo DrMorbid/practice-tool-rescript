@@ -1,5 +1,5 @@
-open Utils.Lambda
-open Project_Utils
+open Util.Lambda
+open Project_Util
 
 module GetProjectResponse = {
   @spice

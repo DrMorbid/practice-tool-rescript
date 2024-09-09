@@ -3,7 +3,7 @@ type tempo = | @spice.as("SLOW") Slow | @spice.as("FAST") Fast
 
 @spice
 type lastPracticed = {
-  date: @spice.codec(Utils.Date.SpiceCodec.date) Date.t,
+  date: @spice.codec(Util.Date.SpiceCodec.date) Date.t,
   tempo: tempo,
 }
 
@@ -34,7 +34,7 @@ type exerciseSession = {
 module FromRequest = {
   @spice
   type lastPracticed = {
-    date?: @spice.codec(Utils.Date.SpiceCodec.date) Date.t,
+    date?: @spice.codec(Util.Date.SpiceCodec.date) Date.t,
     tempo?: tempo,
   }
 

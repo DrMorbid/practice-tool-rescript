@@ -9,7 +9,7 @@ let fromRequest = (
   }: Exercise_Type.FromRequest.t,
 ): option<Exercise_Type.t> =>
   name
-  ->Utils.String.toNotBlank
+  ->Util.String.toNotBlank
   ->Option.map((name): Exercise_Type.t => {
     name,
     active: active->Option.getOr(false),
@@ -61,14 +61,14 @@ let fromSessionRequest = (
   projectName
   ->Option.map(projectName =>
     name
-    ->Utils.String.toNotBlank
+    ->Util.String.toNotBlank
     ->Option.flatMap(name =>
       tempo->Option.map(tempo => Ok({Exercise_Type.name, projectName, tempo}))
     )
     ->Option.getOr(
       Error({
         AWS.Lambda.statusCode: 400,
-        headers: Utils.Lambda.defaultResponseHeaders,
+        headers: Util.Lambda.defaultResponseHeaders,
         body: "Missing exercise name or tempo",
       }),
     )
@@ -76,7 +76,7 @@ let fromSessionRequest = (
   ->Option.getOr(
     Error({
       AWS.Lambda.statusCode: 400,
-      headers: Utils.Lambda.defaultResponseHeaders,
+      headers: Util.Lambda.defaultResponseHeaders,
       body: "Missing project name",
     }),
   )

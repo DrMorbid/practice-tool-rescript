@@ -1,11 +1,11 @@
-open Utils.Lambda
+open Util.Lambda
 
 module DBQuery = {
   type t = Project.Type.t
   let decode = Project.Type.t_decode
   let tableName = Global.EnvVar.tableNameProjects
 }
-module DBQueryCaller = Utils.DynamoDB.DBQueryCaller(DBQuery)
+module DBQueryCaller = Util.DynamoDB.DBQueryCaller(DBQuery)
 
 module GetAllProjectsResponse = {
   @spice

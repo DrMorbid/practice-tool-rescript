@@ -1,22 +1,22 @@
 open AWS.Lambda
-open Utils.Lambda
+open Util.Lambda
 
 let fromRequest = (
   ~userId,
   {?name, ?originalName, ?active, exercises: ?inputExercises}: Project_Type.FromRequest.t,
 ): result<(Project_Type.t, option<string>), response> => {
   let exercises =
-    inputExercises->Option.getOr([])->Array.map(Exercise.Utils.fromRequest)->Array.keepSome
+    inputExercises->Option.getOr([])->Array.map(Exercise.Util.fromRequest)->Array.keepSome
 
   if exercises->Array.length < inputExercises->Option.getOr([])->Array.length {
     Error({
       statusCode: 400,
-      headers: Utils.Lambda.defaultResponseHeaders,
+      headers: Util.Lambda.defaultResponseHeaders,
       body: "Exercise name cannot be empty",
     })
   } else {
     name
-    ->Utils.String.toNotBlank
+    ->Util.String.toNotBlank
     ->Option.map((name): result<(Project_Type.t, option<string>), 'a> => Ok((
       {
         userId,
@@ -29,7 +29,7 @@ let fromRequest = (
     ->Option.getOr(
       Error({
         statusCode: 400,
-        headers: Utils.Lambda.defaultResponseHeaders,
+        headers: Util.Lambda.defaultResponseHeaders,
         body: "Project name cannot be empty",
       }),
     )
@@ -56,7 +56,7 @@ let getProjectTableKey = event =>
     ->Option.getOr(
       Error({
         statusCode: 400,
-        headers: Utils.Lambda.defaultResponseHeaders,
+        headers: Util.Lambda.defaultResponseHeaders,
         body: "Project name must be present in path parameters",
       }),
     )
@@ -69,4 +69,4 @@ module DBKey = {
   let decode = Project_Type.t_decode
   let tableName = Global.EnvVar.tableNameProjects
 }
-module DBGetter = Utils.DynamoDB.DBGetter(DBKey)
+module DBGetter = Util.DynamoDB.DBGetter(DBKey)

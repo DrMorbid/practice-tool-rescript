@@ -7,7 +7,7 @@ describe("Session Utilities", () => {
       "Given the input history item is in error state, when I convert it to DB items to be saved, then it returns the same error state",
       () => {
         expect(
-          Error("Something went wrong")->Session.Utils.toSaveSessionWrapper(~userId="123"),
+          Error("Something went wrong")->Session.Util.toSaveSessionWrapper(~userId="123"),
         )->toEqual(Error("Something went wrong"))
       },
     )
@@ -20,7 +20,7 @@ describe("Session Utilities", () => {
             userId: "123",
             date: Date.fromString("2024-05-11T11:18:00.00Z"),
             exercises: [],
-          })->Session.Utils.toSaveSessionWrapper(~userId="123"),
+          })->Session.Util.toSaveSessionWrapper(~userId="123"),
         )->toEqual(
           Ok({
             projects: {userId: "123", projects: []},
@@ -45,7 +45,7 @@ describe("Session Utilities", () => {
               {name: "Mind Renewal", projectName: "Mindwork", tempo: Slow},
               {name: "Depersonalized", projectName: "Mindwork", tempo: Fast},
             ],
-          })->Session.Utils.toSaveSessionWrapper(~userId="123"),
+          })->Session.Util.toSaveSessionWrapper(~userId="123"),
         )->toEqual(
           Ok({
             projects: {
@@ -96,7 +96,7 @@ describe("Session Utilities", () => {
               {name: "Mind Renewal", projectName: "Mindwork", tempo: Slow},
               {name: "Depersonalized", projectName: "Mindwork", tempo: Fast},
             ],
-          })->Session.Utils.toSaveSessionWrapper(~userId="123"),
+          })->Session.Util.toSaveSessionWrapper(~userId="123"),
         )->toEqual(
           Ok({
             projects: {

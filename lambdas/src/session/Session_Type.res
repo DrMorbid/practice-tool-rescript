@@ -16,7 +16,7 @@ type practiceSession = {
 @spice
 type historyItem = {
   userId: string,
-  date: @spice.codec(Utils.Date.SpiceCodec.date) Date.t,
+  date: @spice.codec(Util.Date.SpiceCodec.date) Date.t,
   exercises: array<exerciseSession>,
 }
 

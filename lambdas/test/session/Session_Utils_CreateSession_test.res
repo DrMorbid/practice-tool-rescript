@@ -7,7 +7,7 @@ describe("Session Utilities", () => {
       "Given project is not active, when I request 2 exercises, then it returns no exercises to practice",
       () => {
         expect(
-          Session.Utils.createSession({
+          Session.Util.createSession({
             project: {
               userId: "abc",
               name: "My Project",
@@ -36,7 +36,7 @@ describe("Session Utilities", () => {
       "Given project has no exercises, when I request 2 exercises, then it returns no exercises to practice",
       () => {
         expect(
-          Session.Utils.createSession({
+          Session.Util.createSession({
             project: {userId: "abc", name: "My Project", active: true, exercises: []},
             exerciseCount: 2,
           }),
@@ -52,7 +52,7 @@ describe("Session Utilities", () => {
       "Given project has no active exercises, when I request 2 exercises, then it returns no exercises to practice",
       () => {
         expect(
-          Session.Utils.createSession({
+          Session.Util.createSession({
             project: {
               userId: "abc",
               name: "My Project",
@@ -81,7 +81,7 @@ describe("Session Utilities", () => {
       "Given project has 2 active exercises, when I request 0 exercises, then it returns no exercises to practice",
       () => {
         expect(
-          Session.Utils.createSession({
+          Session.Util.createSession({
             project: {
               userId: "abc",
               name: "My Project",
@@ -117,7 +117,7 @@ describe("Session Utilities", () => {
       "Given project has 1 active exercise and 1 active top priority exercise, when I request 2 exercises, then it returns only the one top priority exercise to practice",
       () => {
         expect(
-          Session.Utils.createSession({
+          Session.Util.createSession({
             project: {
               userId: "abc",
               name: "My Project",
@@ -153,7 +153,7 @@ describe("Session Utilities", () => {
       "Given project has 6 active exercises, when only one has never been practiced and I request odd number of exercises, then it returns exercises as if I requested n - 1",
       () => {
         expect(
-          Session.Utils.createSession({
+          Session.Util.createSession({
             project: {
               userId: "abc",
               name: "My Project",
@@ -240,7 +240,7 @@ describe("Session Utilities", () => {
       "Given project has 2 active exercises, when none of them has ever been practiced and I request 2 exercises, then it returns 2 exercises to practice with correct tempos",
       () => {
         expect(
-          Session.Utils.createSession({
+          Session.Util.createSession({
             project: {
               userId: "abc",
               name: "My Project",
@@ -286,7 +286,7 @@ describe("Session Utilities", () => {
       "Given project has 6 active exercises, when only one has never been practiced and I request 2 exercises, then it returns the one that has never been practiced and the oldest one from the rest",
       () => {
         expect(
-          Session.Utils.createSession({
+          Session.Util.createSession({
             project: {
               userId: "abc",
               name: "My Project",
@@ -373,7 +373,7 @@ describe("Session Utilities", () => {
       "Given project has 4 active exercises, when I request 6 exercises, then it returns the 4 exercises in the correct order",
       () => {
         expect(
-          Session.Utils.createSession({
+          Session.Util.createSession({
             project: {
               userId: "abc",
               name: "My Project",
@@ -458,7 +458,7 @@ describe("Session Utilities", () => {
       "Given project has 6 active exercises, when no exercise was practiced on the fast tempo in the past and I request 4 exercises, then it returns the 4 exercises in the correct order",
       () => {
         expect(
-          Session.Utils.createSession({
+          Session.Util.createSession({
             project: {
               userId: "abc",
               name: "My Project",
@@ -543,7 +543,7 @@ describe("Session Utilities", () => {
       "Given project has 4 active exercises, when the oldest was practiced on the slow tempo and I request 2 exercises, then it returns the 2 exercises in the correct order",
       () => {
         expect(
-          Session.Utils.createSession({
+          Session.Util.createSession({
             project: {
               userId: "abc",
               name: "My Project",
@@ -612,7 +612,7 @@ describe("Session Utilities", () => {
       "Given project has 4 active exercises and one active top priority, when the oldest was practiced on the slow tempo and I request 2 exercises, then it returns the 2 exercises in the correct order and the top priority exercise",
       () => {
         expect(
-          Session.Utils.createSession({
+          Session.Util.createSession({
             project: {
               userId: "abc",
               name: "My Project",
@@ -692,7 +692,7 @@ describe("Session Utilities", () => {
       "Given project has 4 active exercises and more than one active top priority, when the oldest was practiced on the slow tempo and I request 2 exercises, then it returns the 2 exercises in the correct order and all the top priority exercises",
       () => {
         expect(
-          Session.Utils.createSession({
+          Session.Util.createSession({
             project: {
               userId: "abc",
               name: "My Project",
@@ -813,7 +813,7 @@ describe("Session Utilities", () => {
       "Given project has a lot of active exercises that were not practiced yet and no active top priority, when I request 2 exercises, then it returns the 2 exercises in the correct order",
       () => {
         expect(
-          Session.Utils.createSession({
+          Session.Util.createSession({
             project: {
               userId: "85b8cc13-ba41-42b0-bf36-77f8a84622f8",
               name: "Mindwork",

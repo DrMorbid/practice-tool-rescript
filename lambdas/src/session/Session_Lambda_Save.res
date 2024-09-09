@@ -1,7 +1,7 @@
 open AWS.Lambda
 open Session_Type
-open Utils.Lambda
-open Session_Utils
+open Util.Lambda
+open Session_Util
 
 module SaveSessionBody = {
   type t = FromRequest.practiceSession
@@ -14,14 +14,14 @@ module DBProjectItem = {
   let encode = Project.Type.t_encode
   let tableName = Global.EnvVar.tableNameProjects
 }
-module DBProjectSaver = Utils.DynamoDB.DBSaver(DBProjectItem)
+module DBProjectSaver = Util.DynamoDB.DBSaver(DBProjectItem)
 
 module DBHistoryItem = {
   type t = historyItem
   let encode = historyItem_encode
   let tableName = Global.EnvVar.tableNameHistory
 }
-module DBHistorySaver = Utils.DynamoDB.DBSaver(DBHistoryItem)
+module DBHistorySaver = Util.DynamoDB.DBSaver(DBHistoryItem)
 
 let handler: handler<'a> = async event =>
   switch event

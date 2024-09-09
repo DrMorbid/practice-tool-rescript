@@ -1,8 +1,8 @@
 open AWS.Lambda
 open Session_Type
-open Project.Utils
-open Session_Utils
-open Utils.Lambda
+open Project.Util
+open Session_Util
+open Util.Lambda
 
 module GetProjectResponse = {
   @spice
@@ -13,7 +13,7 @@ module Response = MakeBodyResponder(GetProjectResponse)
 
 let handler: handler<sessionConfigurationPathParam> = async event =>
   switch event
-  ->Session_Utils.getSessionConfiguration
+  ->Session_Util.getSessionConfiguration
   ->Result.map(async ({projectTableKey, exerciseCount}) => {
     let project = await projectTableKey->DBGetter.get
 

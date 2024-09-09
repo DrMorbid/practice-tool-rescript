@@ -54,7 +54,7 @@ let make = (~children) => {
     }
 
     None
-  }, (menuRef, isMdUp))
+  }, (menuRef, isMdUp, auth.isAuthenticated))
 
   <>
     <Mui.Container

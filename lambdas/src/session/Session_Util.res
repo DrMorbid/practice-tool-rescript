@@ -1,7 +1,7 @@
 open AWS.Lambda
-open Utils.Lambda
+open Util.Lambda
 open Session_Type
-open Exercise.Utils
+open Exercise.Util
 
 type sessionCalculationInput = {
   neverPracticedTopPriorityExercises: array<Exercise.Type.t>,
@@ -18,14 +18,14 @@ let getSessionConfiguration = event =>
   ->Result.flatMap((userId): result<practiceSessionDBRequest, response> =>
     event.pathParameters
     ->Option.map(({projectName, exerciseCount}) => {
-      projectTableKey: {name: projectName}->Project.Utils.toProjectTableKey(~userId),
+      projectTableKey: {name: projectName}->Project.Util.toProjectTableKey(~userId),
       exerciseCount,
     })
     ->Option.map(practiceSessionRequest => Ok(practiceSessionRequest))
     ->Option.getOr(
       Error({
         statusCode: 400,
-        headers: Utils.Lambda.defaultResponseHeaders,
+        headers: Util.Lambda.defaultResponseHeaders,
         body: "Project name must be present in path parameters",
       }),
     )
@@ -37,7 +37,7 @@ let validateSessionConfiguration = (~exerciseCount, project: Project.Type.t) => 
       ? Ok(project)
       : Error({
           statusCode: 400,
-          headers: Utils.Lambda.defaultResponseHeaders,
+          headers: Util.Lambda.defaultResponseHeaders,
           body: "Project is not active",
         })
   )->Result.flatMap(project => {
@@ -53,7 +53,7 @@ let validateSessionConfiguration = (~exerciseCount, project: Project.Type.t) => 
     } else {
       Error({
         statusCode: 400,
-        headers: Utils.Lambda.defaultResponseHeaders,
+        headers: Util.Lambda.defaultResponseHeaders,
         body: "Project does not have enough active exercises",
       })
     }
@@ -262,7 +262,7 @@ let fromRequest = (~userId, practiceSession: FromRequest.practiceSession): resul
   | ([], _) =>
     Error({
       statusCode: 400,
-      headers: Utils.Lambda.defaultResponseHeaders,
+      headers: Util.Lambda.defaultResponseHeaders,
       body: "At least one exercise must have been practiced",
     })
   | (_, Some(Error(exerciseError))) => Error(exerciseError)
@@ -316,8 +316,8 @@ let updateProjects = async (~userId, ~saveToDb, projects) =>
   ->Array.map(async project => {
     let projectDBResponse =
       await {name: project.name}
-      ->Project.Utils.toProjectTableKey(~userId)
-      ->Project.Utils.DBGetter.get
+      ->Project.Util.toProjectTableKey(~userId)
+      ->Project.Util.DBGetter.get
 
     await (
       switch projectDBResponse->Result.map(projectFromDB => {
