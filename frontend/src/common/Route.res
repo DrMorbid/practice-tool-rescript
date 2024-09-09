@@ -1,5 +1,12 @@
 module FrontEnd = {
-  type t = [#"/" | #"/signIn" | #"/signIn/redirect" | #"/manage" | #"/manage/projectDetail"]
+  type t = [
+    | #"/"
+    | #"/signIn"
+    | #"/signIn/redirect"
+    | #"/practice"
+    | #"/manage"
+    | #"/manage/projectDetail"
+  ]
 
   let push = (router, ~route: t) => router->Next.Navigation.Router.push((route :> string))
 }

@@ -5,3 +5,4 @@ module Manage = Message_Manage
 module Menu = Message_Menu
 module Exercise = Message_Exercise
 module Project = Message_Project
+module Session = Message_Session
