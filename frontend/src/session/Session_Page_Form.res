@@ -5,6 +5,7 @@ module Content = ReactHookForm.Make({
 module Input = {
   let defaultValues: Session_Type.t = {
     projectName: "",
+    exerciseCount: 0,
   }
 
   module ProjectName = Content.MakeInput({
@@ -32,6 +33,36 @@ module Input = {
         </Mui.NativeSelect>
       </Mui.FormControl>,
       ~config=ProjectName.makeRule({required: true}),
+      (),
+    )
+
+  module ExerciseCount = Content.MakeInput({
+    type t = int
+    let name = "exerciseCount"
+    let config = ReactHookForm.Rules.make({
+      required: true,
+    })
+  })
+
+  let renderExerciseCount = (~intl, ~exercisesCount, form) =>
+    form->ExerciseCount.renderWithRegister(
+      <Mui.FormControl>
+        <Mui.InputLabel htmlFor="exercise-count-selection">
+          {intl->ReactIntl.Intl.formatMessage(Message.Session.exerciseCount)->Jsx.string}
+        </Mui.InputLabel>
+        <Mui.NativeSelect inputProps={name: "exerciseCount", id: "exercise-count-selection"}>
+          {exercisesCount
+          ->Array.mapWithIndex((exerciseCount, index) =>
+            <option
+              value={exerciseCount->Int.toString}
+              key={`exercise-count-selection-${index->Int.toString}`}>
+              {exerciseCount->Jsx.int}
+            </option>
+          )
+          ->Jsx.array}
+        </Mui.NativeSelect>
+      </Mui.FormControl>,
+      ~config=ExerciseCount.makeRule({required: true}),
       (),
     )
 }

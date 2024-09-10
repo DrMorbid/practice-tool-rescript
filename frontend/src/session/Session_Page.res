@@ -1,11 +1,16 @@
 module Form = Session_Page_Form
 
-let selectFirstProjectName = (~form, projects) =>
-  projects->Util.Fetch.Response.forSuccess(projects =>
+let resetForm = (~form, projects) =>
+  projects->Util.Fetch.Response.forSuccess(projects => {
     projects
     ->Array.get(0)
     ->Option.forEach(({name}: Project.Type.t) => form->Form.Input.ProjectName.setValue(name))
-  )
+
+    projects
+    ->Session_Util.getExerciseCountSelection
+    ->Array.get(0)
+    ->Option.forEach(exerciseCount => form->Form.Input.ExerciseCount.setValue(exerciseCount))
+  })
 
 @react.component
 let default = () => {
@@ -34,14 +39,14 @@ let default = () => {
   }, [])
 
   React.useEffect(() => {
-    projects->selectFirstProjectName(~form)
+    projects->resetForm(~form)
 
     None
   }, [projects])
 
   let onSubmit = projectName => Console.log2("FKR: selected project name is %o", projectName)
 
-  let onCancel = _ => projects->selectFirstProjectName(~form)
+  let onCancel = _ => projects->resetForm(~form)
 
   switch projects {
   | NotStarted => Jsx.null
@@ -57,11 +62,15 @@ let default = () => {
         <Mui.Box
           display={String("grid")}
           gridTemplateColumns={String("1fr")}
-          gridTemplateRows={String("1fr")}
+          gridTemplateRows={String("auto 1fr")}
           sx={Common.Form.Classes.formGaps->Mui.Sx.array}>
           {form->Form.Input.renderProjectName(
             ~intl,
             ~projectNames={projects->Array.map(({name}) => name)},
+          )}
+          {form->Form.Input.renderExerciseCount(
+            ~intl,
+            ~exercisesCount={projects->Session_Util.getExerciseCountSelection},
           )}
         </Mui.Box>
       </Common.Form>

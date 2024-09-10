@@ -1,1 +1,1 @@
-type t = {projectName: string}
+type t = {projectName: string, exerciseCount: int}

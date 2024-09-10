@@ -6,7 +6,9 @@
     "res:dev": "rescript clean && rescript build -w",
     "dev": "next dev",
     "build": "next build",
-    "intl:extract-messages": "node ./scripts/intlExtractor.js"
+    "intl:extract-messages": "node ./scripts/intlExtractor.js",
+    "test": "jest",
+    "test:watch": "jest --watchAll"
   },
   "dependencies": {
     "@dck/restorative": "^1.1.0",
