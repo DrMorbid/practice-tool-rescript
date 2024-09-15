@@ -16,13 +16,13 @@ module Input = {
     })
   })
 
-  let renderProjectName = (~intl, ~projectNames, form) =>
+  let renderProjectName = (~intl, ~projectNames, ~onChange, form) =>
     form->ProjectName.renderWithRegister(
       <Mui.FormControl>
         <Mui.InputLabel htmlFor="project-name-selection">
           {intl->ReactIntl.Intl.formatMessage(Message.Session.projectName)->Jsx.string}
         </Mui.InputLabel>
-        <Mui.NativeSelect inputProps={name: "projectName", id: "project-name-selection"}>
+        <Mui.NativeSelect inputProps={name: "projectName", id: "project-name-selection"} onChange>
           {projectNames
           ->Array.mapWithIndex((projectName, index) =>
             <option value=projectName key={`project-name-selection-${index->Int.toString}`}>
@@ -44,13 +44,14 @@ module Input = {
     })
   })
 
-  let renderExerciseCount = (~intl, ~exercisesCount, form) =>
+  let renderExerciseCount = (~disabled=false, ~intl, ~exercisesCount, form) =>
     form->ExerciseCount.renderWithRegister(
       <Mui.FormControl>
         <Mui.InputLabel htmlFor="exercise-count-selection">
           {intl->ReactIntl.Intl.formatMessage(Message.Session.exerciseCount)->Jsx.string}
         </Mui.InputLabel>
-        <Mui.NativeSelect inputProps={name: "exerciseCount", id: "exercise-count-selection"}>
+        <Mui.NativeSelect
+          inputProps={name: "exerciseCount", id: "exercise-count-selection"} disabled>
           {exercisesCount
           ->Array.mapWithIndex((exerciseCount, index) =>
             <option

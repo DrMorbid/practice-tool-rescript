@@ -86,6 +86,7 @@ let default = () => {
         <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
         <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
         <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
+        <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
       </ListWrapper>
     | Ok(projects) =>
       <>

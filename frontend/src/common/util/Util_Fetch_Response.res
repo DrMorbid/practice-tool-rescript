@@ -14,3 +14,17 @@ let forSuccess = (response, onSuccess) =>
   | Ok(response) => response->onSuccess
   | NotStarted | Pending | Error(_) => ()
   }
+
+let mapSuccess = (response, onSuccess) =>
+  switch response {
+  | Ok(response) => Ok(response->onSuccess)
+  | NotStarted => NotStarted
+  | Pending => Pending
+  | Error(error) => Error(error)
+  }
+
+let toOption = response =>
+  switch response {
+  | Ok(response) => Some(response)
+  | NotStarted | Pending | Error(_) => None
+  }

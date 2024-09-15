@@ -1,20 +1,11 @@
+open Session_Util
+
 module Form = Session_Page_Form
-
-let resetForm = (~form, projects) =>
-  projects->Util.Fetch.Response.forSuccess(projects => {
-    projects
-    ->Array.get(0)
-    ->Option.forEach(({name}: Project.Type.t) => form->Form.Input.ProjectName.setValue(name))
-
-    projects
-    ->Session_Util.getExerciseCountSelection
-    ->Array.get(0)
-    ->Option.forEach(exerciseCount => form->Form.Input.ExerciseCount.setValue(exerciseCount))
-  })
 
 @react.component
 let default = () => {
   let (projects, setProjects) = React.useState(() => Util.Fetch.Response.NotStarted)
+  let (selectedProject, setSelectedProject) = React.useState(() => None)
   let form = Form.Content.use(
     ~config={
       defaultValues: Form.Input.defaultValues,
@@ -29,7 +20,7 @@ let default = () => {
     Util.Fetch.fetch(Project, ~method=Get, ~auth, ~responseDecoder=Project_Type.projects_decode)
     ->Promise.thenResolve(result =>
       switch result {
-      | Ok(projects) => setProjects(_ => Ok(projects))
+      | Ok(projects) => setProjects(_ => Ok(projects->Array.filter(({active}) => active)))
       | Error(error) => setProjects(_ => Error(error))
       }
     )
@@ -47,6 +38,22 @@ let default = () => {
   let onSubmit = projectName => Console.log2("FKR: selected project name is %o", projectName)
 
   let onCancel = _ => projects->resetForm(~form)
+
+  let onProjectNameChange = event => {
+    let selectedProject =
+      projects->findProject(~projectName=(event->ReactEvent.Form.target)["value"])
+
+    selectedProject->Util.Fetch.Response.forSuccess(project => {
+      setSelectedProject(_ => project)
+
+      project->setSelectedExerciseCount(~form)
+    })
+  }
+
+  let getExercisesCount = projects =>
+    selectedProject
+    ->Option.map(getExerciseCountSelection)
+    ->Option.getOr(projects->Array.get(0)->Option.map(getExerciseCountSelection)->Option.getOr([]))
 
   switch projects {
   | NotStarted => Jsx.null
@@ -67,10 +74,12 @@ let default = () => {
           {form->Form.Input.renderProjectName(
             ~intl,
             ~projectNames={projects->Array.map(({name}) => name)},
+            ~onChange=onProjectNameChange,
           )}
           {form->Form.Input.renderExerciseCount(
             ~intl,
-            ~exercisesCount={projects->Session_Util.getExerciseCountSelection},
+            ~exercisesCount={projects->getExercisesCount},
+            ~disabled={projects->getExercisesCount->Array.length == 0},
           )}
         </Mui.Box>
       </Common.Form>
