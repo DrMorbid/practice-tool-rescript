@@ -63,6 +63,14 @@
         "message": "",
         "description": "Project - field: exercises"
     },
+    "9961ec3c-1c9b-4ae9-a8cc-dd3607979af5": {
+        "message": "",
+        "description": "Practice session - field: project name selection"
+    },
+    "a5833281-e9cd-4231-926d-ae41b9116487": {
+        "message": "",
+        "description": "Practice session - info card - how many top priority exercises this project contains"
+    },
     "a5f98475-54c7-4977-bee4-c97379882b2b": {
         "message": "",
         "description": "Home page - the Sign In button"
@@ -102,5 +110,13 @@
     "ec7b8b06-dc31-474f-8cc5-eae538691754": {
         "message": "",
         "description": "Snackbar alert - title - success"
+    },
+    "f0ca41a4-5b89-4cdf-9534-fdb447062bca": {
+        "message": "",
+        "description": "Practice session configuration page - header"
+    },
+    "fb594005-a3f0-4b4a-bd34-8d9084d9da5a": {
+        "message": "",
+        "description": "Practice session - field: exercise count selection"
     }
 }

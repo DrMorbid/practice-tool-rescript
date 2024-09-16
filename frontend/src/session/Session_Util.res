@@ -41,3 +41,15 @@ let resetForm = (~form, projects) =>
 
     firstProject->setSelectedExerciseCount(~form)
   })
+
+let getTopPriorityExercisesCount = (~projects, selectedProject) =>
+  selectedProject
+  ->Option.map(({exercises}: Project.Type.t) => exercises)
+  ->Option.getOr(
+    projects
+    ->Array.get(0)
+    ->Option.map(({exercises}: Project.Type.t) => exercises)
+    ->Option.getOr([]),
+  )
+  ->Array.filter(({active, topPriority}) => active && topPriority)
+  ->Array.length

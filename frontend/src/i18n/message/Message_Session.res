@@ -22,3 +22,12 @@ let exerciseCount =
     id: "fb594005-a3f0-4b4a-bd34-8d9084d9da5a",
     defaultMessage: "Exercises",
   }
+
+let topPriorityCountInfoCard =
+  @intl.description(
+    "Practice session - info card - how many top priority exercises this project contains"
+  )
+  {
+    id: "a5833281-e9cd-4231-926d-ae41b9116487",
+    defaultMessage: "This project contains {count, plural, one {# top priority exercise} two {# top priority exercises} few {# top priority exercises} many {# top priority exercises} other {# top priority exercises}}.",
+  }
