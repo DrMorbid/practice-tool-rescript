@@ -4,6 +4,14 @@ module Classes = {
       ReactDOM.Style.make(~gridRowGap=theme->MuiSpacingFix.spacing(2), ())->MuiStyles.styleToSxArray
     ),
   ]
+  let formGapsVertical = [
+    Mui.Sx.Array.func(theme =>
+      ReactDOM.Style.make(
+        ~gridColumnGap=theme->MuiSpacingFix.spacing(2),
+        (),
+      )->MuiStyles.styleToSxArray
+    ),
+  ]
 }
 
 @react.component

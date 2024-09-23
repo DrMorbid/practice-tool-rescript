@@ -49,7 +49,21 @@ let default = () => {
     None
   }, [projects])
 
-  let onSubmit = projectName => Console.log2("FKR: selected project name is %o", projectName)
+  let onSubmit = ({projectName, exerciseCount}: Session_Type.t) => {
+    Util.Fetch.fetch(
+      SessionWithNameAndCount(projectName, exerciseCount),
+      ~method=Get,
+      ~auth,
+      ~responseDecoder=Session_Type.toPractice_decode,
+    )
+    ->Promise.thenResolve(result =>
+      switch result {
+      | Ok(_toPractice) => ()
+      | Error(_error) => ()
+      }
+    )
+    ->ignore
+  }
 
   let onCancel = _ => {
     projects->resetForm(~form)
@@ -91,7 +105,7 @@ let default = () => {
       <Common.Form
         header={<FormHeader message=Message.Session.selectProjectTitle />}
         gridTemplateRows="auto 1fr auto"
-        onSubmit={form->Form.Content.handleSubmit((projectName, _event) => onSubmit(projectName))}
+        onSubmit={form->Form.Content.handleSubmit((session, _event) => onSubmit(session))}
         onCancel
         submitPending=false>
         <Mui.Box
