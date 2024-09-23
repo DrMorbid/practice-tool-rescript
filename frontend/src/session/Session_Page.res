@@ -72,7 +72,18 @@ let default = () => {
 
   switch projects {
   | NotStarted => Jsx.null
-  | Pending => <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
+  | Pending =>
+    <Page alignContent={Stretch} spaceOnTop=true spaceOnBottom=true justifyItems="stretch">
+      <Mui.Box
+        display={String("grid")}
+        gridTemplateColumns={String("1fr")}
+        gridTemplateRows={String("auto auto 1fr")}
+        sx={Common.Form.Classes.formGaps->Mui.Sx.array}>
+        <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
+        <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
+        <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
+      </Mui.Box>
+    </Page>
   | Ok(projects) =>
     <Page alignContent={Stretch} spaceOnTop=true spaceOnBottom=true justifyItems="stretch">
       <Common.Form
