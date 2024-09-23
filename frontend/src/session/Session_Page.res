@@ -12,6 +12,7 @@ module Classes = {
         )->MuiStyles.styleToSxArray
       ),
     ]->Mui.Sx.array
+  let topPrioInfoSpan = ReactDOM.Style.make(~gridColumnStart="span 2", ())->MuiStyles.styleToSx
 }
 
 @react.component
@@ -25,6 +26,7 @@ let default = () => {
   )
   let auth = ReactOidcContext.useAuth()
   let intl = ReactIntl.useIntl()
+  let smUp = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.smUp)
 
   React.useEffect(() => {
     setProjects(_ => Pending)
@@ -94,9 +96,11 @@ let default = () => {
         submitPending=false>
         <Mui.Box
           display={String("grid")}
-          gridTemplateColumns={String("1fr")}
-          gridTemplateRows={String("auto auto auto 1fr")}
-          sx={Common.Form.Classes.formGaps->Mui.Sx.array}>
+          gridTemplateColumns={String(smUp ? "1fr 1fr" : "1fr")}
+          gridTemplateRows={String(smUp ? "auto auto 1fr" : "auto auto auto 1fr")}
+          sx={Common.Form.Classes.formGaps
+          ->Array.concat(smUp ? Common.Form.Classes.formGapsVertical : [])
+          ->Mui.Sx.array}>
           {form->Form.Input.renderProjectName(
             ~intl,
             ~projectNames={projects->Array.map(({name}) => name)},
@@ -110,7 +114,7 @@ let default = () => {
           {if selectedProject->getTopPriorityExercisesCount(~projects) == 0 {
             Jsx.null
           } else {
-            <Mui.Card>
+            <Mui.Card sx=?{smUp ? Some(Classes.topPrioInfoSpan) : None}>
               <Mui.CardContent>
                 <Mui.Box
                   display={String("grid")}
