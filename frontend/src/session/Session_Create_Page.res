@@ -1,6 +1,6 @@
 open Session_Util
 
-module Form = Session_Page_Form
+module Form = Session_Create_Page_Form
 
 module Classes = {
   let topPrioInfoGap =
@@ -27,6 +27,7 @@ let default = () => {
   let auth = ReactOidcContext.useAuth()
   let intl = ReactIntl.useIntl()
   let smUp = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.smUp)
+  let router = Next.Navigation.useRouter()
 
   React.useEffect(() => {
     setProjects(_ => Pending)
@@ -49,21 +50,8 @@ let default = () => {
     None
   }, [projects])
 
-  let onSubmit = ({projectName, exerciseCount}: Session_Type.t) => {
-    Util.Fetch.fetch(
-      SessionWithNameAndCount(projectName, exerciseCount),
-      ~method=Get,
-      ~auth,
-      ~responseDecoder=Session_Type.toPractice_decode,
-    )
-    ->Promise.thenResolve(result =>
-      switch result {
-      | Ok(_toPractice) => ()
-      | Error(_error) => ()
-      }
-    )
-    ->ignore
-  }
+  let onSubmit = ({projectName, exerciseCount}: Session_Type.t) =>
+    router->Route.FrontEnd.push(~route=PracticeOverview(projectName, exerciseCount))
 
   let onCancel = _ => {
     projects->resetForm(~form)
@@ -158,7 +146,7 @@ let default = () => {
     <Snackbar
       isOpen={projects->Util.Fetch.Response.isError}
       severity={Error}
-      title={Message(Message.Manage.couldNotLoadProject)}
+      title={Message(Message.Session.couldNotLoadSession)}
       body={String(message)}
     />
   }

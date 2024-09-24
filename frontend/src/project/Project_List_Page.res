@@ -57,7 +57,7 @@ let default = () => {
 
   let onAddProject = _ => {
     Store.dispatch(ResetProjectForManagement)
-    router->Route.FrontEnd.push(~route=#"/manage/projectDetail")
+    router->Route.FrontEnd.push(~route=ManageProjectDetail)
   }
 
   let onSelectProject = index => {
@@ -67,7 +67,7 @@ let default = () => {
       ->Array.get(index)
       ->Option.forEach(project => Store.dispatch(StoreSelectedProjectForManagement(project)))
     )
-    router->Route.FrontEnd.push(~route=#"/manage/projectDetail")
+    router->Route.FrontEnd.push(~route=ManageProjectDetail)
   }
 
   <>
@@ -111,7 +111,7 @@ let default = () => {
       <Snackbar
         isOpen={projects->Util.Fetch.Response.isError}
         severity={Error}
-        title={Message(Message.Manage.couldNotLoadProject)}
+        title={Message(Message.Project.couldNotLoadProject)}
         body={String(message)}
       />
     }}

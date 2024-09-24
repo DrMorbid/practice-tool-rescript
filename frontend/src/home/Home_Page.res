@@ -4,7 +4,7 @@ let default = () => {
   let auth = ReactOidcContext.useAuth()
   let intl = ReactIntl.useIntl()
 
-  let routeToSignInPage = _ => router->Route.FrontEnd.push(~route=#"/signIn")
+  let routeToSignInPage = _ => router->Route.FrontEnd.push(~route=SignIn)
 
   <Page gridAutoRows=String("min-content")>
     <Mui.Typography variant={H1} textAlign={Center}>

@@ -31,3 +31,10 @@ let topPriorityCountInfoCard =
     id: "a5833281-e9cd-4231-926d-ae41b9116487",
     defaultMessage: "This project contains {count, plural, one {# top priority exercise} two {# top priority exercises} few {# top priority exercises} many {# top priority exercises} other {# top priority exercises}}.",
   }
+
+let couldNotLoadSession =
+  @intl.description("Practice overview page - error title - could not load exercises to practice")
+  {
+    id: "a4f0786b-4531-4456-860c-a692aeca71f9",
+    defaultMessage: "Could not load exercises to practice",
+  }

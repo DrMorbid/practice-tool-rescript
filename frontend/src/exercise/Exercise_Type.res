@@ -27,3 +27,10 @@ module FromForm = {
     lastPracticed?: lastPracticed,
   }
 }
+
+@spice
+type toPractice = {
+  name: string,
+  tempo: tempo,
+  tempoValue: int,
+}

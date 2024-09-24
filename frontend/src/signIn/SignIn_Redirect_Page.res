@@ -9,7 +9,7 @@ let default = () => {
 
   React.useEffect2(() => {
     if auth.isAuthenticated {
-      router->Route.FrontEnd.push(~route=#"/")
+      router->Route.FrontEnd.push(~route=Home)
     }
 
     None

@@ -123,7 +123,7 @@ let default = () => {
               ),
             ),
           )
-          router->Route.FrontEnd.push(~route=#"/manage")
+          router->Route.FrontEnd.push(~route=Manage)
         }
       | Error(error) => setError(_ => Some((error, Message.Project.couldNotSaveProject)))
       }
@@ -131,7 +131,7 @@ let default = () => {
     ->ignore
   }
 
-  let onCancel = _ => router->Route.FrontEnd.push(~route=#"/manage")
+  let onCancel = _ => router->Route.FrontEnd.push(~route=Manage)
 
   let onAddExercise = _ => {
     setSelectedExrecise(_ => None)
@@ -191,7 +191,7 @@ let default = () => {
               ),
             ),
           )
-          router->Route.FrontEnd.push(~route=#"/manage")
+          router->Route.FrontEnd.push(~route=Manage)
         }
       | Error(error) => setError(_ => Some((error, Message.Project.couldNotDeleteProject)))
       }

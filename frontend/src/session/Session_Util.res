@@ -17,8 +17,9 @@ let setSelectedExerciseCount = (~form, project) =>
     ->getExerciseCountSelection
     ->Array.get(0)
   ) {
-  | Some(exerciseCount) => form->Session_Page_Form.Input.ExerciseCount.setValue(exerciseCount)
-  | None => form->Session_Page_Form.Input.ExerciseCount.setValue(0)
+  | Some(exerciseCount) =>
+    form->Session_Create_Page_Form.Input.ExerciseCount.setValue(exerciseCount)
+  | None => form->Session_Create_Page_Form.Input.ExerciseCount.setValue(0)
   }
 
 let findProject = (~projectName, projects) =>
@@ -36,7 +37,7 @@ let resetForm = (~form, projects) =>
     let firstProject = projects->Array.get(0)
 
     firstProject->Option.forEach(({name}: Project.Type.t) =>
-      form->Session_Page_Form.Input.ProjectName.setValue(name)
+      form->Session_Create_Page_Form.Input.ProjectName.setValue(name)
     )
 
     firstProject->setSelectedExerciseCount(~form)
