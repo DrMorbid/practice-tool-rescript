@@ -15,3 +15,17 @@ let cancel =
     id: "29c9a002-5ff0-44d1-a630-a331c9be4db5",
     defaultMessage: "Cancel",
   }
+
+let next =
+  @intl.description("Button label - next")
+  {
+    id: "8b68775d-e463-4bf3-ac2b-2df904f3722a",
+    defaultMessage: "Next",
+  }
+
+let back =
+  @intl.description("Button label - back")
+  {
+    id: "fd2c0e89-0d3f-4692-880a-a108a7d71e8b",
+    defaultMessage: "Back",
+  }

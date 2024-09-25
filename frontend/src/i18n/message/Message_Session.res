@@ -38,3 +38,10 @@ let couldNotLoadSession =
     id: "a4f0786b-4531-4456-860c-a692aeca71f9",
     defaultMessage: "Could not load exercises to practice",
   }
+
+let startPracticingTitle =
+  @intl.description("Practice session overview page - header")
+  {
+    id: "e71f2311-383c-4c2a-8edf-7ec725e65323",
+    defaultMessage: "Start practicing",
+  }

@@ -1,3 +1,7 @@
+module Classes = {
+  let exercise = ReactDOM.Style.make(~overflow="visible", ())->MuiStyles.styleToSx
+}
+
 @react.component
 let default = () => {
   let (projectName, setProjectName) = React.useState(() => None)
@@ -44,6 +48,10 @@ let default = () => {
     None
   }, (projectName, exerciseCount))
 
+  let onSave = _ => ()
+
+  let onBack = _ => ()
+
   switch session {
   | NotStarted => Jsx.null
   | Pending =>
@@ -52,15 +60,52 @@ let default = () => {
         display={String("grid")}
         gridTemplateColumns={String("1fr")}
         gridTemplateRows={String("auto auto 1fr")}
-        sx={Common.Form.Classes.formGaps->Mui.Sx.array}>
+        sx={App_Theme.Classes.itemGaps->Mui.Sx.array}>
         <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
         <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
         <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
       </Mui.Box>
     </Page>
-  | Ok(session) =>
+  | Ok({name, topPriorityExercises, exercises}) =>
     <Page alignContent={Stretch} spaceOnTop=true spaceOnBottom=true justifyItems="stretch">
-      <Mui.Typography> {session->JSON.stringifyAny->Option.getOr("")->Jsx.string} </Mui.Typography>
+      <Common_PageContent
+        onPrimary=onSave
+        onSecondary=onBack
+        secondaryButtonLabel=Message.Button.back
+        header={<PageHeader message=Message.Session.startPracticingTitle />}
+        gridTemplateRows="auto auto 1fr auto"
+        actionPending=false>
+        <Mui.Typography variant={H5}> {name->Jsx.string} </Mui.Typography>
+        <Mui.Grid
+          display={String("grid")}
+          alignContent={String("start")}
+          sx={App_Theme.Classes.itemGaps
+          ->Array.concat([ReactDOM.Style.make(~overflow="auto", ())->MuiStyles.styleToSxArray])
+          ->Mui.Sx.array}>
+          {topPriorityExercises
+          ->List.map(({name, tempoValue}) =>
+            <Mui.Card sx=Classes.exercise>
+              <Mui.CardHeader
+                avatar={<Icon.PriorityHigh />}
+                title={name->Jsx.string}
+                subheader={`${tempoValue->Int.toString} %`->Jsx.string}
+              />
+            </Mui.Card>
+          )
+          ->List.toArray
+          ->Jsx.array}
+          {exercises
+          ->List.map(({name, tempoValue}) =>
+            <Mui.Card sx=Classes.exercise>
+              <Mui.CardHeader
+                title={name->Jsx.string} subheader={`${tempoValue->Int.toString} %`->Jsx.string}
+              />
+            </Mui.Card>
+          )
+          ->List.toArray
+          ->Jsx.array}
+        </Mui.Grid>
+      </Common_PageContent>
     </Page>
   | Error({message}) =>
     <Snackbar

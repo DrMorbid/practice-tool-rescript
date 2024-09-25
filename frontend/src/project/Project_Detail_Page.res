@@ -222,7 +222,7 @@ let default = () => {
     )
     ->Option.getOr(Jsx.null)}
     <Common.Form
-      header={<FormHeader message=Message.Manage.createProjectTitle />}
+      header={<PageHeader message=Message.Manage.createProjectTitle />}
       gridTemplateRows="auto 1fr auto"
       onSubmit={form->Form.Content.handleSubmit((project, _event) => onSubmit(project))}
       onCancel
@@ -233,7 +233,7 @@ let default = () => {
         display={String("grid")}
         gridTemplateColumns={String("1fr")}
         gridTemplateRows={String("auto auto 1fr")}
-        sx={Common.Form.Classes.formGaps->Array.concat(Classes.exercisesScrolling)->Mui.Sx.array}>
+        sx={App_Theme.Classes.itemGaps->Array.concat(Classes.exercisesScrolling)->Mui.Sx.array}>
         {if smDown {
           [
             form->Form.Input.renderName(~intl, ~key="project-add-form-1"),

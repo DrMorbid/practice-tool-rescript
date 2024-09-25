@@ -82,7 +82,7 @@ let default = () => {
         display={String("grid")}
         gridTemplateColumns={String("1fr")}
         gridTemplateRows={String("auto auto 1fr")}
-        sx={Common.Form.Classes.formGaps->Mui.Sx.array}>
+        sx={App_Theme.Classes.itemGaps->Mui.Sx.array}>
         <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
         <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
         <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
@@ -91,8 +91,9 @@ let default = () => {
   | Ok(projects) =>
     <Page alignContent={Stretch} spaceOnTop=true spaceOnBottom=true justifyItems="stretch">
       <Common.Form
-        header={<FormHeader message=Message.Session.selectProjectTitle />}
+        header={<PageHeader message=Message.Session.selectProjectTitle />}
         gridTemplateRows="auto 1fr auto"
+        submitButtonLabel=Message.Button.next
         onSubmit={form->Form.Content.handleSubmit((session, _event) => onSubmit(session))}
         onCancel
         submitPending=false>
@@ -100,8 +101,8 @@ let default = () => {
           display={String("grid")}
           gridTemplateColumns={String(smUp ? "1fr 1fr" : "1fr")}
           gridTemplateRows={String(smUp ? "auto auto 1fr" : "auto auto auto 1fr")}
-          sx={Common.Form.Classes.formGaps
-          ->Array.concat(smUp ? Common.Form.Classes.formGapsVertical : [])
+          sx={App_Theme.Classes.itemGaps
+          ->Array.concat(smUp ? App_Theme.Classes.itemGapsHorizontal : [])
           ->Mui.Sx.array}>
           {form->Form.Input.renderProjectName(
             ~intl,
