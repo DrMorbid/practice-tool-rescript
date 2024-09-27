@@ -1,3 +1,5 @@
+module ExerciseCards = Session_Save_Page_ExerciseCards
+
 module Classes = {
   let exercise = ReactDOM.Style.make(~overflow="visible", ())->MuiStyles.styleToSx
 }
@@ -82,28 +84,7 @@ let default = () => {
           sx={App_Theme.Classes.itemGaps
           ->Array.concat([ReactDOM.Style.make(~overflow="auto", ())->MuiStyles.styleToSxArray])
           ->Mui.Sx.array}>
-          {topPriorityExercises
-          ->List.map(({name, tempoValue}) =>
-            <Mui.Card sx=Classes.exercise>
-              <Mui.CardHeader
-                avatar={<Icon.PriorityHigh />}
-                title={name->Jsx.string}
-                subheader={`${tempoValue->Int.toString} %`->Jsx.string}
-              />
-            </Mui.Card>
-          )
-          ->List.toArray
-          ->Jsx.array}
-          {exercises
-          ->List.map(({name, tempoValue}) =>
-            <Mui.Card sx=Classes.exercise>
-              <Mui.CardHeader
-                title={name->Jsx.string} subheader={`${tempoValue->Int.toString} %`->Jsx.string}
-              />
-            </Mui.Card>
-          )
-          ->List.toArray
-          ->Jsx.array}
+          <ExerciseCards exercises={topPriorityExercises->List.concat(exercises)} />
         </Mui.Grid>
       </Common_PageContent>
     </Page>
