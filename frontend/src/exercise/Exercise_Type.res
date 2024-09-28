@@ -34,3 +34,9 @@ type toPractice = {
   tempo: tempo,
   tempoValue: int,
 }
+
+@spice
+type practiced = {
+  name: string,
+  tempo: tempo,
+}

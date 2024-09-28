@@ -28,6 +28,9 @@ let default = () => {
   let intl = ReactIntl.useIntl()
   let smUp = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.smUp)
   let router = Next.Navigation.useRouter()
+  let processFinishedSuccessfullyMessage = Store.useStoreWithSelector(({
+    ?processFinishedSuccessfullyMessage,
+  }) => processFinishedSuccessfullyMessage)
 
   React.useEffect(() => {
     setProjects(_ => Pending)
@@ -74,81 +77,91 @@ let default = () => {
     ->Option.map(getExerciseCountSelection)
     ->Option.getOr(projects->Array.get(0)->Option.map(getExerciseCountSelection)->Option.getOr([]))
 
-  switch projects {
-  | NotStarted => Jsx.null
-  | Pending =>
-    <Page alignContent={Stretch} spaceOnTop=true spaceOnBottom=true justifyItems="stretch">
-      <Mui.Box
-        display={String("grid")}
-        gridTemplateColumns={String("1fr")}
-        gridTemplateRows={String("auto auto 1fr")}
-        sx={App_Theme.Classes.itemGaps->Mui.Sx.array}>
-        <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
-        <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
-        <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
-      </Mui.Box>
-    </Page>
-  | Ok(projects) =>
-    <Page alignContent={Stretch} spaceOnTop=true spaceOnBottom=true justifyItems="stretch">
-      <Common.Form
-        header={<PageHeader message=Message.Session.selectProjectTitle />}
-        gridTemplateRows="auto 1fr auto"
-        submitButtonLabel=Message.Button.next
-        onSubmit={form->Form.Content.handleSubmit((session, _event) => onSubmit(session))}
-        onCancel
-        submitPending=false>
+  <>
+    <Snackbar
+      isOpen={processFinishedSuccessfullyMessage->Option.isSome}
+      severity={Success}
+      title={Message(Message.Alert.defaultTitleSuccess)}
+      body=?{processFinishedSuccessfullyMessage}
+      autoHideDuration=5_000
+      onClose={() => Store.dispatch(ResetProcessFinishedSuccessfullyMessage)}
+    />
+    {switch projects {
+    | NotStarted => Jsx.null
+    | Pending =>
+      <Page alignContent={Stretch} spaceOnTop=true spaceOnBottom=true justifyItems="stretch">
         <Mui.Box
           display={String("grid")}
-          gridTemplateColumns={String(smUp ? "1fr 1fr" : "1fr")}
-          gridTemplateRows={String(smUp ? "auto auto 1fr" : "auto auto auto 1fr")}
-          sx={App_Theme.Classes.itemGaps
-          ->Array.concat(smUp ? App_Theme.Classes.itemGapsHorizontal : [])
-          ->Mui.Sx.array}>
-          {form->Form.Input.renderProjectName(
-            ~intl,
-            ~projectNames={projects->Array.map(({name}) => name)},
-            ~onChange=onProjectNameChange,
-          )}
-          {form->Form.Input.renderExerciseCount(
-            ~intl,
-            ~exercisesCount={projects->getExercisesCount},
-            ~disabled={projects->getExercisesCount->Array.length == 0},
-          )}
-          {if selectedProject->getTopPriorityExercisesCount(~projects) == 0 {
-            Jsx.null
-          } else {
-            <Mui.Card sx=?{smUp ? Some(Classes.topPrioInfoSpan) : None}>
-              <Mui.CardContent>
-                <Mui.Box
-                  display={String("grid")}
-                  gridTemplateColumns={String("auto 1fr")}
-                  gridTemplateRows={String("1fr")}
-                  sx=Classes.topPrioInfoGap>
-                  <Icon.PriorityHigh />
-                  <Mui.Typography>
-                    {intl
-                    ->ReactIntl.Intl.formatMessageWithValues(
-                      Message.Session.topPriorityCountInfoCard,
-                      {
-                        "count": selectedProject->getTopPriorityExercisesCount(~projects),
-                      },
-                    )
-                    ->Jsx.string}
-                  </Mui.Typography>
-                </Mui.Box>
-              </Mui.CardContent>
-            </Mui.Card>
-          }}
-          Jsx.null
+          gridTemplateColumns={String("1fr")}
+          gridTemplateRows={String("auto auto 1fr")}
+          sx={App_Theme.Classes.itemGaps->Mui.Sx.array}>
+          <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
+          <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
+          <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
         </Mui.Box>
-      </Common.Form>
-    </Page>
-  | Error({message}) =>
-    <Snackbar
-      isOpen={projects->Util.Fetch.Response.isError}
-      severity={Error}
-      title={Message(Message.Session.couldNotLoadSession)}
-      body={String(message)}
-    />
-  }
+      </Page>
+    | Ok(projects) =>
+      <Page alignContent={Stretch} spaceOnTop=true spaceOnBottom=true justifyItems="stretch">
+        <Common.Form
+          header={<PageHeader message=Message.Session.selectProjectTitle />}
+          gridTemplateRows="auto 1fr auto"
+          submitButtonLabel=Message.Button.next
+          onSubmit={form->Form.Content.handleSubmit((session, _event) => onSubmit(session))}
+          onCancel
+          submitPending=false>
+          <Mui.Box
+            display={String("grid")}
+            gridTemplateColumns={String(smUp ? "1fr 1fr" : "1fr")}
+            gridTemplateRows={String(smUp ? "auto auto 1fr" : "auto auto auto 1fr")}
+            sx={App_Theme.Classes.itemGaps
+            ->Array.concat(smUp ? App_Theme.Classes.itemGapsHorizontal : [])
+            ->Mui.Sx.array}>
+            {form->Form.Input.renderProjectName(
+              ~intl,
+              ~projectNames={projects->Array.map(({name}) => name)},
+              ~onChange=onProjectNameChange,
+            )}
+            {form->Form.Input.renderExerciseCount(
+              ~intl,
+              ~exercisesCount={projects->getExercisesCount},
+              ~disabled={projects->getExercisesCount->Array.length == 0},
+            )}
+            {if selectedProject->getTopPriorityExercisesCount(~projects) == 0 {
+              Jsx.null
+            } else {
+              <Mui.Card sx=?{smUp ? Some(Classes.topPrioInfoSpan) : None}>
+                <Mui.CardContent>
+                  <Mui.Box
+                    display={String("grid")}
+                    gridTemplateColumns={String("auto 1fr")}
+                    gridTemplateRows={String("1fr")}
+                    sx=Classes.topPrioInfoGap>
+                    <Icon.PriorityHigh />
+                    <Mui.Typography>
+                      {intl
+                      ->ReactIntl.Intl.formatMessageWithValues(
+                        Message.Session.topPriorityCountInfoCard,
+                        {
+                          "count": selectedProject->getTopPriorityExercisesCount(~projects),
+                        },
+                      )
+                      ->Jsx.string}
+                    </Mui.Typography>
+                  </Mui.Box>
+                </Mui.CardContent>
+              </Mui.Card>
+            }}
+            Jsx.null
+          </Mui.Box>
+        </Common.Form>
+      </Page>
+    | Error({message}) =>
+      <Snackbar
+        isOpen={projects->Util.Fetch.Response.isError}
+        severity={Error}
+        title={Message(Message.Session.couldNotLoadSession)}
+        body={String(message)}
+      />
+    }}
+  </>
 }

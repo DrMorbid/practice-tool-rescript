@@ -15,3 +15,9 @@ type projectForRequest = {
   active: bool,
   exercises: array<Exercise.Type.t>,
 }
+
+@spice
+type practiced = {
+  name: string,
+  exercises: array<Exercise.Type.practiced>,
+}

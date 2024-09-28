@@ -8,16 +8,4 @@ type toPractice = {
 }
 
 @spice
-type sessionSaveRequestExercise = {
-  name: string,
-  tempo: Exercise.Type.tempo,
-}
-
-@spice
-type sessionSaveRequestItem = {
-  name: string,
-  exercises: array<sessionSaveRequestExercise>,
-}
-
-@spice
-type sessionSaveRequest = array<sessionSaveRequestItem>
+type practiced = array<Project.Type.practiced>

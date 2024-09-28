@@ -45,3 +45,10 @@ let startPracticingTitle =
     id: "e71f2311-383c-4c2a-8edf-7ec725e65323",
     defaultMessage: "Start practicing",
   }
+
+let sessionSavedSuccessfully =
+  @intl.description("Session - success title - session saved successfully")
+  {
+    id: "5d5e8bc8-65aa-4c4d-870d-e1dec40c84c8",
+    defaultMessage: "Session saved",
+  }
