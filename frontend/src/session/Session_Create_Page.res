@@ -35,7 +35,13 @@ let default = () => {
   React.useEffect(() => {
     setProjects(_ => Pending)
 
-    Util.Fetch.fetch(Project, ~method=Get, ~auth, ~responseDecoder=Project_Type.projects_decode)
+    Util.Fetch.fetch(
+      Project,
+      ~method=Get,
+      ~auth,
+      ~responseDecoder=Project_Type.projects_decode,
+      ~router,
+    )
     ->Promise.thenResolve(result =>
       switch result {
       | Ok(projects) => setProjects(_ => Ok(projects->Array.filter(({active}) => active)))

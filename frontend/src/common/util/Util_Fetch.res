@@ -6,6 +6,7 @@ let fetch = async (
   ~auth: ReactOidcContext.Auth.t,
   ~method,
   ~responseDecoder: JSON.t => result<'a, Spice.decodeError>,
+  ~router,
   path: Route.BackEnd.t,
 ) => {
   let accessToken = auth.user->Nullable.toOption->Option.map(({accessToken}) => accessToken)
@@ -45,6 +46,11 @@ let fetch = async (
         }
 
         Console.error2("Fetch returned error response: %o", error)
+
+        if response->Webapi.Fetch.Response.status == 401 {
+          Util_LocalStorage.storeLastVisitedUrl()
+          router->Route.FrontEnd.push(~route=SignIn)
+        }
 
         error
       })

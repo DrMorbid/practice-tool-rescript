@@ -107,6 +107,7 @@ let default = () => {
         ~originalName=?selectedProjectForManagement->Option.map(({name}) => name),
       )
       ->Project_Type.projectForRequest_encode,
+      ~router,
     )
     ->Promise.thenResolve(result => {
       setSubmitPending(_ => false)
@@ -175,6 +176,7 @@ let default = () => {
       ~method=Delete,
       ~auth,
       ~responseDecoder=Spice.stringFromJson,
+      ~router,
     )
     ->Promise.thenResolve(result => {
       setSubmitPending(_ => false)

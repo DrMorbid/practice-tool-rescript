@@ -9,7 +9,13 @@ let default = () => {
 
   React.useEffect2(() => {
     if auth.isAuthenticated {
-      router->Route.FrontEnd.push(~route=Home)
+      switch Util.LocalStorage.getLastVisitedUrl() {
+      | Some(lastVisitedUrl) => {
+          Util.LocalStorage.removeLastVisitedUrl()
+          router->Next.Navigation.Router.push(lastVisitedUrl)
+        }
+      | None => router->Route.FrontEnd.push(~route=Home)
+      }
     }
 
     None

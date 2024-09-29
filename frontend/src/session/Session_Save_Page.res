@@ -40,6 +40,7 @@ let default = () => {
         ~method=Get,
         ~auth,
         ~responseDecoder=Session_Type.toPractice_decode,
+        ~router,
       )
       ->Promise.thenResolve(result =>
         switch result {
@@ -66,6 +67,7 @@ let default = () => {
         ~body=session
         ->Session_Util.toSaveSessionRequest
         ->Session_Type.practiced_encode,
+        ~router,
       )
       ->Promise.thenResolve(result => {
         setSavePending(_ => false)
