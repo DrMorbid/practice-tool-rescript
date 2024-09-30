@@ -55,10 +55,13 @@ let getTopPriorityExercisesCount = (~projects, selectedProject) =>
   ->Array.filter(({active, topPriority}) => active && topPriority)
   ->Array.length
 
-let toSaveSessionRequest = ({name, exercises}: Session_Type.toPractice): Session_Type.practiced => [
+let toSaveSessionRequest = (
+  {name, exercises, topPriorityExercises}: Session_Type.toPractice,
+): Session_Type.practiced => [
   {
     name,
     exercises: exercises
+    ->List.concat(topPriorityExercises)
     ->List.map(({name, tempo}): Exercise.Type.practiced => {name, tempo})
     ->List.toArray,
   },

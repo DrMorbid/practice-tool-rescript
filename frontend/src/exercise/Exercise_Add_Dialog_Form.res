@@ -130,4 +130,10 @@ module Input = {
       ~config=FastTempo.makeRule({min: 0, max: 100}),
       (),
     )
+
+  module LastPracticed = Content.MakeInput({
+    type t = option<Exercise_Type.lastPracticed>
+    let name = "lastPracticed"
+    let config = ReactHookForm.Rules.make({})
+  })
 }

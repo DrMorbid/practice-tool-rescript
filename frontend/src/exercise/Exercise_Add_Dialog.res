@@ -25,7 +25,14 @@ let make = (
   }, (form->Form.Content.formState, Form.Input.defaultValues))
 
   React.useEffect(() => {
-    exercise->Option.forEach(({name, active, topPriority, ?slowTempo, ?fastTempo}) => {
+    exercise->Option.forEach(({
+      name,
+      active,
+      topPriority,
+      ?slowTempo,
+      ?fastTempo,
+      ?lastPracticed,
+    }) => {
       form->Form.Input.Name.setValue(name)
       form->Form.Input.Active.setValue(active)
       form->Form.Input.TopPriority.setValue(topPriority)
@@ -36,12 +43,17 @@ let make = (
       fastTempo
       ->Option.map(fastTempo => fastTempo->Int.toString)
       ->Option.forEach(fastTempo => form->Form.Input.FastTempo.setValue(fastTempo))
+      lastPracticed->Option.forEach(
+        lastPracticed => form->Form.Input.LastPracticed.setValue(Some(lastPracticed)),
+      )
     })
 
     None
   }, [exercise])
 
-  let onSubmit = ({name, active, topPriority, slowTempo, fastTempo}: Exercise_Type.FromForm.t) => {
+  let onSubmit = (
+    {name, active, topPriority, slowTempo, fastTempo, ?lastPracticed}: Exercise_Type.FromForm.t,
+  ) => {
     onExerciseSubmited(
       (
         {
@@ -50,6 +62,7 @@ let make = (
           topPriority,
           slowTempo: ?slowTempo->Int.fromString,
           fastTempo: ?fastTempo->Int.fromString,
+          ?lastPracticed,
         }: Exercise_Type.t
       ),
       ~isNew=exercise->Option.isNone,
