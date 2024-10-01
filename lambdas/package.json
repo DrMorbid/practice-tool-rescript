@@ -1,6 +1,6 @@
 {
   "name": "practice-tool-rescript-lambdas",
-  "packageManager": "yarn@4.1.0",
+  "packageManager": "yarn@4.5.0",
   "scripts": {
     "res:build": "rescript",
     "res:dev": "rescript clean && rescript -w",
@@ -9,11 +9,11 @@
     "test:watch": "jest --watchAll"
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.606.0",
-    "@aws-sdk/lib-dynamodb": "^3.606.0",
-    "@greenlabs/ppx-spice": "0.2.1",
-    "@rescript/core": "^1.5.2",
-    "rescript": "^11.1.2"
+    "@aws-sdk/client-dynamodb": "^3.658.1",
+    "@aws-sdk/lib-dynamodb": "^3.658.1",
+    "@greenlabs/ppx-spice": "^0.2.2",
+    "@rescript/core": "^1.6.0",
+    "rescript": "^11.1.4"
   },
   "devDependencies": {
     "@greenlabs/rescript-jest": "^28.1.0",

@@ -21,5 +21,5 @@ module SpiceCodec = {
     }
   }
 
-  let date: Spice.codec<Date.t> = (dateEncoder, dateDecoder)
+  let date = (dateEncoder, dateDecoder)
 }
