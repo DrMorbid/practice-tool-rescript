@@ -35,6 +35,12 @@ provider:
             - dynamodb:PutItem
           Resource: "arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:custom.tableNameHistory}"
 
+stages:
+  dev:
+    observability: false
+  prod:
+    observability: false
+
 custom:
   defaultStage: dev
   currentStage: ${opt:stage, self:custom.defaultStage}

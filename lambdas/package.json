@@ -4,7 +4,8 @@
   "scripts": {
     "res:build": "rescript",
     "res:dev": "rescript clean && rescript -w",
-    "deploy": "serverless deploy",
+    "deploy:dev": "serverless deploy",
+    "deploy:prod": "serverless deploy --stage prod",
     "test": "jest",
     "test:watch": "jest --watchAll"
   },

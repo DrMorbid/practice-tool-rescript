@@ -1,11 +1,3 @@
-// function getWindowDimensions() {
-//   const { innerWidth: width, innerHeight: height } = window;
-//   return {
-//     width,
-//     height
-//   };
-// }
-
 type windowDimensions = {
   width: int,
   height: int,
@@ -17,10 +9,10 @@ let getWindowDimensions = () => {
 }
 
 let useWindowDimensions = () => {
-  let (windowDimensions, setWindowDimensions) = React.useState(() => getWindowDimensions())
+  let (windowDimensions, setWindowDimensions) = React.useState(() => None)
 
   React.useEffect(() => {
-    let handleResize = _ => setWindowDimensions(_ => getWindowDimensions())
+    let handleResize = _ => setWindowDimensions(_ => Some(getWindowDimensions()))
 
     Webapi.Dom.window->Webapi.Dom.Window.addEventListener("resize", handleResize)
 
