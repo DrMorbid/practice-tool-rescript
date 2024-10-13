@@ -6,9 +6,11 @@
     "res:dev": "rescript clean && rescript build -w",
     "dev": "next dev",
     "build": "next build",
-    "intl:extract-messages": "node ./scripts/intlExtractor.js",
+    "intl:extract-messages": "node ./script/intlExtractor.js",
     "test": "jest",
-    "test:watch": "jest --watchAll"
+    "test:watch": "jest --watchAll",
+    "aws:ls:dev": "node ./script/lib/js/aws/Aws_Ls_Dev.res.js",
+    "aws:rm:dev": "node ./script/lib/js/aws/Aws_Rm_Dev.res.js"
   },
   "dependencies": {
     "@dck/restorative": "^1.1.0",

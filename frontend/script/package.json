@@ -1,0 +1,13 @@
+{
+  "name": "practice-tool-rescript-frontend",
+  "packageManager": "yarn@4.5.0",
+  "scripts": {
+    "res:build": "rescript clean && rescript",
+    "res:dev": "rescript clean && rescript build -w"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-s3": "^3.670.0",
+    "@rescript/core": "^1.6.0",
+    "rescript": "^11.1.4"
+  }
+}

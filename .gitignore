@@ -229,7 +229,12 @@ fabric.properties
 # ReScript
 lambdas/lib
 frontend/lib
-*.res.js
+frontend/src/**/*.res.js
+lambdas/src/**/*.res.js
+lambdas/test/**/*.res.js
+!frontend/script/lib/
+frontend/script/lib/*
+!frontend/script/lib/js/
 
 # HTTP Client
 **/http-client.private.env.json
