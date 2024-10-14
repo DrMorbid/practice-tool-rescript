@@ -131,6 +131,10 @@ frontend/.yarn/cache
 frontend/.yarn/unplugged
 frontend/.yarn/build-state.yml
 frontend/.yarn/install-state.gz
+frontend/script/.yarn/cache
+frontend/script/.yarn/unplugged
+frontend/script/.yarn/build-state.yml
+frontend/script/.yarn/install-state.gz
 frontend/.pnp.*
 
 # Created by https://www.toptal.com/developers/gitignore/api/intellij+all

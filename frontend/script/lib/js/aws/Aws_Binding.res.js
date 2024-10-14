@@ -16,7 +16,10 @@ var DeleteObjectCommand = {
   Result: Result$1
 };
 
+var Upload = {};
+
 exports.Client = Client;
 exports.ListObjectsCommand = ListObjectsCommand;
 exports.DeleteObjectCommand = DeleteObjectCommand;
+exports.Upload = Upload;
 /* No side effect */

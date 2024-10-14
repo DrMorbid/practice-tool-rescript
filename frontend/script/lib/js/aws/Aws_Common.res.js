@@ -2,8 +2,10 @@
 'use strict';
 
 var Core__Array = require("@rescript/core/lib/js/src/Core__Array.res.js");
+var Promises = require("fs/promises");
 var Core__Option = require("@rescript/core/lib/js/src/Core__Option.res.js");
 var ClientS3 = require("@aws-sdk/client-s3");
+var LibStorage = require("@aws-sdk/lib-storage");
 
 function toString(environment) {
   if (environment === "Development") {
@@ -50,14 +52,49 @@ async function rm(environment) {
             
           }));
   if (Core__Array.keepSome(results).length === 0) {
-    console.log("%d files successfully deleted", files.length);
+    console.log("%d files successfully deleted from %s bucket", files.length, toString(environment));
     return ;
   }
   
+}
+
+async function cp(environment) {
+  var bucket = getBucket(environment);
+  console.log("Uploading frontend to %s bucket", toString(environment));
+  var files = await Promises.readdir("/home/filip/development/practice-tool-rescript/frontend/out", {
+        withFileTypes: true,
+        recursive: true
+      });
+  var results = await Promise.all(Core__Array.filterMap(files, (function (file) {
+                    if (file.isDirectory()) {
+                      return ;
+                    } else {
+                      return file.parentPath + "/" + file.name;
+                    }
+                  })).map(async function (filePath) {
+                var body = await Promises.readFile(filePath);
+                return {
+                        Bucket: bucket,
+                        Key: filePath.substring(filePath.indexOf("/out") + 5 | 0),
+                        Body: body
+                      };
+              }).map(async function (params) {
+              var params$1 = await params;
+              return new LibStorage.Upload({
+                          client: new ClientS3.S3Client({}),
+                          params: params$1,
+                          queueSize: 3
+                        });
+            }).map(async function (upload) {
+            var upload$1 = await upload;
+            return await upload$1.done();
+          }));
+  console.log("%d files successfully uploaded to %s bucket", results.length, toString(environment));
 }
 
 exports.Environment = Environment;
 exports.getBucket = getBucket;
 exports.ls = ls;
 exports.rm = rm;
-/* @aws-sdk/client-s3 Not a pure module */
+exports.cp = cp;
+/* fs/promises Not a pure module */

@@ -10,7 +10,10 @@
     "test": "jest",
     "test:watch": "jest --watchAll",
     "aws:ls:dev": "node ./script/lib/js/aws/Aws_Ls_Dev.res.js",
-    "aws:rm:dev": "node ./script/lib/js/aws/Aws_Rm_Dev.res.js"
+    "aws:rm:dev": "node ./script/lib/js/aws/Aws_Rm_Dev.res.js",
+    "aws:cp:dev": "node ./script/lib/js/aws/Aws_Cp_Dev.res.js",
+    "aws:ls:prod": "node ./script/lib/js/aws/Aws_Ls_Prod.res.js",
+    "fs": "node ./script/readFiles.js"
   },
   "dependencies": {
     "@dck/restorative": "^1.1.0",
