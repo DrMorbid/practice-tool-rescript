@@ -95,9 +95,15 @@ async function cp(environment) {
   console.log("%d files successfully uploaded to %s bucket", results.length, toString(environment));
 }
 
+var basePath = "/home/filip/development/practice-tool-rescript/frontend";
+
+var dotEnvFilePath = basePath + "/.env";
+
 exports.Environment = Environment;
 exports.getBucket = getBucket;
 exports.ls = ls;
 exports.rm = rm;
 exports.cp = cp;
+exports.basePath = basePath;
+exports.dotEnvFilePath = dotEnvFilePath;
 /* mime-types Not a pure module */

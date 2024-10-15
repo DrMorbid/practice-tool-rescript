@@ -110,3 +110,6 @@ let cp = async environment => {
     environment->Environment.toString,
   )
 }
+
+let basePath = "/home/filip/development/practice-tool-rescript/frontend"
+let dotEnvFilePath = `${basePath}/.env`

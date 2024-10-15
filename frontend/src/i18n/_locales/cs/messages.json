@@ -13,7 +13,7 @@
     },
     "275226d4-b668-4736-a5e8-091d53b19ca7": {
         "message": "",
-        "description": "Manage page - error title - could not load projects"
+        "description": "Project - error title - could not load projects"
     },
     "29c9a002-5ff0-44d1-a630-a331c9be4db5": {
         "message": "",
@@ -39,6 +39,10 @@
         "message": "",
         "description": "Message - field: slow tempo"
     },
+    "5d5e8bc8-65aa-4c4d-870d-e1dec40c84c8": {
+        "message": "",
+        "description": "Session - success title - session saved successfully"
+    },
     "68bd7e01-8aa2-42e0-b757-2729fb3f301c": {
         "message": "",
         "description": "Project - field: name"
@@ -59,6 +63,10 @@
         "message": "",
         "description": "Manage page - create exercise dialog - header"
     },
+    "8b68775d-e463-4bf3-ac2b-2df904f3722a": {
+        "message": "",
+        "description": "Button label - next"
+    },
     "9599952f-8f1b-416d-b069-b5035cd20ed9": {
         "message": "",
         "description": "Project - field: exercises"
@@ -66,6 +74,10 @@
     "9961ec3c-1c9b-4ae9-a8cc-dd3607979af5": {
         "message": "",
         "description": "Practice session - field: project name selection"
+    },
+    "a4f0786b-4531-4456-860c-a692aeca71f9": {
+        "message": "",
+        "description": "Practice overview page - error title - could not load exercises to practice"
     },
     "a5833281-e9cd-4231-926d-ae41b9116487": {
         "message": "",
@@ -107,6 +119,10 @@
         "message": "",
         "description": "Manage page - create project section - header"
     },
+    "e71f2311-383c-4c2a-8edf-7ec725e65323": {
+        "message": "",
+        "description": "Practice session overview page - header"
+    },
     "ec7b8b06-dc31-474f-8cc5-eae538691754": {
         "message": "",
         "description": "Snackbar alert - title - success"
@@ -118,5 +134,9 @@
     "fb594005-a3f0-4b4a-bd34-8d9084d9da5a": {
         "message": "",
         "description": "Practice session - field: exercise count selection"
+    },
+    "fd2c0e89-0d3f-4692-880a-a108a7d71e8b": {
+        "message": "",
+        "description": "Button label - back"
     }
 }

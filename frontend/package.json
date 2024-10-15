@@ -6,9 +6,13 @@
     "res:dev": "rescript clean && rescript build -w",
     "dev": "next dev",
     "intl": "node ./script/intlExtractor.js",
+    "prepare:dev": "node ./script/lib/js/aws/Aws_PrepareBuild_Dev.res.js",
+    "prepare:prod": "node ./script/lib/js/aws/Aws_PrepareBuild_Prod.res.js",
     "build": "next build",
     "deploy:dev": "node ./script/lib/js/aws/Aws_Deploy_Dev.res.js",
     "deploy:prod": "node ./script/lib/js/aws/Aws_Deploy_Prod.res.js",
+    "deploy:dev:complete": "yarn res:build && yarn intl && yarn prepare:dev && yarn build && yarn deploy:dev",
+    "deploy:prod:complete": "yarn res:build && yarn intl && yarn prepare:prod && yarn build && yarn deploy:prod",
     "test": "jest",
     "test:watch": "jest --watchAll"
   },

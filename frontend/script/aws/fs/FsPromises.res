@@ -16,3 +16,6 @@ external readdir: (string, ~options: options=?) => promise<array<dirent>> = "rea
 @send external isDirectory: dirent => bool = "isDirectory"
 
 @module("fs/promises") external readFile: string => promise<buffer> = "readFile"
+
+@module("fs/promises")
+external copyFile: (~source: string, ~destination: string) => promise<unit> = "copyFile"
