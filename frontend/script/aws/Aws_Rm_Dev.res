@@ -1,3 +1,3 @@
 open Aws_Common
 
-Development->rm->ignore
+rm(Development)->ignore

@@ -1,6 +1,5 @@
 open Aws_Common
 
-Production
-->ls
+ls(Production)
 ->Promise.thenResolve(files => files->Array.forEach(file => Console.log(file)))
 ->ignore

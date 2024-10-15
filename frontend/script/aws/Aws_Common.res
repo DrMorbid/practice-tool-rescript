@@ -84,6 +84,7 @@ let cp = async environment => {
           bucket,
           key: filePath->String.substringToEnd(~start=filePath->String.indexOf("/out") + 5),
           body,
+          contentType: filePath->Mime.lookup->Nullable.toOption->Option.getOr(""),
         }: Aws_Binding.Upload.params
       )
     })

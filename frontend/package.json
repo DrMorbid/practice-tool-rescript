@@ -5,15 +5,12 @@
     "res:build": "rescript clean && rescript",
     "res:dev": "rescript clean && rescript build -w",
     "dev": "next dev",
+    "intl": "node ./script/intlExtractor.js",
     "build": "next build",
-    "intl:extract-messages": "node ./script/intlExtractor.js",
+    "deploy:dev": "node ./script/lib/js/aws/Aws_Deploy_Dev.res.js",
+    "deploy:prod": "node ./script/lib/js/aws/Aws_Deploy_Prod.res.js",
     "test": "jest",
-    "test:watch": "jest --watchAll",
-    "aws:ls:dev": "node ./script/lib/js/aws/Aws_Ls_Dev.res.js",
-    "aws:rm:dev": "node ./script/lib/js/aws/Aws_Rm_Dev.res.js",
-    "aws:cp:dev": "node ./script/lib/js/aws/Aws_Cp_Dev.res.js",
-    "aws:ls:prod": "node ./script/lib/js/aws/Aws_Ls_Prod.res.js",
-    "fs": "node ./script/readFiles.js"
+    "test:watch": "jest --watchAll"
   },
   "dependencies": {
     "@dck/restorative": "^1.1.0",

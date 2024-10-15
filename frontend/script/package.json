@@ -9,6 +9,7 @@
     "@aws-sdk/client-s3": "^3.670.0",
     "@aws-sdk/lib-storage": "^3.670.0",
     "@rescript/core": "^1.6.0",
+    "mime-types": "^2.1.35",
     "rescript": "^11.1.4"
   }
 }

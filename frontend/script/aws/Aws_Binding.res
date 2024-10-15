@@ -43,6 +43,7 @@ module Upload = {
     @as("Bucket") bucket: string,
     @as("Key") key: string,
     @as("Body") body: FsPromises.buffer,
+    @as("ContentType") contentType: string,
   }
   type options = {
     client: Client.t,
