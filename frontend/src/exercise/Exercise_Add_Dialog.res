@@ -1,5 +1,16 @@
 module Form = Exercise_Add_Dialog_Form
 
+let renderTitle = (exercise, ~intl) =>
+  <Mui.DialogTitle>
+    {intl
+    ->ReactIntl.Intl.formatMessage(
+      exercise->Option.isSome
+        ? Message.Manage.editExerciseTitle
+        : Message.Manage.createExerciseTitle,
+    )
+    ->Jsx.string}
+  </Mui.DialogTitle>
+
 @react.component
 let make = (
   ~isOpen as open_,
@@ -79,15 +90,11 @@ let make = (
           <Mui.IconButton onClick={_ => onClose()} color={Inherit}>
             <Icon.Close />
           </Mui.IconButton>
-          <Mui.DialogTitle>
-            {intl->ReactIntl.Intl.formatMessage(Message.Manage.createExerciseTitle)->Jsx.string}
-          </Mui.DialogTitle>
+          {renderTitle(exercise, ~intl)}
         </Mui.Toolbar>
       </Mui.AppBar>
     } else {
-      <Mui.DialogTitle>
-        {intl->ReactIntl.Intl.formatMessage(Message.Manage.createExerciseTitle)->Jsx.string}
-      </Mui.DialogTitle>
+      {renderTitle(exercise, ~intl)}
     }}
     <Mui.DialogContent>
       <Page alignContent={Stretch} justifyItems=?{smDown ? Some("stretch") : None}>

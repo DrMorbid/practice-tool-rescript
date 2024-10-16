@@ -2,27 +2,21 @@ module Classes = {
   let container = (~spaceOnTop, ~spaceOnBottom, ~justifyItems) => {
     let applyPadding = theme => theme->MuiSpacingFix.spacing(3)
 
-    Mui.Sx.array(
-      [ReactDOM.Style.make(~justifyItems, ())->MuiStyles.styleToSxArray]
-      ->Array.concat(App_Theme.Classes.maxHeight)
-      ->Array.concat(
-        spaceOnTop
-          ? [
-              Mui.Sx.Array.func(theme =>
-                Mui.Sx.Array.obj({paddingTop: String(theme->applyPadding)})
-              ),
-            ]
-          : [],
-      )
-      ->Array.concat(
-        spaceOnBottom
-          ? [
-              Mui.Sx.Array.func(theme =>
-                Mui.Sx.Array.obj({paddingBottom: String(theme->applyPadding)})
-              ),
-            ]
-          : [],
-      ),
+    [ReactDOM.Style.make(~justifyItems, ())->MuiStyles.styleToSxArray]
+    ->Array.concat(App_Theme.Classes.maxHeight)
+    ->Array.concat(
+      spaceOnTop
+        ? [Mui.Sx.Array.func(theme => Mui.Sx.Array.obj({paddingTop: String(theme->applyPadding)}))]
+        : [],
+    )
+    ->Array.concat(
+      spaceOnBottom
+        ? [
+            Mui.Sx.Array.func(theme =>
+              Mui.Sx.Array.obj({paddingBottom: String(theme->applyPadding)})
+            ),
+          ]
+        : [],
     )
   }
 }
@@ -35,13 +29,16 @@ let make = (
   ~spaceOnTop=false,
   ~spaceOnBottom=false,
   ~pageRef=?,
+  ~sx=?,
   ~children,
 ) => {
   <Mui.Box
     display={String("grid")}
     ?gridAutoRows
     alignContent
-    sx={Classes.container(~spaceOnTop, ~spaceOnBottom, ~justifyItems)}
+    sx={Classes.container(~spaceOnTop, ~spaceOnBottom, ~justifyItems)
+    ->Array.concat(sx->Option.getOr([]))
+    ->Mui.Sx.array}
     ref=?{pageRef->Option.map(ReactDOM.Ref.domRef)}>
     {children}
   </Mui.Box>

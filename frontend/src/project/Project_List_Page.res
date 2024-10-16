@@ -7,27 +7,35 @@ module ListWrapper = {
   let make = (~children) => {
     let smDown = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.smDown)
 
-    <Mui.List
-      component={Mui.OverridableComponent.componentWithUnknownProps(component =>
-        if smDown {
-          <Mui.Box {...component} />
+    <Page
+      alignContent={Start}
+      spaceOnTop=true
+      spaceOnBottom=true
+      justifyItems="stretch"
+      sx={App_Theme.Classes.itemGaps}>
+      <PageHeader message=Message.Project.projects />
+      <Mui.List
+        component={Mui.OverridableComponent.componentWithUnknownProps(component =>
+          if smDown {
+            <Mui.Box {...component} />
+          } else {
+            <Mui.Box
+              {...component}
+              display={String("grid")}
+              gridAutoRows={String("max-content")}
+              gridTemplateColumns={String("1fr 1fr")}
+              alignItems={String("baseline")}
+            />
+          }
+        )}
+        sx=?{if smDown {
+          None
         } else {
-          <Mui.Box
-            {...component}
-            display={String("grid")}
-            gridAutoRows={String("max-content")}
-            gridTemplateColumns={String("1fr 1fr")}
-            alignItems={String("baseline")}
-          />
-        }
-      )}
-      sx=?{if smDown {
-        None
-      } else {
-        Some(Classes.listSmUp)
-      }}>
-      {children}
-    </Mui.List>
+          Some(Classes.listSmUp)
+        }}>
+        {children}
+      </Mui.List>
+    </Page>
   }
 }
 

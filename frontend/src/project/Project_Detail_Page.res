@@ -224,7 +224,11 @@ let default = () => {
     )
     ->Option.getOr(Jsx.null)}
     <Common.Form
-      header={<PageHeader message=Message.Manage.createProjectTitle />}
+      header={<PageHeader
+        message={selectedProjectForManagement->Option.isSome
+          ? Message.Manage.editProjectTitle
+          : Message.Manage.createProjectTitle}
+      />}
       gridTemplateRows="auto 1fr auto"
       onSubmit={form->Form.Content.handleSubmit((project, _event) => onSubmit(project))}
       onCancel

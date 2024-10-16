@@ -2,6 +2,13 @@ open ReactIntl
 
 @@intl.messages
 
+let projects =
+  @intl.description("Project - title of the projects manage page")
+  {
+    id: "2903cc2e-f7b1-4313-9447-065b778bc114",
+    defaultMessage: "Projects",
+  }
+
 let name =
   @intl.description("Project - field: name")
   {
