@@ -15,6 +15,10 @@
         "message": "Could not load projects",
         "description": "Project - error title - could not load projects"
     },
+    "2903cc2e-f7b1-4313-9447-065b778bc114": {
+        "message": "Projects",
+        "description": "Project - title of the projects manage page"
+    },
     "29c9a002-5ff0-44d1-a630-a331c9be4db5": {
         "message": "Cancel",
         "description": "Button label - cancel"
@@ -95,6 +99,10 @@
         "message": "Could not delete the project",
         "description": "Project - error title - could not delete a project"
     },
+    "bb0e1b89-ea0a-44d1-80ae-234ec104e763": {
+        "message": "Edit an exercise",
+        "description": "Manage page - edit exercise dialog - header"
+    },
     "bbb6abaf-0664-435a-a4cc-1046b0d01e95": {
         "message": "Important announcement",
         "description": "Snackbar alert - title - info"
@@ -138,5 +146,9 @@
     "fd2c0e89-0d3f-4692-880a-a108a7d71e8b": {
         "message": "Back",
         "description": "Button label - back"
+    },
+    "ffe96b4f-8260-4f48-b7bd-34b691eeab08": {
+        "message": "Edit a project",
+        "description": "Manage page - edit project section - header"
     }
 }

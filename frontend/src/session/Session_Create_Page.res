@@ -92,6 +92,22 @@ let default = () => {
       autoHideDuration=5_000
       onClose={() => Store.dispatch(ResetProcessFinishedSuccessfullyMessage)}
     />
+    <Snackbar
+      isOpen={projects
+      ->Util.Fetch.Response.mapSuccess(projects => projects->Array.length == 0)
+      ->Util.Fetch.Response.toOption
+      ->Option.getOr(false)}
+      severity={Warning}
+      title={Message(Message.Session.noProjects)}
+    />
+    <Snackbar
+      isOpen={projects
+      ->Util.Fetch.Response.mapSuccess(projects => projects->getExercisesCount->Array.length == 0)
+      ->Util.Fetch.Response.toOption
+      ->Option.getOr(false)}
+      severity={Warning}
+      title={Message(Message.Session.noExercises)}
+    />
     {switch projects {
     | NotStarted => Jsx.null
     | Pending =>
@@ -126,6 +142,7 @@ let default = () => {
               ~intl,
               ~projectNames={projects->Array.map(({name}) => name)},
               ~onChange=onProjectNameChange,
+              ~disabled={projects->Array.length == 0},
             )}
             {form->Form.Input.renderExerciseCount(
               ~intl,

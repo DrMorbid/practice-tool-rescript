@@ -101,6 +101,7 @@ let make = (
         <Common.Form
           header=Jsx.null
           gridTemplateRows="auto auto auto auto 1fr auto"
+          submitButtonLabel={Message.Button.add}
           onSubmit={form->Form.Content.handleSubmit((exercise, _event) => onSubmit(exercise))}
           onCancel>
           {form->Form.Input.renderName(~intl)}

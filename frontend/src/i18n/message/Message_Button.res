@@ -29,3 +29,10 @@ let back =
     id: "fd2c0e89-0d3f-4692-880a-a108a7d71e8b",
     defaultMessage: "Back",
   }
+
+let add =
+  @intl.description("Button label - add")
+  {
+    id: "9c9828a8-bfc5-46a6-ad5d-cc243e2ccf17",
+    defaultMessage: "Add",
+  }

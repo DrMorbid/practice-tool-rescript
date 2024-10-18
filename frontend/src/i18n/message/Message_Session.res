@@ -52,3 +52,17 @@ let sessionSavedSuccessfully =
     id: "5d5e8bc8-65aa-4c4d-870d-e1dec40c84c8",
     defaultMessage: "Session saved",
   }
+
+let noProjects =
+  @intl.description("Session - warning alert - no projects to practice")
+  {
+    id: "567c204d-9468-4dff-964c-7166fc14453d",
+    defaultMessage: "There are no projects to practice. Go to the \"Manage\" section and create some.",
+  }
+
+let noExercises =
+  @intl.description("Session - warning alert - no exercises to practice")
+  {
+    id: "29be5cd3-e5ae-4a62-ae2f-48ddde2b5713",
+    defaultMessage: "There in not enough exercises to practice. Go to the \"Manage\" section and create some.",
+  }

@@ -16,13 +16,14 @@ module Input = {
     })
   })
 
-  let renderProjectName = (~intl, ~projectNames, ~onChange, form) =>
+  let renderProjectName = (~disabled=false, ~intl, ~projectNames, ~onChange, form) =>
     form->ProjectName.renderWithRegister(
       <Mui.FormControl>
         <Mui.InputLabel htmlFor="project-name-selection">
           {intl->ReactIntl.Intl.formatMessage(Message.Session.projectName)->Jsx.string}
         </Mui.InputLabel>
-        <Mui.NativeSelect inputProps={name: "projectName", id: "project-name-selection"} onChange>
+        <Mui.NativeSelect
+          inputProps={name: "projectName", id: "project-name-selection"} onChange disabled>
           {projectNames
           ->Array.mapWithIndex((projectName, index) =>
             <option value=projectName key={`project-name-selection-${index->Int.toString}`}>
