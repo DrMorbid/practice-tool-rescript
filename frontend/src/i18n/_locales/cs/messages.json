@@ -19,6 +19,10 @@
         "message": "",
         "description": "Project - title of the projects manage page"
     },
+    "29be5cd3-e5ae-4a62-ae2f-48ddde2b5713": {
+        "message": "",
+        "description": "Session - warning alert - no exercises to practice"
+    },
     "29c9a002-5ff0-44d1-a630-a331c9be4db5": {
         "message": "",
         "description": "Button label - cancel"
@@ -38,6 +42,10 @@
     "3951d0b9-1865-4733-952e-bdcb46a87289": {
         "message": "",
         "description": "Home page - the welcome text"
+    },
+    "567c204d-9468-4dff-964c-7166fc14453d": {
+        "message": "",
+        "description": "Session - warning alert - no projects to practice"
     },
     "5791b606-2e73-4c71-9b7c-f3b1426009e8": {
         "message": "",
@@ -78,6 +86,10 @@
     "9961ec3c-1c9b-4ae9-a8cc-dd3607979af5": {
         "message": "",
         "description": "Practice session - field: project name selection"
+    },
+    "9c9828a8-bfc5-46a6-ad5d-cc243e2ccf17": {
+        "message": "",
+        "description": "Button label - add"
     },
     "a4f0786b-4531-4456-860c-a692aeca71f9": {
         "message": "",

@@ -16,7 +16,7 @@ let make = (~menuRef) => {
       ->Array.mapWithIndex(({label, icon, route}, index) =>
         <Mui.ListItem key={`menu-item-${index->Int.toString}`}>
           <Mui.ListItemButton
-            selected={index == activeItem->Option.getOr(0) ? true : false}
+            selected=?{activeItem->Option.map(activeItem => activeItem == index)}
             onClick={onClick(route, index, _)}>
             <Mui.ListItemIcon> icon </Mui.ListItemIcon>
             <Mui.ListItemText primary={intl->ReactIntl.Intl.formatMessage(label)->Jsx.string} />
