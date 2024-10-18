@@ -1,166 +1,166 @@
 {
     "13a33a8f-200b-4677-807f-8495594c8733": {
-        "message": "",
+        "message": "Projekt {projectName} uložen",
         "description": "Project - success title - project saved successfully"
     },
     "168394c0-94ea-4797-acd2-3c67574dc8ac": {
-        "message": "",
+        "message": "Nejvyšší priorita",
         "description": "Message - field: top priority"
     },
     "1e34c39f-e95e-484f-9e9d-fda158f8cab6": {
-        "message": "",
+        "message": "Operace selhala",
         "description": "Snackbar alert - title - error"
     },
     "275226d4-b668-4736-a5e8-091d53b19ca7": {
-        "message": "",
+        "message": "Nelze načíst projekty",
         "description": "Project - error title - could not load projects"
     },
     "2903cc2e-f7b1-4313-9447-065b778bc114": {
-        "message": "",
+        "message": "Projekty",
         "description": "Project - title of the projects manage page"
     },
     "29be5cd3-e5ae-4a62-ae2f-48ddde2b5713": {
-        "message": "",
+        "message": "Není dostatek cvičení k procvičení. Přejděte do sekce „Spravovat“ a vytvořte si nějaké.",
         "description": "Session - warning alert - no exercises to practice"
     },
     "29c9a002-5ff0-44d1-a630-a331c9be4db5": {
-        "message": "",
+        "message": "Zrušit",
         "description": "Button label - cancel"
     },
     "2d5ed12d-12d1-49f7-959e-fb553cea149b": {
-        "message": "",
+        "message": "Cvičit",
         "description": "Main menu - the Practice button"
     },
     "2da32407-1777-49e1-b921-69581f50d59d": {
-        "message": "",
+        "message": "Aktivní",
         "description": "Project - field: active"
     },
     "385321bf-8b66-4ea1-8c79-7df3bbd5afbc": {
-        "message": "",
+        "message": "Spravovat",
         "description": "Main menu - the Manage button"
     },
     "3951d0b9-1865-4733-952e-bdcb46a87289": {
-        "message": "",
+        "message": "Vítejte v Practice Tool",
         "description": "Home page - the welcome text"
     },
     "567c204d-9468-4dff-964c-7166fc14453d": {
-        "message": "",
+        "message": "Neexistují žádné projekty k procvičování. Přejděte do sekce „Spravovat“ a nějaké si vytvořte.",
         "description": "Session - warning alert - no projects to practice"
     },
     "5791b606-2e73-4c71-9b7c-f3b1426009e8": {
-        "message": "",
+        "message": "Pomalé Tempo",
         "description": "Message - field: slow tempo"
     },
     "5d5e8bc8-65aa-4c4d-870d-e1dec40c84c8": {
-        "message": "",
+        "message": "Relace uložena",
         "description": "Session - success title - session saved successfully"
     },
     "68bd7e01-8aa2-42e0-b757-2729fb3f301c": {
-        "message": "",
+        "message": "Jméno",
         "description": "Project - field: name"
     },
     "6d3cea0f-8f33-4baf-bb82-3c4e4a906b04": {
-        "message": "",
+        "message": "Domů",
         "description": "Main menu - the Home button"
     },
     "73a9a36b-fec7-4d62-bc05-a5c76a754002": {
-        "message": "",
+        "message": "Jméno",
         "description": "Message - field: name"
     },
     "7939528c-703a-469d-a0d5-eee3a5389cbd": {
-        "message": "",
+        "message": "Varování",
         "description": "Snackbar alert - title - warning"
     },
     "8a807ced-8e83-4839-a25e-f3c69664b6d8": {
-        "message": "",
+        "message": "Vytvoření cvičení",
         "description": "Manage page - create exercise dialog - header"
     },
     "8b68775d-e463-4bf3-ac2b-2df904f3722a": {
-        "message": "",
+        "message": "Další",
         "description": "Button label - next"
     },
     "9599952f-8f1b-416d-b069-b5035cd20ed9": {
-        "message": "",
+        "message": "Cvičení",
         "description": "Project - field: exercises"
     },
     "9961ec3c-1c9b-4ae9-a8cc-dd3607979af5": {
-        "message": "",
+        "message": "Jméno projektu",
         "description": "Practice session - field: project name selection"
     },
     "9c9828a8-bfc5-46a6-ad5d-cc243e2ccf17": {
-        "message": "",
+        "message": "Přidat",
         "description": "Button label - add"
     },
     "a4f0786b-4531-4456-860c-a692aeca71f9": {
-        "message": "",
+        "message": "Nelze načíst cvičení k procvičení",
         "description": "Practice overview page - error title - could not load exercises to practice"
     },
     "a5833281-e9cd-4231-926d-ae41b9116487": {
-        "message": "",
+        "message": "Tento projekt obsahuje {count, plural, one {# cvičení o nejvyšší prioritě} two {# cvičení o nejvyšší prioritě} few {# cvičení o nejvyšší prioritě} many {# cvičení o nejvyšší prioritě} other {# cvičení o nejvyšší prioritě}}.",
         "description": "Practice session - info card - how many top priority exercises this project contains"
     },
     "a5f98475-54c7-4977-bee4-c97379882b2b": {
-        "message": "",
+        "message": "Přihlásit se",
         "description": "Home page - the Sign In button"
     },
     "b380aa54-e021-46fc-ad27-d30186a6e326": {
-        "message": "",
+        "message": "Projekt se nepodařilo uložit",
         "description": "Project - error title - could not save a project"
     },
     "b7b9555f-15be-40c3-8ef1-027cb59d00f4": {
-        "message": "",
+        "message": "Projekt se nepodařilo odstranit",
         "description": "Project - error title - could not delete a project"
     },
     "bb0e1b89-ea0a-44d1-80ae-234ec104e763": {
-        "message": "",
+        "message": "Úprava cvičení",
         "description": "Manage page - edit exercise dialog - header"
     },
     "bbb6abaf-0664-435a-a4cc-1046b0d01e95": {
-        "message": "",
+        "message": "Důležité oznámení",
         "description": "Snackbar alert - title - info"
     },
     "bcebc4a4-0cbd-4e35-91d8-d2e46d9bf09a": {
-        "message": "",
+        "message": "Projekt {projectName} odstraněn",
         "description": "Project - success title - project deleted successfully"
     },
     "ce65c783-7dd4-4489-b497-5575659c0050": {
-        "message": "",
+        "message": "Rychlé Tempo",
         "description": "Message - field: fast tempo"
     },
     "d22bdc2a-0d4a-4c45-97d6-ac1713c72c6e": {
-        "message": "",
+        "message": "Aktivní",
         "description": "Message - field: active"
     },
     "d3c0fd82-1ce9-4fe9-b5f9-0c3709bd8b75": {
-        "message": "",
+        "message": "Uložit",
         "description": "Button label - save"
     },
     "d82b3bdd-d062-4969-a6bb-3caf93bd9d87": {
-        "message": "",
+        "message": "Vytvoření projektu",
         "description": "Manage page - create project section - header"
     },
     "e71f2311-383c-4c2a-8edf-7ec725e65323": {
-        "message": "",
+        "message": "Začněte cvičit",
         "description": "Practice session overview page - header"
     },
     "ec7b8b06-dc31-474f-8cc5-eae538691754": {
-        "message": "",
+        "message": "Operace byla úspěšná",
         "description": "Snackbar alert - title - success"
     },
     "f0ca41a4-5b89-4cdf-9534-fdb447062bca": {
-        "message": "",
+        "message": "Výběr projektu",
         "description": "Practice session configuration page - header"
     },
     "fb594005-a3f0-4b4a-bd34-8d9084d9da5a": {
-        "message": "",
+        "message": "Cvičení",
         "description": "Practice session - field: exercise count selection"
     },
     "fd2c0e89-0d3f-4692-880a-a108a7d71e8b": {
-        "message": "",
+        "message": "Zpět",
         "description": "Button label - back"
     },
     "ffe96b4f-8260-4f48-b7bd-34b691eeab08": {
-        "message": "",
+        "message": "Úprava projektu",
         "description": "Manage page - edit project section - header"
     }
 }
