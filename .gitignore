@@ -242,3 +242,6 @@ frontend/script/lib/*
 
 # HTTP Client
 **/http-client.private.env.json
+
+# Production configuration - we are overwritting .env during every deploy and don't need it locally
+frontend/.env
