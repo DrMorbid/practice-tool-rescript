@@ -329,6 +329,7 @@ let updateProjects = async (~userId, ~saveToDb, projects) =>
               project.exercises
               ->Array.find(exercise => exercise.name == exerciseFromDB.name)
               ->Option.map(exercise => exercise.lastPracticed)
+              ->Option.orElse(exerciseFromDB.lastPracticed)
             ),
           },
         ),
