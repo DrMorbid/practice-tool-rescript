@@ -24,7 +24,6 @@ module ListWrapper = {
               display={String("grid")}
               gridAutoRows={String("max-content")}
               gridTemplateColumns={String("1fr 1fr")}
-              alignItems={String("baseline")}
             />
           }
         )}
