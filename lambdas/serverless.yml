@@ -3,6 +3,27 @@ app: practice-tool-rescript
 service: practice-tool-rescript
 frameworkVersion: "4"
 
+stages:
+  dev:
+    observability: false
+    params:
+      origins:
+        - https://dev.practice-tool.click
+        - http://localhost:3000
+  prod:
+    observability: false
+    params:
+      origins:
+        - https://www.practice-tool.click
+
+custom:
+  defaultStage: dev
+  currentStage: ${opt:stage, self:custom.defaultStage}
+  userPoolId: ${self:provider.region}_NWWCPvxRL
+  userPoolClientId: 5l72lsb5di0lrft25llng18vl0
+  tableNameProjects: ${self:service}-projects-${self:custom.currentStage}
+  tableNameHistory: ${self:service}-history-${self:custom.currentStage}
+
 provider:
   name: aws
   runtime: nodejs20.x
@@ -12,7 +33,8 @@ provider:
     TABLE_NAME_PROJECTS: ${self:custom.tableNameProjects}
     TABLE_NAME_HISTORY: ${self:custom.tableNameHistory}
   httpApi:
-    cors: true
+    cors:
+      allowedOrigins: ${param:origins}
     authorizers:
       practiceToolAuthorizer:
         type: jwt
@@ -34,20 +56,6 @@ provider:
           Action:
             - dynamodb:PutItem
           Resource: "arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:custom.tableNameHistory}"
-
-stages:
-  dev:
-    observability: false
-  prod:
-    observability: false
-
-custom:
-  defaultStage: dev
-  currentStage: ${opt:stage, self:custom.defaultStage}
-  userPoolId: ${self:provider.region}_NWWCPvxRL
-  userPoolClientId: 5l72lsb5di0lrft25llng18vl0
-  tableNameProjects: ${self:service}-projects-${self:custom.currentStage}
-  tableNameHistory: ${self:service}-history-${self:custom.currentStage}
 
 functions:
   saveProject:
