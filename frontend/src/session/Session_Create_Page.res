@@ -1,32 +1,17 @@
-open Session_Util
+open Session_Type
 
-module Form = Session_Create_Page_Form
-
-module Classes = {
-  let topPrioInfoGap =
-    [
-      Mui.Sx.Array.func(theme =>
-        ReactDOM.Style.make(
-          ~gridColumnGap=theme->MuiSpacingFix.spacing(1),
-          (),
-        )->MuiStyles.styleToSxArray
-      ),
-    ]->Mui.Sx.array
-  let topPrioInfoSpan = ReactDOM.Style.make(~gridColumnStart="span 2", ())->MuiStyles.styleToSx
-}
+module SessionSelection = Session_Create_Page_SessionSelection
 
 @react.component
 let default = () => {
   let (projects, setProjects) = React.useState(() => Util.Fetch.Response.NotStarted)
-  let (selectedProject, setSelectedProject) = React.useState(() => None)
-  let form = Form.Content.use(
-    ~config={
-      defaultValues: Form.Input.defaultValues,
-    },
-  )
+  let (
+    alreadySelectedSessions: Map.t<string, Session_Type.t>,
+    setAlreadySelectedSessions,
+  ) = React.useState(() => Map.make())
+  let (currentlySelectedSession, setCurrentlySelectedSession) = React.useState(() => None)
+  // TODO To be deleted
   let auth = ReactOidcContext.useAuth()
-  let intl = ReactIntl.useIntl()
-  let smUp = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.smUp)
   let router = Next.Navigation.useRouter()
   let processFinishedSuccessfullyMessage = Store.useStoreWithSelector(({
     ?processFinishedSuccessfullyMessage,
@@ -54,34 +39,59 @@ let default = () => {
   }, [])
 
   React.useEffect(() => {
-    projects->resetForm(~form)
+    // projects->resetForm(~form)
 
     None
   }, [projects])
 
-  let onSubmit = ({projectName, exerciseCount}: Session_Type.t) =>
-    router->Route.FrontEnd.push(~route=PracticeOverview(projectName, exerciseCount))
+  let onSubmit = ({projectName, exercisesCount}) =>
+    router->Route.FrontEnd.push(~route=PracticeOverview(projectName, exercisesCount))
 
   let onCancel = _ => {
-    projects->resetForm(~form)
-    setSelectedProject(_ => None)
+    // projects->resetForm(~form)
+    // setSelectedProject(_ => None)
+    ()
   }
 
-  let onProjectNameChange = event => {
-    let selectedProject =
-      projects->findProject(~projectName=(event->ReactEvent.Form.target)["value"])
+  let onAddClick = _ => {
+    currentlySelectedSession->Option.forEach(currentlySelectedSession => {
+      setAlreadySelectedSessions(alreadySelectedSessions =>
+        alreadySelectedSessions
+        ->Map.entries
+        ->Iterator.toArray
+        ->Array.concat([(currentlySelectedSession.projectName, currentlySelectedSession)])
+        ->Map.fromArray
+      )
 
-    selectedProject->Util.Fetch.Response.forSuccess(project => {
-      setSelectedProject(_ => project)
-
-      project->setSelectedExerciseCount(~form)
+      setCurrentlySelectedSession(_ => None)
     })
   }
 
-  let getExercisesCount = projects =>
-    selectedProject
-    ->Option.map(getExerciseCountSelection)
-    ->Option.getOr(projects->Array.get(0)->Option.map(getExerciseCountSelection)->Option.getOr([]))
+  let onValuesChanged = (session, ~projectName=?) => {
+    switch projectName {
+    | Some(projectName) =>
+      setAlreadySelectedSessions(alreadySelectedSessions =>
+        alreadySelectedSessions
+        ->Map.entries
+        ->Iterator.toArray
+        ->Array.map(((alreadySelectedProjectName, alreadySelectedSession)) =>
+          if alreadySelectedProjectName == projectName {
+            (alreadySelectedProjectName, session)
+          } else {
+            (alreadySelectedProjectName, alreadySelectedSession)
+          }
+        )
+        ->Map.fromArray
+      )
+    | None => setCurrentlySelectedSession(_ => Some(session))
+    }
+  }
+
+  Console.log3(
+    "FKR: page render: alreadySelectedSessions=%o, currentlySelectedSession=%o",
+    alreadySelectedSessions,
+    currentlySelectedSession,
+  )
 
   <>
     <Snackbar
@@ -100,14 +110,6 @@ let default = () => {
       severity={Warning}
       title={Message(Message.Session.noProjects)}
     />
-    <Snackbar
-      isOpen={projects
-      ->Util.Fetch.Response.mapSuccess(projects => projects->getExercisesCount->Array.length == 0)
-      ->Util.Fetch.Response.toOption
-      ->Option.getOr(false)}
-      severity={Warning}
-      title={Message(Message.Session.noExercises)}
-    />
     {switch projects {
     | NotStarted => Jsx.null
     | Pending =>
@@ -124,59 +126,39 @@ let default = () => {
       </Page>
     | Ok(projects) =>
       <Page alignContent={Stretch} spaceOnTop=true spaceOnBottom=true justifyItems="stretch">
-        <Common.Form
+        <Common.PageContent
           header={<PageHeader message=Message.Session.selectProjectTitle />}
           gridTemplateRows="auto 1fr auto"
-          submitButtonLabel=Message.Button.next
-          onSubmit={form->Form.Content.handleSubmit((session, _event) => onSubmit(session))}
-          onCancel
-          submitPending=false>
-          <Mui.Box
-            display={String("grid")}
-            gridTemplateColumns={String(smUp ? "1fr 1fr" : "1fr")}
-            gridTemplateRows={String(smUp ? "auto auto 1fr" : "auto auto auto 1fr")}
-            sx={App_Theme.Classes.itemGaps
-            ->Array.concat(smUp ? App_Theme.Classes.itemGapsHorizontal : [])
-            ->Mui.Sx.array}>
-            {form->Form.Input.renderProjectName(
-              ~intl,
-              ~projectNames={projects->Array.map(({name}) => name)},
-              ~onChange=onProjectNameChange,
-              ~disabled={projects->Array.length == 0},
+          primaryButtonLabel=Message.Button.next
+          onSecondary=onCancel
+          actionPending=false>
+          {alreadySelectedSessions
+          ->Map.entries
+          ->Iterator.toArray
+          ->Array.mapWithIndex(((projectName, session), index) =>
+            <SessionSelection
+              projects
+              preselectedProject=?{projects->Array.find(({name}) => projectName == name)}
+              preselectedExercisesCount={session.exercisesCount}
+              onChange={onValuesChanged(_, ~projectName)}
+              key={`session-selection-${index->Int.toString}`}
+            />
+          )
+          ->Jsx.array}
+          <SessionSelection
+            projects={projects->Array.filter(({name}) =>
+              !(alreadySelectedSessions->Map.keys->Iterator.toArray->Array.includes(name))
             )}
-            {form->Form.Input.renderExerciseCount(
-              ~intl,
-              ~exercisesCount={projects->getExercisesCount},
-              ~disabled={projects->getExercisesCount->Array.length == 0},
+            preselectedProject=?{currentlySelectedSession
+            ->Option.map(({projectName}) => projectName)
+            ->Option.flatMap(projectName => projects->Array.find(({name}) => name == projectName))}
+            preselectedExercisesCount=?{currentlySelectedSession->Option.map(({exercisesCount}) =>
+              exercisesCount
             )}
-            {if selectedProject->getTopPriorityExercisesCount(~projects) == 0 {
-              Jsx.null
-            } else {
-              <Mui.Card sx=?{smUp ? Some(Classes.topPrioInfoSpan) : None}>
-                <Mui.CardContent>
-                  <Mui.Box
-                    display={String("grid")}
-                    gridTemplateColumns={String("auto 1fr")}
-                    gridTemplateRows={String("1fr")}
-                    sx=Classes.topPrioInfoGap>
-                    <Icon.PriorityHigh />
-                    <Mui.Typography>
-                      {intl
-                      ->ReactIntl.Intl.formatMessageWithValues(
-                        Message.Session.topPriorityCountInfoCard,
-                        {
-                          "count": selectedProject->getTopPriorityExercisesCount(~projects),
-                        },
-                      )
-                      ->Jsx.string}
-                    </Mui.Typography>
-                  </Mui.Box>
-                </Mui.CardContent>
-              </Mui.Card>
-            }}
-            Jsx.null
-          </Mui.Box>
-        </Common.Form>
+            onAddClick
+            onChange={onValuesChanged(_)}
+          />
+        </Common.PageContent>
       </Page>
     | Error({message}) =>
       <Snackbar

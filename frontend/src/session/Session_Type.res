@@ -1,4 +1,4 @@
-type t = {projectName: string, exerciseCount: int}
+type t = {projectName: string, exercisesCount: int}
 
 @spice
 type toPractice = {
