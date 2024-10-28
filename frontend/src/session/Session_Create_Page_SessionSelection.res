@@ -70,10 +70,11 @@ let make = (
       )
 
     setSelectedProject(_ => selectedProject)
+    setSelectedExercisesCount(_ => None)
   }
 
   let onExercisesCountChange = event =>
-    setSelectedExercisesCount(_ => (event->ReactEvent.Form.target)["value"])
+    setSelectedExercisesCount(_ => (event->ReactEvent.Form.target)["value"]->Int.fromString)
 
   <>
     <Snackbar
