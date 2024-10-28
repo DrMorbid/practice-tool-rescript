@@ -15,6 +15,7 @@ module Classes = {
       ),
     ]->Mui.Sx.array
   let topPrioInfoSpan = ReactDOM.Style.make(~gridColumnStart="span 2", ())->MuiStyles.styleToSx
+  let removeButton = ReactDOM.Style.make(~justifyItems="end", ())->MuiStyles.styleToSx
 }
 
 let getExercisesCount = (selectedProject, ~projects) =>
@@ -29,6 +30,7 @@ let make = (
   ~preselectedProject=?,
   ~preselectedExercisesCount=?,
   ~onAddClick=?,
+  ~onRemoveClick=?,
 ) => {
   let (selectedProject, setSelectedProject) = React.useState(() => None)
   let (selectedExercisesCount, setSelectedExercisesCount) = React.useState(() => None)
@@ -86,16 +88,28 @@ let make = (
       display={String("grid")}
       gridTemplateColumns={String(smUp ? "1fr 1fr" : "1fr")}
       gridTemplateRows={String(
-        switch (smUp, onAddClick) {
-        | (false, None) => "auto auto"
-        | (false, Some(_)) => "auto auto 1fr"
-        | (true, None) => "auto"
-        | (true, Some(_)) => "auto 1fr"
+        switch (smUp, onAddClick, onRemoveClick) {
+        | (false, None, None) | (true, None, Some(_)) => "auto auto"
+        | (false, Some(_), None) => "auto auto 1fr"
+        | (true, None, None) => "auto"
+        | (true, Some(_), None) => "auto 1fr"
+        | (false, None, Some(_)) => "auto auto auto"
+        | (false, Some(_), Some(_)) => "auto auto auto 1fr"
+        | (true, Some(_), Some(_)) => "auto auto 1fr"
         },
       )}
       sx={App_Theme.Classes.itemGaps
       ->Array.concat(smUp ? App_Theme.Classes.itemGapsHorizontal : [])
       ->Mui.Sx.array}>
+      {onRemoveClick
+      ->Option.map(onClick =>
+        <Mui.Box display={String("grid")} sx=Classes.removeButton>
+          <Mui.IconButton color={Secondary} onClick>
+            <Icon.Close />
+          </Mui.IconButton>
+        </Mui.Box>
+      )
+      ->Option.getOr(Jsx.null)}
       <ProjectName
         projectNames={projects->Array.map(({name}) => name)}
         projectName=?{selectedProject->Option.map(({name}) => name)}

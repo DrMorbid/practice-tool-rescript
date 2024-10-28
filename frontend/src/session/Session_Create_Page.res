@@ -67,6 +67,23 @@ let default = () => {
     })
   }
 
+  let onRemoveClick = _ => {
+    let sessionsArray =
+      alreadySelectedSessions
+      ->Map.entries
+      ->Iterator.toArray
+
+    setCurrentlySelectedSession(_ =>
+      sessionsArray->Array.map(((_, session)) => session)->Array.last
+    )
+
+    setAlreadySelectedSessions(_ =>
+      sessionsArray
+      ->Array.slice(~start=0, ~end=alreadySelectedSessions->Map.size - 1)
+      ->Map.fromArray
+    )
+  }
+
   let onValuesChanged = (session, ~projectName=?) => {
     switch projectName {
     | Some(projectName) =>
@@ -172,6 +189,7 @@ let default = () => {
                 exercisesCount
               )}
               onAddClick
+              onRemoveClick=?{alreadySelectedSessions->Map.size == 0 ? None : Some(onRemoveClick)}
               onChange={onValuesChanged(_)}
             />
           </Mui.Box>
