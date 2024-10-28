@@ -2,11 +2,11 @@ open ReactIntl
 
 @@intl.messages
 
-let selectProjectTitle =
+let selectProjectsTitle =
   @intl.description("Practice session configuration page - header")
   {
     id: "f0ca41a4-5b89-4cdf-9534-fdb447062bca",
-    defaultMessage: "Select a project",
+    defaultMessage: "Select projects",
   }
 
 let projectName =

@@ -127,37 +127,52 @@ let default = () => {
     | Ok(projects) =>
       <Page alignContent={Stretch} spaceOnTop=true spaceOnBottom=true justifyItems="stretch">
         <Common.PageContent
-          header={<PageHeader message=Message.Session.selectProjectTitle />}
-          gridTemplateRows="auto 1fr auto"
+          header={<PageHeader message=Message.Session.selectProjectsTitle />}
+          gridTemplateRows={"auto 1fr auto"}
           primaryButtonLabel=Message.Button.next
           onSecondary=onCancel
           actionPending=false>
-          {alreadySelectedSessions
-          ->Map.entries
-          ->Iterator.toArray
-          ->Array.mapWithIndex(((projectName, session), index) =>
+          <Mui.Box
+            display={String("grid")}
+            alignContent={String("start")}
+            gridTemplateColumns={String("1fr")}
+            gridTemplateRows={String(
+              `${alreadySelectedSessions
+                ->Map.entries
+                ->Iterator.toArray
+                ->Array.map(_ => "auto")
+                ->Array.join(" ")} 1fr`,
+            )}
+            sx={App_Theme.Classes.itemGapsLg->Mui.Sx.array}>
+            {alreadySelectedSessions
+            ->Map.entries
+            ->Iterator.toArray
+            ->Array.mapWithIndex(((projectName, session), index) =>
+              <SessionSelection
+                projects
+                preselectedProject=?{projects->Array.find(({name}) => projectName == name)}
+                preselectedExercisesCount={session.exercisesCount}
+                onChange={onValuesChanged(_, ~projectName)}
+                key={`session-selection-${index->Int.toString}`}
+              />
+            )
+            ->Jsx.array}
             <SessionSelection
-              projects
-              preselectedProject=?{projects->Array.find(({name}) => projectName == name)}
-              preselectedExercisesCount={session.exercisesCount}
-              onChange={onValuesChanged(_, ~projectName)}
-              key={`session-selection-${index->Int.toString}`}
+              projects={projects->Array.filter(({name}) =>
+                !(alreadySelectedSessions->Map.keys->Iterator.toArray->Array.includes(name))
+              )}
+              preselectedProject=?{currentlySelectedSession
+              ->Option.map(({projectName}) => projectName)
+              ->Option.flatMap(projectName =>
+                projects->Array.find(({name}) => name == projectName)
+              )}
+              preselectedExercisesCount=?{currentlySelectedSession->Option.map(({exercisesCount}) =>
+                exercisesCount
+              )}
+              onAddClick
+              onChange={onValuesChanged(_)}
             />
-          )
-          ->Jsx.array}
-          <SessionSelection
-            projects={projects->Array.filter(({name}) =>
-              !(alreadySelectedSessions->Map.keys->Iterator.toArray->Array.includes(name))
-            )}
-            preselectedProject=?{currentlySelectedSession
-            ->Option.map(({projectName}) => projectName)
-            ->Option.flatMap(projectName => projects->Array.find(({name}) => name == projectName))}
-            preselectedExercisesCount=?{currentlySelectedSession->Option.map(({exercisesCount}) =>
-              exercisesCount
-            )}
-            onAddClick
-            onChange={onValuesChanged(_)}
-          />
+          </Mui.Box>
         </Common.PageContent>
       </Page>
     | Error({message}) =>

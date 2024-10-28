@@ -85,7 +85,14 @@ let make = (
     <Mui.Box
       display={String("grid")}
       gridTemplateColumns={String(smUp ? "1fr 1fr" : "1fr")}
-      gridTemplateRows={String(smUp ? "auto auto 1fr" : "auto auto auto 1fr")}
+      gridTemplateRows={String(
+        switch (smUp, onAddClick) {
+        | (false, None) => "auto auto"
+        | (false, Some(_)) => "auto auto 1fr"
+        | (true, None) => "auto"
+        | (true, Some(_)) => "auto 1fr"
+        },
+      )}
       sx={App_Theme.Classes.itemGaps
       ->Array.concat(smUp ? App_Theme.Classes.itemGapsHorizontal : [])
       ->Mui.Sx.array}>

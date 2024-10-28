@@ -9,6 +9,11 @@ let itemGaps = [
     ReactDOM.Style.make(~gridRowGap=theme->MuiSpacingFix.spacing(2), ())->MuiStyles.styleToSxArray
   ),
 ]
+let itemGapsLg = [
+  Mui.Sx.Array.func(theme =>
+    ReactDOM.Style.make(~gridRowGap=theme->MuiSpacingFix.spacing(4), ())->MuiStyles.styleToSxArray
+  ),
+]
 let itemGapsHorizontal = [
   Mui.Sx.Array.func(theme =>
     ReactDOM.Style.make(
