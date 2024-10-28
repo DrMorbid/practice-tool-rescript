@@ -86,13 +86,13 @@ let make = (
     />
     <Mui.Box
       display={String("grid")}
-      gridTemplateColumns={String(smUp ? "1fr 1fr" : "1fr")}
+      gridTemplateColumns={String("1fr")}
       gridTemplateRows={String(
         switch (smUp, onAddClick, onRemoveClick) {
         | (false, None, None) | (true, None, Some(_)) => "auto auto"
         | (false, Some(_), None) => "auto auto 1fr"
         | (true, None, None) => "auto"
-        | (true, Some(_), None) => "auto 1fr"
+        | (true, Some(_), None) => "auto auto 1fr"
         | (false, None, Some(_)) => "auto auto auto"
         | (false, Some(_), Some(_)) => "auto auto auto 1fr"
         | (true, Some(_), Some(_)) => "auto auto 1fr"
@@ -109,7 +109,7 @@ let make = (
           </Mui.IconButton>
         </Mui.Box>
       )
-      ->Option.getOr(Jsx.null)}
+      ->Option.getOr(<EmptyIconSpace />)}
       <ProjectName
         projectNames={projects->Array.map(({name}) => name)}
         projectName=?{selectedProject->Option.map(({name}) => name)}
@@ -154,7 +154,7 @@ let make = (
             <Icon.Add />
           </Mui.IconButton>
         </Mui.Box>
-      | _ => Jsx.null
+      | _ => <EmptyIconSpace />
       }}
     </Mui.Box>
   </>

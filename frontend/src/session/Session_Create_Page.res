@@ -13,6 +13,7 @@ let default = () => {
   // TODO To be deleted
   let auth = ReactOidcContext.useAuth()
   let router = Next.Navigation.useRouter()
+  let smUp = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.smUp)
   let processFinishedSuccessfullyMessage = Store.useStoreWithSelector(({
     ?processFinishedSuccessfullyMessage,
   }) => processFinishedSuccessfullyMessage)
@@ -152,7 +153,7 @@ let default = () => {
           <Mui.Box
             display={String("grid")}
             alignContent={String("start")}
-            gridTemplateColumns={String("1fr")}
+            gridTemplateColumns={String(smUp ? "1fr 1fr" : "1fr")}
             gridTemplateRows={String(
               `${alreadySelectedSessions
                 ->Map.entries
@@ -161,7 +162,7 @@ let default = () => {
                 ->Array.join(" ")} 1fr`,
             )}
             sx={[App_Theme.Classes.scrollable]
-            ->Array.concat(App_Theme.Classes.itemGapsLg)
+            ->Array.concat(App_Theme.Classes.itemGapsHorizontal)
             ->Mui.Sx.array}>
             {alreadySelectedSessions
             ->Map.entries
