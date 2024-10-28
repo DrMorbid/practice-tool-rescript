@@ -11,7 +11,7 @@ let itemGaps = [
 ]
 let itemGapsLg = [
   Mui.Sx.Array.func(theme =>
-    ReactDOM.Style.make(~gridRowGap=theme->MuiSpacingFix.spacing(4), ())->MuiStyles.styleToSxArray
+    ReactDOM.Style.make(~gridRowGap=theme->MuiSpacingFix.spacing(8), ())->MuiStyles.styleToSxArray
   ),
 ]
 let itemGapsHorizontal = [
@@ -22,3 +22,4 @@ let itemGapsHorizontal = [
     )->MuiStyles.styleToSxArray
   ),
 ]
+let scrollable = ReactDOM.Style.make(~overflow="auto", ())->MuiStyles.styleToSxArray

@@ -1,5 +1,3 @@
-open Project_Detail_Page_Classes
-
 module Content = ReactHookForm.Make({
   type t = Project_Type.t
 })
@@ -60,15 +58,7 @@ module Input = {
     let config = ReactHookForm.Rules.empty()
   })
 
-  let renderExercises = (
-    ~listRef,
-    ~onExerciseClick,
-    ~smDown,
-    ~listElementTopPosition=?,
-    ~bottomBarHeight=?,
-    ~actionButtonsHeight=?,
-    form,
-  ) =>
+  let renderExercises = (~listRef, ~onExerciseClick, ~smDown, form) =>
     <Mui.List
       component={Mui.OverridableComponent.componentWithUnknownProps(component =>
         if smDown {
@@ -83,7 +73,7 @@ module Input = {
           />
         }
       )}
-      sx={list(~listElementTopPosition?, ~bottomBarHeight?, ~actionButtonsHeight?)}
+      sx={[App_Theme.Classes.scrollable]->Mui.Sx.array}
       ref={listRef->ReactDOM.Ref.domRef}>
       {form
       ->Exercises.getValue

@@ -21,7 +21,7 @@ let make = (
           fixedHeight->Option.map(height => height->Float.toString ++ "px")->Option.getOr("100%"),
         ),
       }),
-      ReactDOM.Style.make(~overflow="auto", ())->MuiStyles.styleToSxArray,
+      App_Theme.Classes.scrollable,
     ])}>
     <Mui.Box
       display={String("grid")}

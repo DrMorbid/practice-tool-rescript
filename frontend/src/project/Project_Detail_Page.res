@@ -7,7 +7,6 @@ let default = () => {
   let (addExerciseDialogOpen, setAddExerciseDialogOpen) = React.useState(() => false)
   let (selectedExercise, setSelectedExrecise) = React.useState(() => None)
   let (selectedExerciseIndex, setSelectedExreciseIndex) = React.useState(() => None)
-  let (listElementTopPosition, setListElementTopPosition) = React.useState(() => None)
   let (pageHeight, setPageHeight) = React.useState(() => None)
   let (error, setError) = React.useState(() => None)
   let (submitPending, setSubmitPending) = React.useState(() => false)
@@ -42,17 +41,6 @@ let default = () => {
 
     None
   }, [actionButtonsRef])
-
-  React.useEffect(() => {
-    let listElement =
-      listRef.current
-      ->Nullable.toOption
-      ->Option.map(current => current->ReactDOM.domElementToObj)
-
-    setListElementTopPosition(_ => listElement->Option.map(listElement => listElement["offsetTop"]))
-
-    None
-  }, [listRef])
 
   React.useEffect(() => {
     let pageElement: option<Dom.element> = pageRef.current->Nullable.toOption
@@ -239,7 +227,7 @@ let default = () => {
         display={String("grid")}
         gridTemplateColumns={String("1fr")}
         gridTemplateRows={String("auto auto 1fr")}
-        sx={App_Theme.Classes.itemGaps->Array.concat(Classes.exercisesScrolling)->Mui.Sx.array}>
+        sx={App_Theme.Classes.itemGaps->Array.concat([App_Theme.Classes.scrollable])->Mui.Sx.array}>
         {if smDown {
           [
             form->Form.Input.renderName(~intl, ~key="project-add-form-1"),
@@ -263,14 +251,7 @@ let default = () => {
             </Mui.Box>,
           ]
         }->Jsx.array}
-        {form->Form.Input.renderExercises(
-          ~smDown,
-          ~onExerciseClick,
-          ~actionButtonsHeight?,
-          ~bottomBarHeight?,
-          ~listElementTopPosition?,
-          ~listRef,
-        )}
+        {form->Form.Input.renderExercises(~smDown, ~onExerciseClick, ~listRef)}
       </Mui.Box>
     </Common.Form>
     {actionButtonsHeight

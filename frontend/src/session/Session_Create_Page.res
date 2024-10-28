@@ -143,7 +143,9 @@ let default = () => {
                 ->Array.map(_ => "auto")
                 ->Array.join(" ")} 1fr`,
             )}
-            sx={App_Theme.Classes.itemGapsLg->Mui.Sx.array}>
+            sx={[App_Theme.Classes.scrollable]
+            ->Array.concat(App_Theme.Classes.itemGapsLg)
+            ->Mui.Sx.array}>
             {alreadySelectedSessions
             ->Map.entries
             ->Iterator.toArray
