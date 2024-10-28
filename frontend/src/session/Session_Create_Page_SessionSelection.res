@@ -133,15 +133,15 @@ let make = (
           </Mui.CardContent>
         </Mui.Card>
       }}
-      {onAddClick
-      ->Option.map(onClick =>
+      {switch onAddClick {
+      | Some(onClick) if projects->Array.length > 1 =>
         <Mui.Box>
           <Mui.IconButton color={Secondary} onClick>
             <Icon.Add />
           </Mui.IconButton>
         </Mui.Box>
-      )
-      ->Option.getOr(Jsx.null)}
+      | _ => Jsx.null
+      }}
     </Mui.Box>
   </>
 }
