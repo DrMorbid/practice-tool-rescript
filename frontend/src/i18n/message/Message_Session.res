@@ -66,3 +66,10 @@ let noExercises =
     id: "29be5cd3-e5ae-4a62-ae2f-48ddde2b5713",
     defaultMessage: "There in not enough exercises to practice. Go to the \"Manage\" section and create some.",
   }
+
+let couldNotDecodeSession =
+  @intl.description("Session - error title - problem with decoding a practice session")
+  {
+    id: "15664b94-be1e-43b8-81e9-d0aee47c90cf",
+    defaultMessage: "Could not decode a practice session",
+  }
