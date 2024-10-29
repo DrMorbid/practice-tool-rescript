@@ -17,14 +17,27 @@ let make = () => {
   let intl = ReactIntl.useIntl()
 
   React.useEffect(() => {
-    setProjectName(_ =>
-      searchParams->Next.Navigation.URLSearchParams.get("projectName")->Nullable.toOption
+    // setProjectName(_ =>
+    //   searchParams->Next.Navigation.URLSearchParams.get("projectName")->Nullable.toOption
+    // )
+    // setExerciseCount(_ =>
+    //   searchParams
+    //   ->Next.Navigation.URLSearchParams.get("exerciseCount")
+    //   ->Nullable.toOption
+    //   ->Option.flatMap(Int.fromString(_))
+    // )
+
+    searchParams
+    ->Next.Navigation.URLSearchParams.get("sessions")
+    ->Nullable.toOption
+    ->Option.map(searchParam =>
+      Spice.arrayFromJson(Session_Type.t_decode, searchParam->JSON.parseExn)
     )
-    setExerciseCount(_ =>
-      searchParams
-      ->Next.Navigation.URLSearchParams.get("exerciseCount")
-      ->Nullable.toOption
-      ->Option.flatMap(Int.fromString(_))
+    ->Option.forEach(sessions =>
+      switch sessions {
+      | Ok(sessions) => Console.log2("FKR: sessions from URL: %o", sessions)
+      | Error(error) => Console.error2("FKR: error: %o", error)
+      }
     )
 
     None

@@ -5,6 +5,7 @@ module FrontEnd = {
     | SignInRedirect
     | Practice
     | PracticeOverview(string, int)
+    | PracticeOverviewNew(array<Session_Type.t>)
     | Manage
     | ManageProjectDetail
 
@@ -16,6 +17,11 @@ module FrontEnd = {
     | Practice => "/practice"
     | PracticeOverview(projectName, exerciseCount) =>
       `/practice/overview?projectName=${projectName}&exerciseCount=${exerciseCount->Int.toString}`
+    | PracticeOverviewNew(sessions) =>
+      `/practice/overview?sessions=${Spice.arrayToJson(
+          Session_Type.t_encode,
+          sessions,
+        )->JSON.stringify}`
     | Manage => "/manage"
     | ManageProjectDetail => "/manage/projectDetail"
     }

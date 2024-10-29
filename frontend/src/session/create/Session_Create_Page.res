@@ -45,8 +45,17 @@ let default = () => {
     None
   }, [projects])
 
-  let onSubmit = ({projectName, exercisesCount}) =>
-    router->Route.FrontEnd.push(~route=PracticeOverview(projectName, exercisesCount))
+  let onSubmit = _ =>
+    router->Route.FrontEnd.push(
+      ~route=PracticeOverviewNew(
+        alreadySelectedSessions
+        ->Map.values
+        ->Iterator.toArray
+        ->Array.concat(
+          currentlySelectedSession->Option.map(session => [session])->Option.getOr([]),
+        ),
+      ),
+    )
 
   let onCancel = _ => {
     // projects->resetForm(~form)
@@ -148,6 +157,7 @@ let default = () => {
           header={<PageHeader message=Message.Session.selectProjectsTitle />}
           gridTemplateRows={"auto 1fr auto"}
           primaryButtonLabel=Message.Button.next
+          onPrimary=onSubmit
           onSecondary=onCancel
           actionPending=false>
           <Mui.Box
@@ -159,7 +169,7 @@ let default = () => {
                 ->Map.entries
                 ->Iterator.toArray
                 ->Array.map(_ => "auto")
-                ->Array.join(" ")} 1fr`,
+                ->Array.join(" ")} auto 1fr`,
             )}
             sx={[App_Theme.Classes.scrollable]
             ->Array.concat(App_Theme.Classes.itemGapsHorizontal)
