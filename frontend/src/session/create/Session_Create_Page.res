@@ -114,12 +114,6 @@ let default = () => {
     }
   }
 
-  Console.log3(
-    "FKR: page render: alreadySelectedSessions=%o, currentlySelectedSession=%o",
-    alreadySelectedSessions,
-    currentlySelectedSession,
-  )
-
   <>
     <Snackbar
       isOpen={processFinishedSuccessfullyMessage->Option.isSome}

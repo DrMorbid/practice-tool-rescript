@@ -4,6 +4,11 @@ let maxHeight = [
   }),
 ]
 let maxWidth = [Mui.Sx.Array.obj({width: String("100%")})]
+let itemGapsSm = [
+  Mui.Sx.Array.func(theme =>
+    ReactDOM.Style.make(~gridRowGap=theme->MuiSpacingFix.spacing(1), ())->MuiStyles.styleToSxArray
+  ),
+]
 let itemGaps = [
   Mui.Sx.Array.func(theme =>
     ReactDOM.Style.make(~gridRowGap=theme->MuiSpacingFix.spacing(2), ())->MuiStyles.styleToSxArray

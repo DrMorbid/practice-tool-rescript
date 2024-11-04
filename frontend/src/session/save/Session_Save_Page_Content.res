@@ -119,6 +119,11 @@ let make = () => {
 
   let onBack = _ => router->Route.FrontEnd.push(~route=Practice)
 
+  let indexOf = name =>
+    sessions
+    ->Array.map(({projectName}) => projectName)
+    ->Array.indexOf(name)
+
   <>
     {error
     ->Option.map((({message}, title)) =>
@@ -141,28 +146,42 @@ let make = () => {
           <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
         </Mui.Box>
       </Page>
-    | Ok(sessions) =>
+    | Ok(sessionsToPractice) =>
       <Page alignContent={Stretch} spaceOnTop=true spaceOnBottom=true justifyItems="stretch">
         <Common_PageContent
           onPrimary=onSave
           onSecondary=onBack
           secondaryButtonLabel=Message.Button.back
           header={<PageHeader message=Message.Session.startPracticingTitle />}
-          gridTemplateRows="auto auto 1fr auto"
+          gridTemplateRows="auto 1fr auto"
           actionPending={savePending->Array.find(savePending => savePending)->Option.isSome}>
-          {sessions
-          ->Array.map(({name, exercises, topPriorityExercises}) => <>
-            <Mui.Typography variant={H5}> {name->Jsx.string} </Mui.Typography>
-            <Mui.Grid
-              display={String("grid")}
-              alignContent={String("start")}
-              sx={App_Theme.Classes.itemGaps
-              ->Array.concat([ReactDOM.Style.make(~overflow="auto", ())->MuiStyles.styleToSxArray])
-              ->Mui.Sx.array}>
-              <ExerciseCards exercises={topPriorityExercises->List.concat(exercises)} />
-            </Mui.Grid>
-          </>)
-          ->Jsx.array}
+          <Mui.Grid
+            display={String("grid")}
+            sx={[App_Theme.Classes.scrollable]
+            ->Array.concat(App_Theme.Classes.itemGaps)
+            ->Mui.Sx.array}>
+            {sessionsToPractice
+            ->Array.toSorted(({name: name1}, {name: name2}) =>
+              name1
+              ->indexOf
+              ->Int.compare(name2->indexOf)
+            )
+            ->Array.mapWithIndex(({name, exercises, topPriorityExercises}, index) =>
+              <Mui.Grid
+                display={String("grid")}
+                sx={App_Theme.Classes.itemGapsSm->Mui.Sx.array}
+                key={`session-${index->Int.toString}`}>
+                <Mui.Typography variant={H5}> {name->Jsx.string} </Mui.Typography>
+                <Mui.Grid
+                  display={String("grid")}
+                  alignContent={String("start")}
+                  sx={App_Theme.Classes.itemGaps->Mui.Sx.array}>
+                  <ExerciseCards exercises={topPriorityExercises->List.concat(exercises)} />
+                </Mui.Grid>
+              </Mui.Grid>
+            )
+            ->Jsx.array}
+          </Mui.Grid>
         </Common_PageContent>
       </Page>
     | Error({message}) =>
