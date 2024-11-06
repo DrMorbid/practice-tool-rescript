@@ -58,9 +58,8 @@ let default = () => {
     )
 
   let onCancel = _ => {
-    // projects->resetForm(~form)
-    // setSelectedProject(_ => None)
-    ()
+    setAlreadySelectedSessions(_ => Map.make())
+    setCurrentlySelectedSession(_ => None)
   }
 
   let onAddClick = _ => {
