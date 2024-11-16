@@ -83,12 +83,14 @@ let make = (
       projectName=?{selectedProject->Option.map(({name}) => name)}
       onChange=onProjectNameChange
       disabled={projects->Array.length == 0 || onAddClick->Option.isNone}
+      key="project-name"
     />,
     <ExerciseCount
       exercisesCounts={selectedProject->getExercisesCount(~projects)}
       exercisesCount=?selectedExercisesCount
       onChange=onExercisesCountChange
       disabled={selectedProject->getExercisesCount(~projects)->Array.length == 0}
+      key="exercises-count"
     />,
   ]->wrapWithResponsiveness(~smUp)
 }

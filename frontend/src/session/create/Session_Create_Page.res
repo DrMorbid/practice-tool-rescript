@@ -10,7 +10,6 @@ let default = () => {
     setAlreadySelectedSessions,
   ) = React.useState(() => Map.make())
   let (currentlySelectedSession, setCurrentlySelectedSession) = React.useState(() => None)
-  // TODO To be deleted
   let auth = ReactOidcContext.useAuth()
   let router = Next.Navigation.useRouter()
   let smUp = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.smUp)
@@ -38,12 +37,6 @@ let default = () => {
 
     None
   }, [])
-
-  React.useEffect(() => {
-    // projects->resetForm(~form)
-
-    None
-  }, [projects])
 
   let onSubmit = _ =>
     router->Route.FrontEnd.push(

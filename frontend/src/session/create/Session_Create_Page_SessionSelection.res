@@ -75,10 +75,9 @@ let make = (
       gridTemplateColumns={String("1fr")}
       gridTemplateRows={String(
         switch (smUp, selectedProject->getTopPriorityExercisesCount(~projects)) {
-        | (false, 0) => "auto auto auto 1fr"
-        | (false, _) => "auto auto auto auto 1fr"
         | (true, 0) => "auto auto 1fr"
-        | (true, _) => "auto auto auto 1fr"
+        | (false, 0) | (true, _) => "auto auto auto 1fr"
+        | (false, _) => "auto auto auto auto 1fr"
         },
       )}
       sx={App_Theme.Classes.itemGaps->Mui.Sx.array}>
