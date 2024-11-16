@@ -161,10 +161,14 @@ let default = () => {
               `${alreadySelectedSessions
                 ->Map.entries
                 ->Iterator.toArray
+                ->Array.filterWithIndex((_, index) =>
+                  index < alreadySelectedSessions->Map.size / (smUp ? 2 : 1)
+                )
                 ->Array.map(_ => "auto")
-                ->Array.join(" ")} auto 1fr`,
+                ->Array.join(" ")} 1fr`,
             )}
             sx={[App_Theme.Classes.scrollable]
+            ->Array.concat(App_Theme.Classes.itemGaps)
             ->Array.concat(App_Theme.Classes.itemGapsHorizontal)
             ->Mui.Sx.array}>
             {alreadySelectedSessions

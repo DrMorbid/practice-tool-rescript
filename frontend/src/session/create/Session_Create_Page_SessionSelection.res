@@ -1,8 +1,7 @@
 open Session_Util
 open Session_Type
 
-module ProjectName = Session_Create_Page_ProjectName
-module ExerciseCount = Session_Create_Page_ExerciseCount
+module Form = Session_Create_Page_SessionSelection_Form
 
 module Classes = {
   let topPrioInfoGap =
@@ -65,19 +64,6 @@ let make = (
     None
   }, (selectedProject, selectedExercisesCount))
 
-  let onProjectNameChange = event => {
-    let selectedProject =
-      projects->Array.find(({name}: Project.Type.t) =>
-        name == (event->ReactEvent.Form.target)["value"]
-      )
-
-    setSelectedProject(_ => selectedProject)
-    setSelectedExercisesCount(_ => None)
-  }
-
-  let onExercisesCountChange = event =>
-    setSelectedExercisesCount(_ => (event->ReactEvent.Form.target)["value"]->Int.fromString)
-
   <>
     <Snackbar
       isOpen={selectedProject->getExercisesCount(~projects)->Array.length == 0}
@@ -88,40 +74,26 @@ let make = (
       display={String("grid")}
       gridTemplateColumns={String("1fr")}
       gridTemplateRows={String(
-        switch (smUp, onAddClick, onRemoveClick) {
-        | (false, None, None) | (true, None, Some(_)) => "auto auto"
-        | (false, Some(_), None) => "auto auto 1fr"
-        | (true, None, None) => "auto"
-        | (true, Some(_), None) => "auto auto 1fr"
-        | (false, None, Some(_)) => "auto auto auto"
-        | (false, Some(_), Some(_)) => "auto auto auto 1fr"
-        | (true, Some(_), Some(_)) => "auto auto 1fr"
+        switch (smUp, selectedProject->getTopPriorityExercisesCount(~projects)) {
+        | (false, 0) => "auto auto auto 1fr"
+        | (false, _) => "auto auto auto auto 1fr"
+        | (true, 0) => "auto auto 1fr"
+        | (true, _) => "auto auto auto 1fr"
         },
       )}
-      sx={App_Theme.Classes.itemGaps
-      ->Array.concat(smUp ? App_Theme.Classes.itemGapsHorizontal : [])
-      ->Mui.Sx.array}>
-      {onRemoveClick
-      ->Option.map(onClick =>
-        <Mui.Box display={String("grid")} sx=Classes.removeButton>
-          <Mui.IconButton color={Secondary} onClick>
-            <Icon.Close />
-          </Mui.IconButton>
-        </Mui.Box>
-      )
-      ->Option.getOr(<EmptyIconSpace />)}
-      <ProjectName
-        projectNames={projects->Array.map(({name}) => name)}
-        projectName=?{selectedProject->Option.map(({name}) => name)}
-        onChange=onProjectNameChange
-        disabled={projects->Array.length == 0 || onAddClick->Option.isNone}
-      />
-      <ExerciseCount
-        exercisesCounts={selectedProject->getExercisesCount(~projects)}
-        exercisesCount=?selectedExercisesCount
-        onChange=onExercisesCountChange
-        disabled={selectedProject->getExercisesCount(~projects)->Array.length == 0}
-      />
+      sx={App_Theme.Classes.itemGaps->Mui.Sx.array}>
+      <Mui.Box gridColumn=?{smUp ? Some(String("span 2")) : None}>
+        {onRemoveClick
+        ->Option.map(onClick =>
+          <Mui.Box display={String("grid")} sx=Classes.removeButton>
+            <Mui.IconButton color={Secondary} onClick>
+              <Icon.Close />
+            </Mui.IconButton>
+          </Mui.Box>
+        )
+        ->Option.getOr(<EmptyIconSpace dense={!smUp} />)}
+      </Mui.Box>
+      <Form projects onChange ?preselectedProject ?preselectedExercisesCount ?onAddClick />
       {if selectedProject->getTopPriorityExercisesCount(~projects) == 0 {
         Jsx.null
       } else {
@@ -147,15 +119,15 @@ let make = (
           </Mui.CardContent>
         </Mui.Card>
       }}
-      {switch onAddClick {
-      | Some(onClick) if projects->Array.length > 1 =>
-        <Mui.Box>
+      <Mui.Box gridColumn=?{smUp ? Some(String("span 2")) : None}>
+        {switch onAddClick {
+        | Some(onClick) if projects->Array.length > 1 =>
           <Mui.IconButton color={Secondary} onClick>
             <Icon.Add />
           </Mui.IconButton>
-        </Mui.Box>
-      | _ => <EmptyIconSpace />
-      }}
+        | _ => smUp ? <EmptyIconSpace /> : Jsx.null
+        }}
+      </Mui.Box>
     </Mui.Box>
   </>
 }

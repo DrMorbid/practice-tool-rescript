@@ -1,2 +1,2 @@
 @react.component
-let make = () => <Mui.Box height={String("40px")} />
+let make = (~dense=false) => <Mui.Box height={String(dense ? "8px" : "40px")} />
