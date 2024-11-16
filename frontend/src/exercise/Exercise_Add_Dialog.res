@@ -101,7 +101,11 @@ let make = (
         <Common.Form
           header=Jsx.null
           gridTemplateRows="auto auto auto auto 1fr auto"
-          submitButtonLabel={Message.Button.add}
+          submitButtonLabel={if exercise->Option.isNone {
+            Message.Button.add
+          } else {
+            Message.Button.overwrite
+          }}
           onSubmit={form->Form.Content.handleSubmit((exercise, _event) => onSubmit(exercise))}
           onCancel>
           {form->Form.Input.renderName(~intl)}

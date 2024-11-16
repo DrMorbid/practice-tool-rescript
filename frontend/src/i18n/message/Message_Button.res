@@ -36,3 +36,10 @@ let add =
     id: "9c9828a8-bfc5-46a6-ad5d-cc243e2ccf17",
     defaultMessage: "Add",
   }
+
+let overwrite =
+  @intl.description("Button label - overwrite")
+  {
+    id: "2abf4ad5-7476-4d6a-9a41-b40ccd51678d",
+    defaultMessage: "Overwrite",
+  }
