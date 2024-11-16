@@ -3,6 +3,10 @@
         "message": "Projekt {projectName} uložen",
         "description": "Project - success title - project saved successfully"
     },
+    "15664b94-be1e-43b8-81e9-d0aee47c90cf": {
+        "message": "Nelze dekódovat relaci cvičení",
+        "description": "Session - error title - problem with decoding a practice session"
+    },
     "168394c0-94ea-4797-acd2-3c67574dc8ac": {
         "message": "Nejvyšší priorita",
         "description": "Message - field: top priority"

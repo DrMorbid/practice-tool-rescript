@@ -3,6 +3,10 @@
         "message": "Project {projectName} saved",
         "description": "Project - success title - project saved successfully"
     },
+    "15664b94-be1e-43b8-81e9-d0aee47c90cf": {
+        "message": "Could not decode a practice session",
+        "description": "Session - error title - problem with decoding a practice session"
+    },
     "168394c0-94ea-4797-acd2-3c67574dc8ac": {
         "message": "Top Priority",
         "description": "Message - field: top priority"
@@ -148,7 +152,7 @@
         "description": "Snackbar alert - title - success"
     },
     "f0ca41a4-5b89-4cdf-9534-fdb447062bca": {
-        "message": "Select a project",
+        "message": "Select projects",
         "description": "Practice session configuration page - header"
     },
     "fb594005-a3f0-4b4a-bd34-8d9084d9da5a": {
