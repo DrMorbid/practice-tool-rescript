@@ -101,20 +101,39 @@ module DBDeleter = (Delete: Deletable) => {
   }
 }
 
+type additionalExpression = {
+  fieldName: string,
+  operator: string,
+  value: string,
+}
 module type Queryable = {
   type t
+
   let decode: JSON.t => result<t, Spice.decodeError>
   let tableName: string
 }
 module DBQueryCaller = (Query: Queryable) => {
-  let query = async (~userId) => {
+  let query = async (~additionalConditions: array<additionalExpression>=[], ~userId) => {
     let dbClient = makeClient()
 
     let query = makeQueryCommand({
       tableName: Query.tableName,
-      keyConditionExpression: "#userId = :userId",
-      expressionAttributeNames: [("#userId", "userId")]->Dict.fromArray,
-      expressionAttributeValues: [(":userId", userId)]->Dict.fromArray,
+      keyConditionExpression: "#userId = :userId" ++
+      additionalConditions
+      ->Array.mapWithIndex(({fieldName, operator}, index) =>
+        `${index == 0 ? " and " : ""}#${fieldName} ${operator} :${fieldName}`
+      )
+      ->Array.join(" and "),
+      expressionAttributeNames: [("#userId", "userId")]
+      ->Array.concat(
+        additionalConditions->Array.map(({fieldName}) => (`#${fieldName}`, `${fieldName}`)),
+      )
+      ->Dict.fromArray,
+      expressionAttributeValues: [(":userId", userId)]
+      ->Array.concat(
+        additionalConditions->Array.map(({fieldName, value}) => (`:${fieldName}`, `${value}`)),
+      )
+      ->Dict.fromArray,
     })
 
     Console.log3("Querying %o from DynamoDB table %s", query.input, Query.tableName)

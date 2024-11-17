@@ -15,3 +15,6 @@ exports.sessionLambdaGet = sessionLambdaGet.handler;
 
 const sessionLambdaSave = require('./src/session/Session_Lambda_Save.res.js');
 exports.sessionLambdaSave = sessionLambdaSave.handler;
+
+const historyLambdaGet = require('./src/history/History_Lambda_Get.res.js');
+exports.historyLambdaGet = historyLambdaGet.handler;

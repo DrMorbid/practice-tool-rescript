@@ -20,7 +20,7 @@ module DBKey = {
 }
 module DBDeleter = Util.DynamoDB.DBDeleter(DBKey)
 
-let handler: AWS.Lambda.handler<'a> = async event =>
+let handler: AWS.Lambda.handler<'a, 'b> = async event =>
   switch event
   ->getUser
   ->Result.flatMap(userId =>

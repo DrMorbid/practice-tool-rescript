@@ -55,6 +55,7 @@ provider:
         - Effect: Allow
           Action:
             - dynamodb:PutItem
+            - dynamodb:Query
           Resource: "arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:custom.tableNameHistory}"
 
 functions:
@@ -124,6 +125,18 @@ functions:
       - httpApi:
           path: /session
           method: POST
+          authorizer:
+            name: practiceToolAuthorizer
+            scopes:
+              - openid
+              - profile
+              - email
+  getHistory:
+    handler: index.historyLambdaGet
+    events:
+      - httpApi:
+          path: /history
+          method: GET
           authorizer:
             name: practiceToolAuthorizer
             scopes:

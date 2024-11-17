@@ -5,7 +5,7 @@ module DBKey = {
 }
 module DBDeleter = Util.DynamoDB.DBDeleter(DBKey)
 
-let handler: AWS.Lambda.handler<Project_Type.projectNamePathParam> = async event =>
+let handler: AWS.Lambda.handler<Project_Type.projectNamePathParam, 'b> = async event =>
   switch event
   ->Project_Util.getProjectTableKey
   ->Result.map(projectTableKey => projectTableKey->DBDeleter.delete) {

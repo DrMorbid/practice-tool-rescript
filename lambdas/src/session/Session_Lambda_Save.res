@@ -23,7 +23,7 @@ module DBHistoryItem = {
 }
 module DBHistorySaver = Util.DynamoDB.DBSaver(DBHistoryItem)
 
-let handler: handler<'a> = async event =>
+let handler: handler<'a, 'b> = async event =>
   switch event
   ->getUser
   ->Result.flatMap(userId =>

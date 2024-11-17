@@ -8,7 +8,7 @@ module GetProjectResponse = {
 }
 module Response = MakeBodyResponder(GetProjectResponse)
 
-let handler: AWS.Lambda.handler<Project_Type.projectNamePathParam> = async event => {
+let handler: AWS.Lambda.handler<Project_Type.projectNamePathParam, 'b> = async event => {
   switch event
   ->getProjectTableKey
   ->Result.map(async projectTableKey => {

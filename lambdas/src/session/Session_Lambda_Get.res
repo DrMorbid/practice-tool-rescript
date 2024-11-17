@@ -11,7 +11,7 @@ module GetProjectResponse = {
 }
 module Response = MakeBodyResponder(GetProjectResponse)
 
-let handler: handler<sessionConfigurationPathParam> = async event =>
+let handler: handler<sessionConfigurationPathParam, 'b> = async event =>
   switch event
   ->Session_Util.getSessionConfiguration
   ->Result.map(async ({projectTableKey, exerciseCount}) => {

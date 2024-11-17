@@ -1,7 +1,7 @@
 open Session_Type
 open AWS.Lambda
 
-let getSessionConfiguration: Event.t<sessionConfigurationPathParam> => result<
+let getSessionConfiguration: Event.t<sessionConfigurationPathParam, 'b> => result<
   practiceSessionDBRequest,
   response,
 >

@@ -14,7 +14,7 @@ module GetAllProjectsResponse = {
 }
 module Response = MakeBodyResponder(GetAllProjectsResponse)
 
-let handler: AWS.Lambda.handler<'a> = async event =>
+let handler: AWS.Lambda.handler<'a, 'b> = async event =>
   switch event
   ->getUser
   ->Result.map(async userId => {
