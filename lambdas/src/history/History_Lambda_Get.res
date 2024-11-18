@@ -1,6 +1,7 @@
 open History_Type
 open AWS.Lambda
 open Util.Lambda
+open History_Util
 
 module DBQuery = {
   type t = t
@@ -11,8 +12,8 @@ module DBQueryCaller = Util.DynamoDB.DBQueryCaller(DBQuery)
 
 module GetHistoryResponse = {
   @spice
-  type t = array<t>
-  let encode = t_encode
+  type t = historyStatistics
+  let encode = historyStatistics_encode
 }
 module Response = MakeBodyResponder(GetHistoryResponse)
 
@@ -26,7 +27,7 @@ let handler: handler<'a, historyRequest> = async event =>
         Util.DynamoDB.additionalExpression,
       > => [{fieldName: "date", operator: ">=", value: dateFrom->Date.toISOString}]),
     )
-    Ok(dbResponse)->Response.create
+    Ok(dbResponse->toHistoryResponse)->Response.create
   })
   ->Result.map(async result => {
     let result = await result

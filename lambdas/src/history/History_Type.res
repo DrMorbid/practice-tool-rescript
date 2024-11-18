@@ -7,3 +7,26 @@ type t = {
 
 @spice
 type historyRequest = {dateFrom: @spice.codec(Util.Date.SpiceCodec.date) Date.t}
+
+@spice
+type historyStatisticsByTempo = {
+  tempo: Exercise.Type.tempo,
+  practiceCount: int,
+}
+
+@spice
+type historyStatisticsByExercise = {
+  exerciseName: string,
+  practiceCount: int,
+  byTempos: array<historyStatisticsByTempo>,
+}
+
+@spice
+type historyStatisticsByProject = {
+  projectName: string,
+  practiceCount: int,
+  byExercises: array<historyStatisticsByExercise>,
+}
+
+@spice
+type historyStatistics = array<historyStatisticsByProject>
