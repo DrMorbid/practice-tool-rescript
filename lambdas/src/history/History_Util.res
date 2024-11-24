@@ -117,19 +117,17 @@ let getNotPracticedExercises = (~dateFrom=?, allProjects: array<Project.Type.t>)
   ->Array.map(({name, exercises}) => (
     name,
     exercises
-    ->Array.filter(({?lastPracticed}) => {
-      let result =
-        lastPracticed
-        ->Option.map(
-          ({date}) =>
-            dateFrom
-            ->Option.map(dateFrom => date->Date.compare(dateFrom)->Ordering.isLess)
-            ->Option.getOr(false),
-        )
-        ->Option.getOr(true)
-
-      result
-    })
+    ->Array.filter(({active, ?lastPracticed}) =>
+      active &&
+      lastPracticed
+      ->Option.map(
+        ({date}) =>
+          dateFrom
+          ->Option.map(dateFrom => date->Date.compare(dateFrom)->Ordering.isLess)
+          ->Option.getOr(false),
+      )
+      ->Option.getOr(true)
+    )
     ->Array.map(({name}) => name),
   ))
   ->Map.fromArray

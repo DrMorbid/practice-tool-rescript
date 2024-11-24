@@ -15,16 +15,12 @@
  "suffix": ".res.js",
  "bs-dependencies": [
   "@rescript/react",
-  "@rescript/core",
   "@rescript-mui/material",
   "rescript-webapi",
   "rescript-react-intl",
   "@greenlabs/ppx-spice",
   "@dck/restorative",
   "@greenlabs/rescript-react-hook-form"
- ],
- "bsc-flags": [
-  "-open RescriptCore"
  ],
  "jsx": {
   "version": 4,
