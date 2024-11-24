@@ -10,6 +10,13 @@ module DBQuery = {
 }
 module DBQueryCaller = Util.DynamoDB.DBQueryCaller(DBQuery)
 
+module ProjectsDBQuery = {
+  type t = Project.Type.t
+  let decode = Project.Type.t_decode
+  let tableName = Global.EnvVar.tableNameProjects
+}
+module ProjectsDBQueryCaller = Util.DynamoDB.DBQueryCaller(ProjectsDBQuery)
+
 module GetHistoryResponse = {
   @spice
   type t = historyStatistics
@@ -21,13 +28,23 @@ let handler: handler<'a, historyRequest> = async event =>
   switch event
   ->getUserAndQueryParams(~decode=historyRequest_decode)
   ->Result.map(async ((userId, historyRequest)) => {
-    let dbResponse = await DBQueryCaller.query(
-      ~userId,
-      ~additionalConditions=?historyRequest->Option.map(({dateFrom}): array<
-        Util.DynamoDB.additionalExpression,
-      > => [{fieldName: "date", operator: ">=", value: dateFrom->Date.toISOString}]),
-    )
-    Ok(dbResponse->toHistoryResponse)->Response.create
+    let (dbResponse, projectsDbResponse) =
+      await (
+        DBQueryCaller.query(
+          ~userId,
+          ~additionalConditions=?historyRequest->Option.map(({dateFrom}): array<
+            Util.DynamoDB.additionalExpression,
+          > => [{fieldName: "date", operator: ">=", value: dateFrom->Date.toISOString}]),
+        ),
+        ProjectsDBQueryCaller.query(~userId),
+      )->Promise.all2
+
+    Ok(
+      dbResponse->toHistoryResponse(
+        projectsDbResponse,
+        ~dateFrom=?historyRequest->Option.map(({dateFrom}) => dateFrom),
+      ),
+    )->Response.create
   })
   ->Result.map(async result => {
     let result = await result

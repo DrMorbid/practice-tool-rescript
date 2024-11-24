@@ -97,7 +97,7 @@ let exercisesMapToArray = exercisesMap =>
     exerciseName1->String.compare(exerciseName2)
   )
 
-let mapToHistoryResponse = historyItemsMap =>
+let mapToHistoryResponse = (historyItemsMap, notPracticedExercises) => {
   historyItemsMap
   ->Map.entries
   ->Iterator.toArray
@@ -105,12 +105,37 @@ let mapToHistoryResponse = historyItemsMap =>
     projectName,
     practiceCount: byExercises->exercisesMapToCount,
     byExercises: byExercises->exercisesMapToArray,
+    notPracticedExercises: notPracticedExercises->Map.get(projectName)->Option.getOr([]),
   })
   ->Array.toSorted(({projectName: projectName1}, {projectName: projectName2}) =>
     projectName1->String.compare(projectName2)
   )
+}
 
-let toHistoryResponse = historyItems =>
+let getNotPracticedExercises = (~dateFrom=?, allProjects: array<Project.Type.t>) =>
+  allProjects
+  ->Array.map(({name, exercises}) => (
+    name,
+    exercises
+    ->Array.filter(({?lastPracticed}) => {
+      let result =
+        lastPracticed
+        ->Option.map(
+          ({date}) =>
+            dateFrom
+            ->Option.map(dateFrom => date->Date.compare(dateFrom)->Ordering.isLess)
+            ->Option.getOr(false),
+        )
+        ->Option.getOr(true)
+
+      result
+    })
+    ->Array.map(({name}) => name),
+  ))
+  ->Map.fromArray
+
+let toHistoryResponse = (~dateFrom=?, historyItems, allProjects) => {
   historyItems
   ->historyItemsToMap
-  ->mapToHistoryResponse
+  ->mapToHistoryResponse(allProjects->getNotPracticedExercises(~dateFrom?))
+}

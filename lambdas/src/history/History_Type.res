@@ -26,6 +26,7 @@ type historyStatisticsByProject = {
   projectName: string,
   practiceCount: int,
   byExercises: array<historyStatisticsByExercise>,
+  notPracticedExercises: array<string>,
 }
 
 @spice
