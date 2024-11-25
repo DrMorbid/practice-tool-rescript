@@ -46,9 +46,6 @@ module BackEnd = {
     | Session => "/session"
     | SessionWithNameAndCount(projectName, exerciseCount) =>
       `/session/${projectName}/${exerciseCount->Int.toString}`
-    | History(dateFrom) => {
-        Console.log2("FKR: dateFrom=%o", dateFrom)
-        `/history?dateFrom=${dateFrom->Dayjs.utc->Dayjs.format}`
-      }
+    | History(dateFrom) => `/history?dateFrom=${dateFrom->Dayjs.utc->Dayjs.format}`
     }
 }

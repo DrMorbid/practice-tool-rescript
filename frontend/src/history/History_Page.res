@@ -32,7 +32,6 @@ let default = () => {
     None
   }, [selectedDate])
 
-  Console.log2("FKR: loaded history: historyStatistics=%o", historyStatistics)
   <>
     <Snackbar
       isOpen={historyStatistics->Util.Fetch.Response.isError}
