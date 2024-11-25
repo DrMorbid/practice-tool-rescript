@@ -28,3 +28,9 @@ let toOption = response =>
   | Ok(response) => Some(response)
   | NotStarted | Pending | Error(_) => None
   }
+
+let errorToOption = response =>
+  switch response {
+  | Error(error) => Some(error)
+  | NotStarted | Pending | Ok(_) => None
+  }

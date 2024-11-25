@@ -4,6 +4,12 @@ external dictToState: Dict.t<string> => Webapi.Dom.History.state = "%identity"
 
 @react.component
 let make = (~children) => {
+  React.useEffect(() => {
+    Dayjs.dayjs->Dayjs.extend(Dayjs.utcPlugin)
+
+    None
+  }, [])
+
   let prefersDarkMode = Mui.Core.useMediaQueryString(App_Theme.darkModeMediaQuery)
 
   let onSigninCallback = _ => {
@@ -31,9 +37,11 @@ let make = (~children) => {
           redirect_uri=EnvVar.cognitoRedirectUrl
           scope="openid profile email"
           onSigninCallback>
-          <main>
-            <App> {children} </App>
-          </main>
+          <MuiX.LocalizationProvider dateAdapter=MuiX.adapterDayjs>
+            <main>
+              <App> {children} </App>
+            </main>
+          </MuiX.LocalizationProvider>
         </ReactOidcContext.AuthProvider>
       </Mui.ThemeProvider>
     </MuiNext.AppRouterCacheProvider>

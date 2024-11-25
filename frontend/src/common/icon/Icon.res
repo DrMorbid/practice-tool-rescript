@@ -42,3 +42,8 @@ module Delete = {
   @react.component @module("@mui/icons-material/DeleteTwoTone")
   external make: unit => React.element = "default"
 }
+
+module History = {
+  @react.component @module("@mui/icons-material/HistoryTwoTone")
+  external make: unit => React.element = "default"
+}

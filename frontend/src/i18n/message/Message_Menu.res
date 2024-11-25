@@ -22,3 +22,10 @@ let manage =
     id: "385321bf-8b66-4ea1-8c79-7df3bbd5afbc",
     defaultMessage: "Manage",
   }
+
+let history =
+  @intl.description("Main menu - the History button")
+  {
+    id: "3ccb2229-f9fa-4f46-b835-aee331c27bfa",
+    defaultMessage: "History",
+  }
