@@ -31,3 +31,19 @@ let practiced =
     id: "f35114d7-49c9-46fc-9734-710dae6c3979",
     defaultMessage: "Practiced {times} times",
   }
+
+let unpracticedExercises =
+  @intl.description("History page - label of the list of exercises not practiced for that period")
+  {
+    id: "830e4a1b-c9ec-4490-a87d-2e85383f2e3b",
+    defaultMessage: "Unpracticed exercises",
+  }
+
+let noUnpracticedExercises =
+  @intl.description(
+    "History page - text instead of the list of unpracticed exercises in the case when all have been practiced"
+  )
+  {
+    id: "06ff11eb-f18c-4a9f-ba13-463d6fc30a9a",
+    defaultMessage: "None",
+  }

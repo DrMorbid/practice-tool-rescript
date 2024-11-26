@@ -75,7 +75,10 @@ let default = () => {
               gridTemplateColumns={String("1fr")}
               gridTemplateRows={String("1fr")}>
               {historyStatistics
-              ->Array.mapWithIndex(({projectName, practiceCount, byExercises}, index) =>
+              ->Array.mapWithIndex((
+                {projectName, practiceCount, byExercises, notPracticedExercises},
+                index,
+              ) =>
                 <Mui.Accordion key={`history-item-projects-${index->Int.toString}`}>
                   <Mui.AccordionSummary expandIcon={<Icon.ExpandMore />}>
                     {projectName->Jsx.string}
@@ -84,7 +87,7 @@ let default = () => {
                     <Mui.Box
                       display={String("grid")}
                       gridTemplateColumns={String("1fr")}
-                      gridTemplateRows={String("auto 1fr")}
+                      gridTemplateRows={String("auto auto auto")}
                       sx={App_Theme.Classes.itemGaps->Mui.Sx.array}>
                       {intl
                       ->ReactIntl.Intl.formatMessageWithValues(practiced, {"times": practiceCount})
@@ -141,6 +144,31 @@ let default = () => {
                         )
                         ->Jsx.array}
                       </Mui.Box>
+                      <Mui.Accordion>
+                        <Mui.AccordionSummary expandIcon={<Icon.ExpandMore />}>
+                          {intl->ReactIntl.Intl.formatMessage(unpracticedExercises)->Jsx.string}
+                        </Mui.AccordionSummary>
+                        <Mui.AccordionDetails>
+                          {if notPracticedExercises->Array.length == 0 {
+                            <Mui.Typography>
+                              {intl
+                              ->ReactIntl.Intl.formatMessage(noUnpracticedExercises)
+                              ->Jsx.string}
+                            </Mui.Typography>
+                          } else {
+                            <Mui.List>
+                              {notPracticedExercises
+                              ->Array.mapWithIndex((exerciseName, index) =>
+                                <Mui.ListItem
+                                  key={`not-practiced-exercises-${index->Int.toString}`}>
+                                  <Mui.ListItemText primary={exerciseName->Jsx.string} />
+                                </Mui.ListItem>
+                              )
+                              ->Jsx.array}
+                            </Mui.List>
+                          }}
+                        </Mui.AccordionDetails>
+                      </Mui.Accordion>
                     </Mui.Box>
                   </Mui.AccordionDetails>
                 </Mui.Accordion>
