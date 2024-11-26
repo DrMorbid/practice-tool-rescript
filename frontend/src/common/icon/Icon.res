@@ -47,3 +47,13 @@ module History = {
   @react.component @module("@mui/icons-material/HistoryTwoTone")
   external make: unit => React.element = "default"
 }
+
+module ExpandMore = {
+  @react.component @module("@mui/icons-material/ExpandMoreTwoTone")
+  external make: unit => React.element = "default"
+}
+
+module ExpandLess = {
+  @react.component @module("@mui/icons-material/ExpandLessTwoTone")
+  external make: unit => React.element = "default"
+}

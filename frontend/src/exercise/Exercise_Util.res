@@ -22,3 +22,11 @@ let getOrdering = (
     name1->String.compare(name2)
   }
 }
+
+let tempoToString = (~intl, tempo) =>
+  intl->ReactIntl.Intl.formatMessage(
+    switch tempo {
+    | Slow => Message.Exercise.slowTempo
+    | Fast => Message.Exercise.fastTempo
+    },
+  )
