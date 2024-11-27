@@ -1,4 +1,12 @@
 {
+    "06ff11eb-f18c-4a9f-ba13-463d6fc30a9a": {
+        "message": "Žádné",
+        "description": "History page - text instead of the list of unpracticed exercises in the case when all have been practiced"
+    },
+    "1381b724-cd2f-4fa8-8c34-ba9119e62651": {
+        "message": "Počáteční datum",
+        "description": "History page - label of the field for start date selection"
+    },
     "13a33a8f-200b-4677-807f-8495594c8733": {
         "message": "Projekt {projectName} uložen",
         "description": "Project - success title - project saved successfully"
@@ -51,6 +59,10 @@
         "message": "Vítejte v Practice Tool",
         "description": "Home page - the welcome text"
     },
+    "3ccb2229-f9fa-4f46-b835-aee331c27bfa": {
+        "message": "Historie",
+        "description": "Main menu - the History button"
+    },
     "567c204d-9468-4dff-964c-7166fc14453d": {
         "message": "Neexistují žádné projekty k procvičování. Přejděte do sekce „Spravovat“ a nějaké si vytvořte.",
         "description": "Session - warning alert - no projects to practice"
@@ -71,6 +83,10 @@
         "message": "Domů",
         "description": "Main menu - the Home button"
     },
+    "7144368f-c18e-4db6-86e1-3652fb27b119": {
+        "message": "Historie Cvičení",
+        "description": "History page - header"
+    },
     "73a9a36b-fec7-4d62-bc05-a5c76a754002": {
         "message": "Jméno",
         "description": "Message - field: name"
@@ -79,6 +95,10 @@
         "message": "Varování",
         "description": "Snackbar alert - title - warning"
     },
+    "830e4a1b-c9ec-4490-a87d-2e85383f2e3b": {
+        "message": "Necvičená cvičení",
+        "description": "History page - label of the list of exercises not practiced for that period"
+    },
     "8a807ced-8e83-4839-a25e-f3c69664b6d8": {
         "message": "Vytvoření cvičení",
         "description": "Manage page - create exercise dialog - header"
@@ -86,6 +106,10 @@
     "8b68775d-e463-4bf3-ac2b-2df904f3722a": {
         "message": "Další",
         "description": "Button label - next"
+    },
+    "941c95bb-df2b-4592-9e8e-492f00330f17": {
+        "message": "Nelze načíst historickou statistiku",
+        "description": "History page - header of the error alert when the history failed to be loaded"
     },
     "9599952f-8f1b-416d-b069-b5035cd20ed9": {
         "message": "Cvičení",
@@ -155,9 +179,17 @@
         "message": "Operace byla úspěšná",
         "description": "Snackbar alert - title - success"
     },
+    "ed226dc1-c255-4830-835e-8fdc52e09635": {
+        "message": "Nic nebylo cvičeno od {dateFrom}",
+        "description": "History page - header of the info alert explaining that there is no history to be displayed for the selected time period"
+    },
     "f0ca41a4-5b89-4cdf-9534-fdb447062bca": {
         "message": "Výběr projektů",
         "description": "Practice session configuration page - header"
+    },
+    "f35114d7-49c9-46fc-9734-710dae6c3979": {
+        "message": "Cvičeno {times}×",
+        "description": "History page - label of the field showing how many times it was practiced for that period"
     },
     "fb594005-a3f0-4b4a-bd34-8d9084d9da5a": {
         "message": "Cvičení",

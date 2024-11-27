@@ -1,6 +1,8 @@
 open Message.History
 open Dayjs
 
+module ByProjects = History_Page_ByProjects
+
 @react.component
 let default = () => {
   let (selectedDate, setSelectedDate) = React.useState(() => Date.make()->dayjsFromDate)
@@ -12,6 +14,7 @@ let default = () => {
   let router = Next.Navigation.useRouter()
   let isSmUp = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.smUp)
   let isLgUp = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.lgUp)
+  let locale = Store.useStoreWithSelector(({locale}) => locale)
 
   React.useEffect(() => {
     setHistoryStatistics(_ => Pending)
@@ -41,7 +44,25 @@ let default = () => {
       title={Message(Message.History.couldNotLoadHistory)}
       body=?{historyStatistics
       ->Util.Fetch.Response.errorToOption
-      ->Belt.Option.map(({message}) => Text.String(message))}
+      ->Option.map(({message}) => Text.String(message))}
+    />
+    <Snackbar
+      isOpen={historyStatistics
+      ->Util.Fetch.Response.mapSuccess(statistics => statistics->Array.length == 0)
+      ->Util.Fetch.Response.toOption
+      ->Option.getOr(false)}
+      severity={Info}
+      title={String(
+        intl->ReactIntl.Intl.formatMessageWithValues(
+          Message.History.noHistoryForThePeroid,
+          {
+            "dateFrom": Intl.DateTimeFormat.make(
+              ~locales=[locale->Intl.Locale.baseName],
+              ~options={dateStyle: #medium},
+            )->Intl.DateTimeFormat.format(selectedDate->toDate),
+          },
+        ),
+      )}
     />
     <Page alignContent={Stretch} spaceOnTop=true spaceOnBottom=true justifyItems="stretch">
       <Common.PageContent
@@ -64,9 +85,9 @@ let default = () => {
           | Pending =>
             <Mui.Box
               display={String("grid")}
-              gridTemplateColumns={String("1fr")}
-              gridTemplateRows={String("auto auto 1fr")}
-              sx={App_Theme.Classes.itemGaps->Mui.Sx.array}>
+              gridTemplateColumns={String(isLgUp ? "1fr 1fr 1fr" : isSmUp ? "1fr 1fr" : "1fr")}
+              gridTemplateRows={String("1fr")}
+              alignItems={Baseline}>
               <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
               <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
               <Mui.Skeleton variant={Rectangular} height={Number(48.)} />
@@ -77,106 +98,7 @@ let default = () => {
               gridTemplateColumns={String(isLgUp ? "1fr 1fr 1fr" : isSmUp ? "1fr 1fr" : "1fr")}
               gridTemplateRows={String("1fr")}
               alignItems={Baseline}>
-              {historyStatistics
-              ->Array.mapWithIndex((
-                {projectName, practiceCount, byExercises, notPracticedExercises},
-                index,
-              ) =>
-                <Mui.Accordion key={`history-item-projects-${index->Int.toString}`}>
-                  <Mui.AccordionSummary expandIcon={<Icon.ExpandMore />}>
-                    {projectName->Jsx.string}
-                  </Mui.AccordionSummary>
-                  <Mui.AccordionDetails>
-                    <Mui.Box
-                      display={String("grid")}
-                      gridTemplateColumns={String("1fr")}
-                      gridTemplateRows={String("auto auto auto")}
-                      sx={App_Theme.Classes.itemGaps->Mui.Sx.array}>
-                      {intl
-                      ->ReactIntl.Intl.formatMessageWithValues(practiced, {"times": practiceCount})
-                      ->Jsx.string}
-                      <Mui.Box
-                        display={String("grid")}
-                        gridTemplateColumns={String("1fr")}
-                        gridTemplateRows={String("1fr")}>
-                        {byExercises
-                        ->Array.mapWithIndex(({exerciseName, practiceCount, byTempos}, index) =>
-                          <Mui.Accordion key={`history-item-exercises-${index->Int.toString}`}>
-                            <Mui.AccordionSummary expandIcon={<Icon.ExpandMore />}>
-                              {exerciseName->Jsx.string}
-                            </Mui.AccordionSummary>
-                            <Mui.AccordionDetails>
-                              <Mui.Box
-                                display={String("grid")}
-                                gridTemplateColumns={String("1fr")}
-                                gridTemplateRows={String("auto 1fr")}
-                                sx={App_Theme.Classes.itemGaps->Mui.Sx.array}>
-                                {intl
-                                ->ReactIntl.Intl.formatMessageWithValues(
-                                  practiced,
-                                  {"times": practiceCount},
-                                )
-                                ->Jsx.string}
-                                <Mui.Box
-                                  display={String("grid")}
-                                  gridTemplateColumns={String("1fr")}
-                                  gridTemplateRows={String("1fr")}>
-                                  {byTempos
-                                  ->Array.mapWithIndex(
-                                    ({tempo, practiceCount}, index) =>
-                                      <Mui.Accordion
-                                        key={`history-item-tempos-${index->Int.toString}`}>
-                                        <Mui.AccordionSummary expandIcon={<Icon.ExpandMore />}>
-                                          {tempo->Exercise.Util.tempoToString(~intl)->Jsx.string}
-                                        </Mui.AccordionSummary>
-                                        <Mui.AccordionDetails>
-                                          {intl
-                                          ->ReactIntl.Intl.formatMessageWithValues(
-                                            practiced,
-                                            {"times": practiceCount},
-                                          )
-                                          ->Jsx.string}
-                                        </Mui.AccordionDetails>
-                                      </Mui.Accordion>,
-                                  )
-                                  ->Jsx.array}
-                                </Mui.Box>
-                              </Mui.Box>
-                            </Mui.AccordionDetails>
-                          </Mui.Accordion>
-                        )
-                        ->Jsx.array}
-                      </Mui.Box>
-                      <Mui.Accordion>
-                        <Mui.AccordionSummary expandIcon={<Icon.ExpandMore />}>
-                          {intl->ReactIntl.Intl.formatMessage(unpracticedExercises)->Jsx.string}
-                        </Mui.AccordionSummary>
-                        <Mui.AccordionDetails>
-                          {if notPracticedExercises->Array.length == 0 {
-                            <Mui.Typography>
-                              {intl
-                              ->ReactIntl.Intl.formatMessage(noUnpracticedExercises)
-                              ->Jsx.string}
-                            </Mui.Typography>
-                          } else {
-                            <Mui.List>
-                              {notPracticedExercises
-                              ->Array.mapWithIndex((exerciseName, index) =>
-                                <Mui.ListItem
-                                  key={`not-practiced-exercises-${index->Int.toString}`}>
-                                  <Mui.ListItemText primary={exerciseName->Jsx.string} />
-                                </Mui.ListItem>
-                              )
-                              ->Jsx.array}
-                            </Mui.List>
-                          }}
-                        </Mui.AccordionDetails>
-                      </Mui.Accordion>
-                    </Mui.Box>
-                  </Mui.AccordionDetails>
-                </Mui.Accordion>
-              )
-              ->Jsx.array}
+              <ByProjects historyStatistics />
             </Mui.Box>
           | NotStarted | Error(_) => Jsx.null
           }}

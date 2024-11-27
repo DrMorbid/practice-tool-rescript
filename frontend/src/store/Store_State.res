@@ -1,4 +1,5 @@
 type state = {
+  locale: Intl.Locale.t,
   menuItemIndex?: int,
   bottomBarHeight?: int,
   drawerWidth?: int,
@@ -6,4 +7,6 @@ type state = {
   processFinishedSuccessfullyMessage?: Text.t,
 }
 
-let initialState: state = {}
+let initialState: state = {
+  locale: Intl.Locale.make("en"),
+}

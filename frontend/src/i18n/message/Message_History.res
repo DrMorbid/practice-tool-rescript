@@ -23,6 +23,15 @@ let couldNotLoadHistory =
     defaultMessage: "Could not load history statistics",
   }
 
+let noHistoryForThePeroid =
+  @intl.description(
+    "History page - header of the info alert explaining that there is no history to be displayed for the selected time period"
+  )
+  {
+    id: "ed226dc1-c255-4830-835e-8fdc52e09635",
+    defaultMessage: "Nothing has been practiced since {dateFrom}",
+  }
+
 let practiced =
   @intl.description(
     "History page - label of the field showing how many times it was practiced for that period"

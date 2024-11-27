@@ -4,8 +4,11 @@ type dateAdapter
 
 module LocalizationProvider = {
   @module("@mui/x-date-pickers/LocalizationProvider") @react.component
-  external make: (~dateAdapter: dateAdapter, ~children: Jsx.element) => Jsx.element =
-    "LocalizationProvider"
+  external make: (
+    ~dateAdapter: dateAdapter,
+    ~apaterLocale: string,
+    ~children: Jsx.element,
+  ) => Jsx.element = "LocalizationProvider"
 }
 
 module DatePicker = {

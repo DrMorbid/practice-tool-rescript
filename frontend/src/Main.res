@@ -4,6 +4,8 @@ external dictToState: Dict.t<string> => Webapi.Dom.History.state = "%identity"
 
 @react.component
 let make = (~children) => {
+  let locale = Store.useStoreWithSelector(({locale}) => locale)
+
   React.useEffect(() => {
     Dayjs.dayjs->Dayjs.extend(Dayjs.utcPlugin)
 
@@ -37,7 +39,8 @@ let make = (~children) => {
           redirect_uri=EnvVar.cognitoRedirectUrl
           scope="openid profile email"
           onSigninCallback>
-          <MuiX.LocalizationProvider dateAdapter=MuiX.adapterDayjs>
+          <MuiX.LocalizationProvider
+            dateAdapter=MuiX.adapterDayjs apaterLocale={locale->Intl.Locale.baseName}>
             <main>
               <App> {children} </App>
             </main>

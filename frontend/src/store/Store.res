@@ -8,6 +8,7 @@ let {useStoreWithSelector, dispatch} = createStore(State.initialState, (
   action: Action.action,
 ) =>
   switch action {
+  | StoreLocale(locale) => {...state, locale}
   | StoreMenuItemIndex(menuItemIndex) => {...state, menuItemIndex}
   | StoreBottomBarHeight(bottomBarHeight) => {
       ...state,

@@ -1,13 +1,16 @@
-open Language
-
 @react.component
 let make = (~children) => {
-  let (defaultLanguage, _) = React.useState(() => Cs)
+  let locale = Store.useStoreWithSelector(({locale}) => locale)
+
+  React.useEffect(() => {
+    let {language} = Webapi.Dom.window->Webapi.Dom.Window.navigator
+    Store.dispatch(Store.Action.StoreLocale(Intl.Locale.make(language)))
+
+    None
+  }, [Webapi.Dom.window->Webapi.Dom.Window.navigator])
 
   <ReactIntl.IntlProvider
-    defaultLocale={defaultLanguage->toString}
-    locale={defaultLanguage->toString}
-    messages={defaultLanguage->Translation.getTranslation}>
+    locale={locale->Intl.Locale.baseName} messages={locale->Translation.getTranslation}>
     {children}
   </ReactIntl.IntlProvider>
 }

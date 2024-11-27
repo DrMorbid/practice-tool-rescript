@@ -1,4 +1,5 @@
 type action =
+  | StoreLocale(Intl.Locale.t)
   | StoreMenuItemIndex(int)
   | StoreBottomBarHeight(int)
   | ResetBottomBarHeight

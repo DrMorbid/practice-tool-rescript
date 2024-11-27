@@ -33,7 +33,7 @@ let make = (
       ->Mui.Sx.array}>
       {header}
       {children}
-      {if onPrimary->Belt.Option.isNone && onSecondary->Belt.Option.isNone {
+      {if onPrimary->Option.isNone && onSecondary->Option.isNone {
         Jsx.null
       } else {
         <Mui.Box
