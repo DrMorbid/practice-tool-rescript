@@ -10,6 +10,8 @@ let default = () => {
   let intl = ReactIntl.useIntl()
   let auth = ReactOidcContext.useAuth()
   let router = Next.Navigation.useRouter()
+  let isSmUp = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.smUp)
+  let isLgUp = Mui.Core.useMediaQueryString(App_Theme.Breakpoint.lgUp)
 
   React.useEffect(() => {
     setHistoryStatistics(_ => Pending)
@@ -72,8 +74,9 @@ let default = () => {
           | Ok(historyStatistics) =>
             <Mui.Box
               display={String("grid")}
-              gridTemplateColumns={String("1fr")}
-              gridTemplateRows={String("1fr")}>
+              gridTemplateColumns={String(isLgUp ? "1fr 1fr 1fr" : isSmUp ? "1fr 1fr" : "1fr")}
+              gridTemplateRows={String("1fr")}
+              alignItems={Baseline}>
               {historyStatistics
               ->Array.mapWithIndex((
                 {projectName, practiceCount, byExercises, notPracticedExercises},
