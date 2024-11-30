@@ -46,6 +46,7 @@ module BackEnd = {
     | Session => "/session"
     | SessionWithNameAndCount(projectName, exerciseCount) =>
       `/session/${projectName}/${exerciseCount->Int.toString}`
-    | History(dateFrom) => `/history?dateFrom=${dateFrom->Dayjs.utc->Dayjs.format}`
+    | History(dateFrom) =>
+      `/history?dateFrom=${dateFrom->Dayjs.startOf(#day)->Dayjs.utc->Dayjs.format}`
     }
 }
