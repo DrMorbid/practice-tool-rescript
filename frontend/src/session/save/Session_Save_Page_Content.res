@@ -157,6 +157,14 @@ let make = () => {
           actionPending={savePending->Array.find(savePending => savePending)->Option.isSome}>
           <Mui.Grid
             display={String("grid")}
+            gridTemplateColumns={String("1fr")}
+            gridTemplateRows={String(
+              `${sessionsToPractice
+                ->Array.mapWithIndex((_, index) =>
+                  index < sessionsToPractice->Array.length - 1 ? "auto" : ""
+                )
+                ->Array.join(" ")} 1fr`,
+            )}
             sx={[App_Theme.Classes.scrollable]
             ->Array.concat(App_Theme.Classes.itemGaps)
             ->Mui.Sx.array}>
@@ -169,12 +177,16 @@ let make = () => {
             ->Array.mapWithIndex(({name, exercises, topPriorityExercises}, index) =>
               <Mui.Grid
                 display={String("grid")}
+                gridTemplateColumns={String("1fr")}
+                gridTemplateRows={String("auto 1fr")}
                 sx={App_Theme.Classes.itemGapsSm->Mui.Sx.array}
                 key={`session-${index->Int.toString}`}>
                 <Mui.Typography variant={H5}> {name->Jsx.string} </Mui.Typography>
                 <Mui.Grid
                   display={String("grid")}
                   alignContent={String("start")}
+                  gridTemplateColumns={String("1fr")}
+                  gridTemplateRows={String("auto")}
                   sx={App_Theme.Classes.itemGaps->Mui.Sx.array}>
                   <ExerciseCards exercises={topPriorityExercises->List.concat(exercises)} />
                 </Mui.Grid>

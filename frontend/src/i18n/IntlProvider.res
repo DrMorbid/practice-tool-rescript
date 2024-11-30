@@ -7,7 +7,7 @@ let make = (~children) => {
     Store.dispatch(Store.Action.StoreLocale(Intl.Locale.make(language)))
 
     None
-  }, [Webapi.Dom.window->Webapi.Dom.Window.navigator])
+  }, [])
 
   <ReactIntl.IntlProvider
     locale={locale->Intl.Locale.baseName} messages={locale->Translation.getTranslation}>
