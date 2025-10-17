@@ -1,35 +1,38 @@
 {
- "name": "practice-tool-frontend",
- "sources": [
-  {
-   "dir": "src",
-   "subdirs": true
-  }
- ],
- "package-specs": [
-  {
-   "module": "esmodule",
-   "in-source": true
-  }
- ],
- "suffix": ".res.js",
- "bs-dependencies": [
-  "@rescript/react",
-  "@rescript-mui/material",
-  "rescript-webapi",
-  "rescript-react-intl",
-  "@greenlabs/ppx-spice",
-  "@dck/restorative",
-  "@greenlabs/rescript-react-hook-form"
- ],
- "jsx": {
-  "version": 4,
-  "mode": "automatic"
- },
- "ppx-flags": [
-  [
-   "@greenlabs/ppx-spice/ppx",
-   "-uncurried"
-  ]
- ]
+    "name": "practice-tool-frontend",
+    "sources": [
+        {
+            "dir": "src",
+            "subdirs": true
+        }
+    ],
+    "package-specs": [
+        {
+            "module": "esmodule",
+            "in-source": true
+        }
+    ],
+    "suffix": ".res.js",
+    "bs-dependencies": [
+        "@rescript/react",
+        "@rescript-mui/material",
+        "rescript-webapi",
+        "rescript-react-intl",
+        "@greenlabs/ppx-spice",
+        "@dck/restorative",
+        "@greenlabs/rescript-react-hook-form",
+        "@rescript/core"
+    ],
+    "bsc-flags": [
+        "-open RescriptCore"
+    ],
+    "jsx": {
+        "version": 4
+    },
+    "ppx-flags": [
+        [
+            "@greenlabs/ppx-spice/ppx",
+            "-uncurried"
+        ]
+    ]
 }
