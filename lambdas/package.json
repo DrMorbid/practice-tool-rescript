@@ -1,6 +1,6 @@
 {
   "name": "practice-tool-rescript-lambdas",
-  "packageManager": "yarn@4.5.0",
+  "packageManager": "yarn@4.10.3",
   "scripts": {
     "res:build": "rescript",
     "res:dev": "rescript clean && rescript -w",
