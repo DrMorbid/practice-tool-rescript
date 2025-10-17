@@ -1,14 +1,16 @@
 module Classes = {
   let appBar = Mui.Sx.obj({bottom: Number(0.), top: Unset, left: Number(0.), right: Unset})
   let button = Mui.Sx.array([
-    Mui.Sx.Array.func(theme =>
+    Mui.Sx.Array.func((theme: Mui.Theme.t) =>
       Mui.Sx.Array.dict(
         Dict.fromArray([
           ("&.Mui-selected", ({color: String(theme.palette.primary.light)}: Mui.System.props)),
         ]),
       )
     ),
-    Mui.Sx.Array.func(theme => Mui.Sx.Array.obj({color: String(theme.palette.text.primary)})),
+    Mui.Sx.Array.func((theme: Mui.Theme.t) =>
+      Mui.Sx.Array.obj({color: String(theme.palette.text.primary)})
+    ),
   ])
 }
 

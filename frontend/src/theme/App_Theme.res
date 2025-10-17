@@ -8,7 +8,7 @@ module Classes = App_Theme_Classes
 let darkModeMediaQuery = "(prefers-color-scheme: dark)"
 
 module Breakpoint = {
-  let values: Mui.ThemeOptions.breakpointValues = {
+  let values: Mui.ThemeOptions.t_sizeOptions = {
     xs: 0.,
     sm: 600.,
     md: 900.,

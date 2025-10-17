@@ -1,7 +1,7 @@
 module Classes = {
   let exercise = (tempo: Exercise.Type.tempo) =>
     Mui.Sx.array([
-      Mui.Sx.Array.func(theme =>
+      Mui.Sx.Array.func((theme: Mui.Theme.t) =>
         [
           ("overflow", "visible"),
           (

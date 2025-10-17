@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@greenlabs/rescript-react-hook-form": "^7.31.0",
-    "@rescript-mui/material": "^5.0.0",
+    "@rescript-mui/material": "^5.1.2",
     "@rescript/react": "^0.14.0",
     "@types/node": "^24.8.1",
     "@types/react": "^19.2.2",
