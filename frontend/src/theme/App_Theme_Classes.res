@@ -6,25 +6,22 @@ let maxHeight = [
 let maxWidth = [Mui.Sx.Array.obj({width: String("100%")})]
 let itemGapsSm = [
   Mui.Sx.Array.func(theme =>
-    ReactDOM.Style.make(~gridRowGap=theme->MuiSpacingFix.spacing(1), ())->MuiStyles.styleToSxArray
+    [("grid-row-gap", theme->MuiSpacingFix.spacing(1))]->Dict.fromArray->MuiStyles.dictToSxArray
   ),
 ]
 let itemGaps = [
   Mui.Sx.Array.func(theme =>
-    ReactDOM.Style.make(~gridRowGap=theme->MuiSpacingFix.spacing(2), ())->MuiStyles.styleToSxArray
+    [("grid-row-gap", theme->MuiSpacingFix.spacing(2))]->Dict.fromArray->MuiStyles.dictToSxArray
   ),
 ]
 let itemGapsLg = [
   Mui.Sx.Array.func(theme =>
-    ReactDOM.Style.make(~gridRowGap=theme->MuiSpacingFix.spacing(8), ())->MuiStyles.styleToSxArray
+    [("grid-row-gap", theme->MuiSpacingFix.spacing(8))]->Dict.fromArray->MuiStyles.dictToSxArray
   ),
 ]
 let itemGapsHorizontal = [
   Mui.Sx.Array.func(theme =>
-    ReactDOM.Style.make(
-      ~gridColumnGap=theme->MuiSpacingFix.spacing(2),
-      (),
-    )->MuiStyles.styleToSxArray
+    [("grid-column-gap", theme->MuiSpacingFix.spacing(2))]->Dict.fromArray->MuiStyles.dictToSxArray
   ),
 ]
-let scrollable = ReactDOM.Style.make(~overflow="auto", ())->MuiStyles.styleToSxArray
+let scrollable = [("overflow", "auto")]->Dict.fromArray->MuiStyles.dictToSxArray

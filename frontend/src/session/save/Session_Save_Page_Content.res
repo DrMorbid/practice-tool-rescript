@@ -1,7 +1,10 @@
 module ExerciseCards = Session_Save_Page_ExerciseCards
 
 module Classes = {
-  let exercise = ReactDOM.Style.make(~overflow="visible", ())->MuiStyles.styleToSx
+  let exercise =
+    [("overflow", "visible")]
+    ->Dict.fromArray
+    ->MuiStyles.dictToSx
 }
 
 @react.component

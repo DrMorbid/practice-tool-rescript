@@ -2,7 +2,7 @@ module Classes = {
   let container = (~spaceOnTop, ~spaceOnBottom, ~justifyItems) => {
     let applyPadding = theme => theme->MuiSpacingFix.spacing(3)
 
-    [ReactDOM.Style.make(~justifyItems, ())->MuiStyles.styleToSxArray]
+    [[("justify-items", justifyItems)]->Dict.fromArray->MuiStyles.dictToSxArray]
     ->Array.concat(App_Theme.Classes.maxHeight)
     ->Array.concat(
       spaceOnTop

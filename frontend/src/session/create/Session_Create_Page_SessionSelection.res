@@ -4,17 +4,21 @@ open Session_Type
 module Form = Session_Create_Page_SessionSelection_Form
 
 module Classes = {
-  let topPrioInfoGap =
-    [
-      Mui.Sx.Array.func(theme =>
-        ReactDOM.Style.make(
-          ~gridColumnGap=theme->MuiSpacingFix.spacing(1),
-          (),
-        )->MuiStyles.styleToSxArray
-      ),
-    ]->Mui.Sx.array
-  let topPrioInfoSpan = ReactDOM.Style.make(~gridColumnStart="span 2", ())->MuiStyles.styleToSx
-  let removeButton = ReactDOM.Style.make(~justifyItems="end", ())->MuiStyles.styleToSx
+  let topPrioInfoGap = [
+    Mui.Sx.Array.func(theme =>
+      [("grid-column-gap", theme->MuiSpacingFix.spacing(1))]
+      ->Dict.fromArray
+      ->MuiStyles.dictToSxArray
+    ),
+  ]->Mui.Sx.array
+  let topPrioInfoSpan =
+    [("grid-column-start", "span 2")]
+    ->Dict.fromArray
+    ->MuiStyles.dictToSx
+  let removeButton =
+    [("justify-items", "end")]
+    ->Dict.fromArray
+    ->MuiStyles.dictToSx
 }
 
 let getExercisesCount = (selectedProject, ~projects) =>

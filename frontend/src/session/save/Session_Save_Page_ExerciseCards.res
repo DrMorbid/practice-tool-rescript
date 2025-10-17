@@ -2,17 +2,21 @@ module Classes = {
   let exercise = (tempo: Exercise.Type.tempo) =>
     Mui.Sx.array([
       Mui.Sx.Array.func(theme =>
-        ReactDOM.Style.make(
-          ~overflow="visible",
-          ~backgroundColor=switch (tempo, theme.palette.mode) {
-          | (Slow, "light") => theme.palette.secondary.light
-          | (Slow, "dark") => theme.palette.secondary.dark
-          | (Fast, "light") => theme.palette.primary.light
-          | (Fast, "dark") => theme.palette.primary.dark
-          | _ => theme.palette.background.paper
-          },
-          (),
-        )->MuiStyles.styleToSxArray
+        [
+          ("overflow", "visible"),
+          (
+            "background-color",
+            switch (tempo, theme.palette.mode) {
+            | (Slow, "light") => theme.palette.secondary.light
+            | (Slow, "dark") => theme.palette.secondary.dark
+            | (Fast, "light") => theme.palette.primary.light
+            | (Fast, "dark") => theme.palette.primary.dark
+            | _ => theme.palette.background.paper
+            },
+          ),
+        ]
+        ->Dict.fromArray
+        ->MuiStyles.dictToSxArray
       ),
     ])
 }
