@@ -1,10 +1,10 @@
-package click.practice_tool.practice_tool;
+package click.practice_tool;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PracticeToolApplicationTests {
+class PracticeToolMcpApplicationTests {
 
 	@Test
 	void contextLoads() {

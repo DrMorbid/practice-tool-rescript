@@ -20,10 +20,13 @@ repositories {
 
 ext {
 	set('springAiVersion', "1.0.3")
+	set('awsSdkVersion', "2.30.10")
 }
 
 dependencies {
 	implementation 'org.springframework.ai:spring-ai-starter-mcp-server'
+	implementation platform("software.amazon.awssdk:bom:${awsSdkVersion}")
+	implementation 'software.amazon.awssdk:dynamodb-enhanced'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
