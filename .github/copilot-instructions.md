@@ -30,19 +30,24 @@ Before generating code, scan the codebase to identify:
    - Never suggest features not available in these specific versions
 
 3. **Library Versions**:
-   - `@greenlabs/ppx-spice`: 0.2.2 (JSON serialization with `@spice` decorator)
-   - `@rescript/react`: 0.14.0 (JSX version 4)
-   - `@rescript-mui/material`: 5.1.2
-   - `rescript-react-intl`: 3.0.0
-   - `react-oidc-context`: 3.3.0
-   - `@aws-sdk/client-dynamodb`: 3.911.0
-   - `@aws-sdk/lib-dynamodb`: 3.911.0
-   - `jest`: 30.2.0 (for lambda tests)
+   - **Frontend/Lambda Libraries**:
+     - `@greenlabs/ppx-spice`: 0.2.2 (JSON serialization with `@spice` decorator)
+     - `@rescript/react`: 0.14.0 (JSX version 4)
+     - `@rescript-mui/material`: 5.1.2
+     - `rescript-react-intl`: 3.0.0
+     - `react-oidc-context`: 3.3.0
+     - `@aws-sdk/client-dynamodb`: 3.911.0
+     - `@aws-sdk/lib-dynamodb`: 3.911.0
+     - `jest`: 30.2.0 (for lambda tests)
+   - **MCP Server Libraries**:
+     - `spring-ai-starter-mcp-server`: 1.0.3
+     - `spring-boot`: 3.5.7
+     - `junit-platform-launcher`: (test runtime)
    - Generate code compatible with these specific versions
 
 ## Project Structure
 
-This is a monorepo with two main workspaces:
+This is a monorepo with three main workspaces:
 
 ### Frontend (`/frontend`)
 - **Next.js 15** application with App Router
@@ -59,7 +64,14 @@ This is a monorepo with two main workspaces:
 - **DynamoDB** for data persistence
 - **Jest** for unit testing
 
-### Shared Patterns Across Both Workspaces
+### MCP Server (`/mcp-server`)
+- **Spring Boot 3.5.7** application providing Model Context Protocol server
+- **Java 25** with Gradle build system
+- **Spring AI 1.0.3** for MCP server capabilities
+- **JUnit 5** for testing
+- **Package structure**: `click.practice_tool.practice_tool`
+
+### Shared Patterns Across Frontend and Lambdas
 - ReScript compiled with `-open RescriptCore` flag (RescriptCore module is always open)
 - PPX Spice for JSON serialization with `-uncurried` flag
 - JSX version 4 for React components
@@ -570,6 +582,26 @@ This is a monorepo with two main workspaces:
 - Use `expect` for assertions
 - Test business logic in isolation
 
+### Java/Spring Boot Guidelines (MCP Server)
+- Use Java 25 features
+- Follow Spring Boot 3.5.7 conventions
+- Use `@SpringBootApplication` for main application class
+- Use JUnit 5 (`org.junit.jupiter.api.Test`) for testing
+- Use `@SpringBootTest` for integration tests
+- Package structure: `click.practice_tool.practice_tool`
+- Build with Gradle (not Maven)
+- Follow Spring AI 1.0.3 patterns for MCP server implementation
+- Keep application configuration in `src/main/resources/application.properties`
+
+### Gradle Guidelines (MCP Server)
+- Use Gradle 8.x with Kotlin DSL or Groovy DSL
+- Configure Java toolchain for version 25
+- Use Spring Boot Gradle plugin 3.5.7
+- Use Spring dependency management plugin 1.1.7
+- Declare Spring AI BOM for version management
+- Configure JUnit Platform for testing with `useJUnitPlatform()`
+- Standard directory structure: `src/main/java`, `src/main/resources`, `src/test/java`
+
 ## Version Control Guidelines
 
 - Follow Semantic Versioning for releases
@@ -610,8 +642,16 @@ This is a monorepo with two main workspaces:
    - Add tests in `test/{domain}/`
    - Export handler in `index.js`
 
-3. **Shared Utilities**:
-   - Place in `common/` directory
+3. **MCP Server Components**:
+   - Create in appropriate package under `click.practice_tool.practice_tool`
+   - Follow Spring Boot conventions for package organization
+   - Use `@Component`, `@Service`, or `@Controller` annotations as appropriate
+   - Implement MCP protocol endpoints using Spring AI annotations
+   - Add tests in `src/test/java` mirroring source structure
+   - Use constructor injection for dependencies
+
+4. **Shared Utilities**:
+   - Place in `common/` directory (frontend/lambdas)
    - Use module functors for reusable patterns
    - Keep utilities pure and testable
 
@@ -619,6 +659,7 @@ This is a monorepo with two main workspaces:
 
 - **Frontend**: Never directly access AWS services; always use Lambda backend
 - **Lambdas**: Keep handlers thin; delegate to utility modules
+- **MCP Server**: Provides Model Context Protocol interface for AI integration; does not directly access AWS services
 - **Types**: Share type definitions between frontend and backend where appropriate
 - **State**: Use Restorative store for global state, local state for component-specific data
 - **Authentication**: All API requests must be authenticated via Cognito

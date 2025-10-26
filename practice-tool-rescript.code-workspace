@@ -44,31 +44,5 @@
             "**/lib": true,
             "**/out": true
         }
-    },
-    "tasks": {
-        "version": "2.0.0",
-        "tasks": [
-            {
-                "label": "MCP Server: clean build",
-                "command": "./gradlew clean build",
-                "type": "shell",
-                "args": [],
-                "problemMatcher": [
-                    "$tsc"
-                ],
-                "presentation": {
-                    "reveal": "always"
-                },
-                "group": "build",
-                "options": {
-                    "cwd": "mcp-server"
-                }
-            }
-        ]
-    },
-    "launch": {
-        "version": "0.2.0",
-        "configurations": [],
-        "compounds": []
     }
 }
