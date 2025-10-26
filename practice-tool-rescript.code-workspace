@@ -1,0 +1,44 @@
+{
+    "folders": [
+        {
+            "name": "Root",
+            "path": "."
+        },
+        {
+            "name": "Frontend",
+            "path": "frontend"
+        },
+        {
+            "name": "Lambdas",
+            "path": "lambdas"
+        }
+    ],
+    "settings": {
+        "editor.formatOnSave": true,
+        "rescript.settings.codeLens": true,
+        "rescript.settings.incrementalTypechecking.acrossFiles": true,
+        "rescript.settings.incrementalTypechecking.enable": true,
+        "terminal.integrated.gpuAcceleration": "off",
+        "files.exclude": {
+            "**/.git": true,
+            "**/.svn": true,
+            "**/.hg": true,
+            "**/.DS_Store": true,
+            "**/Thumbs.db": true,
+            "**/node_modules": true,
+            "**/.next": true,
+            "**/.serverless": true,
+            "**/lib": true,
+            "**/out": true
+        },
+        "search.exclude": {
+            "**/node_modules": true,
+            "**/bower_components": true,
+            "**/*.code-search": true,
+            "**/.next": true,
+            "**/.serverless": true,
+            "**/lib": true,
+            "**/out": true
+        }
+    }
+}
